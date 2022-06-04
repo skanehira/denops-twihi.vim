@@ -1,4 +1,4 @@
-import { autocmd, Denops } from "./deps.ts";
+import { autocmd, Denops, fs } from "./deps.ts";
 import {
   actionOpen,
   actionOpenTimeline,
@@ -6,11 +6,14 @@ import {
   actionTweet,
 } from "./action.ts";
 import StatusesHomeTimeline from "https://esm.sh/v78/twitter-api-client@1.5.2/dist/interfaces/types/StatusesHomeTimelineTypes.d.ts";
+import { configFile } from "./config.ts";
+import { loadConfig } from "./twitter.ts";
 
 export async function main(denops: Denops): Promise<void> {
   const commands = [
     `command! -nargs=? TwitterTimeline call twitter#timeline(<f-args>)`,
     `command! TwitterTweet :new twitter://tweet`,
+    `command! TwitterEditConfig call denops#notify("${denops.name}", "editConfig", [])`,
   ];
 
   for (const command of commands) {
@@ -69,6 +72,23 @@ export async function main(denops: Denops): Promise<void> {
       } catch (e) {
         console.error(e.message);
       }
+    },
+
+    async editConfig(): Promise<void> {
+      await fs.ensureFile(configFile);
+      await denops.cmd(`new ${configFile}`);
+      autocmd.group(denops, "twitter_edit_config", (helper) => {
+        helper.remove("*", "<buffer>");
+        helper.define(
+          "BufWritePost",
+          "<buffer>",
+          `call denops#request("${denops.name}", "reloadConfig", [])`,
+        );
+      });
+    },
+
+    async reloadConfig(): Promise<void> {
+      await loadConfig();
     },
   };
 }

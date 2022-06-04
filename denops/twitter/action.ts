@@ -110,6 +110,11 @@ export const actionOpenTimeline = async (
       rhs:
         `:<C-u>call denops#notify("twitter", "open", [b:twitter_timelines[line(".")-1]])<CR>`,
     },
+    {
+      defaultKey: "<C-n>",
+      lhs: "<Plug>(twitter:tweet:new)",
+      rhs: `:<C-u>new twitter://tweet<CR>`,
+    },
   ];
 
   for (const m of keyMaps) {

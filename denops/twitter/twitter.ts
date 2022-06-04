@@ -5,14 +5,23 @@ import StatusesUserTimeline from "https://esm.sh/v78/twitter-api-client@1.5.2/di
 //import { TwitterClient } from "https://esm.sh/twitter-api-client@1.5.2";
 import { readConfig } from "./config.ts";
 
-const config = await readConfig();
+export let twitterAPI: TwitterApi;
 
-export const twitterAPI = new TwitterApi({
-  consumerApiKey: config.consumerAPIKey,
-  consumerApiSecret: config.consumerAPISecret,
-  accessToken: config.accessToken,
-  accessTokenSecret: config.accessTokenSecret,
-});
+export const loadConfig = async (): Promise<void> => {
+  const config = await readConfig();
+  twitterAPI = new TwitterApi({
+    consumerApiKey: config.consumerAPIKey,
+    consumerApiSecret: config.consumerAPISecret,
+    accessToken: config.accessToken,
+    accessTokenSecret: config.accessTokenSecret,
+  });
+};
+
+try {
+  await loadConfig();
+} catch (_) {
+  console.log("please edit config using :TwitterEditConfig");
+}
 
 const apiCall = async <T>(
   method: "GET" | "POST",
