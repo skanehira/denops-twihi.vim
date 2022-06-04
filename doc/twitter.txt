@@ -1,0 +1,148 @@
+*twitter.txt*	twitter client for Vim/Neovim
+
+Author: skanehira <sho19921005@gmail.com>
+License : MIT license  {{{
+    Permission is hereby granted, free of charge, to any person obtaining
+    a copy of this software and associated documentation files (the
+    "Software"), to deal in the Software without restriction, including
+    without limitation the rights to use, copy, modify, merge, publish,
+    distribute, sublicense, and/or sell copies of the Software, and to
+    permit persons to whom the Software is furnished to do so, subject to
+    the following conditions:
+    The above copyright notice and this permission notice shall be included
+    in all copies or substantial portions of the Software.
+
+    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+    OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+    MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+    IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+    CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+    TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+    SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+}}}
+
+==============================================================================
+CONTENTS					*twitter-contents*
+
+INTRODUCTION			|twitter-introduction|
+USAGE				|twitter-usage|
+INTERFACE			|twitter-interface|
+  COMMANDS			  |twitter-commands|
+  VARIABLES			  |twitter-variables|
+  BUFFER			  |twitter-buffers|
+  KEY-MAPPINGS			  |twitter-key-mappings|
+  FUNCTIONS			  |twitter-functions|
+TODO				|twitter-todo|
+CHANGELOG			|twitter-changelog|
+
+
+==============================================================================
+INTRODUCTION					*twitter-introduction*
+
+*denops-twitter.vim* is a Vim/Neovim plugin for twitter
+
+Latest version:
+https://github.com/skanehira/denops-twitter.vim
+
+
+==============================================================================
+USAGE						*twitter-usage*
+At first, you have to get bellow keys from https://developer.twitter.com
+
+  * API Key and Secret
+  * Access Token and Secret
+
+After get keys and secrets,
+Please edit config as bellow using |:TwitterEditConfig|
+After |:write|, the config will be auto reload.
+>
+  {
+    "consumerAPIKey": "api key",
+    "consumerAPISecret": "api secret",
+    "accessToken": "token",
+    "accessTokenSecret": "token secret"
+  }
+>
+
+==============================================================================
+INTERFACE					*twitter-interface*
+
+------------------------------------------------------------------------------
+VARIABLES					*twitter-variables*
+
+------------------------------------------------------------------------------
+COMMANDS					*twitter-commands*
+
+:TwitterTimeline [userid]			*:TwitterTimeline*
+  Open the timeline
+  if userid is specified, open user's timeline,
+  otherwise my timeline in new tabpage
+
+  The timeline layout has tow windows
+  Left window is overview of tweet, right window will display
+  detail of tweet
+
+>
+  Left window (overview of tweet)             | Right window (details of tweet)
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ | ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  [ゴリラ] @gorilla0513 2022/06/04 20:46:05   | ゴリラ              ─────────────────┐
+  ...                                         | @gorilla0513        ────────┐   user screen name
+     │         │           │                  | ─────────────────   ┐    user id
+     │         │           └ created date     |                     │
+     │         └ user id                      | This is gorilla.    ├ tweet text
+     └ user screen name                       | I like a banana.    │
+                                              |                     │
+                                              | ─────────────────   ┘
+                                              | ♺ 1 ♡ 10
+                                              |  │    │
+                                              |  │    └ like count
+                                              |  └ retweet count
+>
+
+:TwitterTweet					*:TwitterTweet*
+  Open tweet buffer
+  The buffer contents will be post when you type |:write|
+  If tweet is successed, the buffer will be deleted
+
+:TwitterEditConfig				*:TwitterEditConfig*
+  Open config.
+
+------------------------------------------------------------------------------
+BUFFER							*twitter-buffers*
+
+twitter://home						*twitter-buffer-home*
+  Display my timeline
+  This is same as |:TwitterTimeline|
+
+twitter://timeline/{userid}				*twitter-buffer-timeline*
+  Display userid's timeline
+  This is same as |:TwitterTimeline| {userid}
+
+twitter://tweet						*twitter-buffer-tweet*
+  Post tweet
+  This is same as |:TwitterTimeline|
+
+------------------------------------------------------------------------------
+KEY-MAPPINGS					*twitter-key-mappings*
+
+<Plug>(twitter:tweet:open)			*<Plug>(twitter:tweet:open)*
+  Open tweet in browser
+
+<Plug>(twitter:tweet:new)
+  Open |twitter-buffer-tweet|
+
+------------------------------------------------------------------------------
+FUNCTIONS					*twitter-functions*
+
+
+==============================================================================
+TODO						*twitter-todo*
+
+
+
+==============================================================================
+CHANGELOG					*twitter-changelog*
+
+
+==============================================================================
+vim:tw=85:ts=8:ft=help:norl:noet:fen:

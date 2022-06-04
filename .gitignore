@@ -1,3 +1,4 @@
 .vscode/
 .vim/
 cov/
+.DS_Store

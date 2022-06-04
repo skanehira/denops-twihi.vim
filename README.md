@@ -1,11 +1,19 @@
-# denops-template.vim
-A plugin template for [denops](https://github.com/vim-denops)
+# denops-twitter.vim
+A plugin for Twitter.
+
+![](https://i.gyazo.com/8edb0482b70d4732f17a6ae474e22b6d.png)
 
 ## Usage
-1. Fork this repository.
-   Repository name must be `denops-xxx.vim`
-2. Run `make init`
-   Its rename directory `./denops/template` to `./denops/xxx`, `xxx` is your repository name that part of `denops-xxx`.
+After edit configiguration (`:h :twitter-usage`), you can run some commands.
+Please refer help to see more details.
+
+```vim
+" open the user or my time line
+:TwitterTimeline [username]
+
+" open tweet buffer
+:TwitterTweet
+```
 
 ## Author
 skanehira
