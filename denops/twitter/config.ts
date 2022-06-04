@@ -7,6 +7,8 @@ export const configFile = path.join(
   "config.json",
 );
 
+await fs.ensureFile(configFile);
+
 export const Config = zod.object({
   consumerAPIKey: zod.string(),
   consumerAPISecret: zod.string(),
@@ -15,7 +17,6 @@ export const Config = zod.object({
 });
 
 export async function readConfig(): Promise<zod.infer<typeof Config>> {
-  await fs.ensureFile(configFile);
   const body = await Deno.readTextFile(configFile);
   if (!body) {
     throw new Error(`${configFile} is empty`);
