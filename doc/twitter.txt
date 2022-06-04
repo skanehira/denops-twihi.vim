@@ -47,6 +47,22 @@ https://github.com/skanehira/denops-twitter.vim
 
 ==============================================================================
 USAGE						*twitter-usage*
+At first, you have to get bellow keys from https://developer.twitter.com
+
+  * API Key and Secret
+  * Access Token and Secret
+
+After get keys and secrets,
+Please edit config as bellow using |:TwitterEditConfig|
+After |:write|, the config will be auto reload.
+>
+  {
+    "consumerAPIKey": "api key",
+    "consumerAPISecret": "api secret",
+    "accessToken": "token",
+    "accessTokenSecret": "token secret"
+  }
+>
 
 ==============================================================================
 INTERFACE					*twitter-interface*
@@ -58,13 +74,13 @@ VARIABLES					*twitter-variables*
 COMMANDS					*twitter-commands*
 
 :TwitterTimeline [userid]			*:TwitterTimeline*
-  Open the timeline.
+  Open the timeline
   if userid is specified, open user's timeline,
-  otherwise my timeline in new tabpage.
+  otherwise my timeline in new tabpage
 
-  The timeline layout has tow windows.
+  The timeline layout has tow windows
   Left window is overview of tweet, right window will display
-  detail of tweet.
+  detail of tweet
 
 >
   Left window (overview of tweet)             | Right window (details of tweet)
@@ -78,36 +94,42 @@ COMMANDS					*twitter-commands*
                                               |                     │
                                               | ─────────────────   ┘
                                               | ♺ 1 ♡ 10
-                                                │    │
-                                                │    └ like count
-                                                └ retweet count
+                                              |  │    │
+                                              |  │    └ like count
+                                              |  └ retweet count
 >
 
 :TwitterTweet					*:TwitterTweet*
-  Open tweet buffer.
-  The buffer contents will be post when you type |:write|.
-  If tweet is successed, the buffer will be deleted.
+  Open tweet buffer
+  The buffer contents will be post when you type |:write|
+  If tweet is successed, the buffer will be deleted
+
+:TwitterEditConfig				*:TwitterEditConfig*
+  Open config.
 
 ------------------------------------------------------------------------------
 BUFFER							*twitter-buffers*
 
 twitter://home						*twitter-buffer-home*
-  Display my timeline.
-  This is same as |:TwitterTimeline|.
+  Display my timeline
+  This is same as |:TwitterTimeline|
 
 twitter://timeline/{userid}				*twitter-buffer-timeline*
-  Display userid's timeline.
-  This is same as |:TwitterTimeline| {userid}.
+  Display userid's timeline
+  This is same as |:TwitterTimeline| {userid}
 
 twitter://tweet						*twitter-buffer-tweet*
-  Post tweet.
+  Post tweet
   This is same as |:TwitterTimeline|
 
 ------------------------------------------------------------------------------
 KEY-MAPPINGS					*twitter-key-mappings*
 
 <Plug>(twitter:tweet:open)			*<Plug>(twitter:tweet:open)*
-  Open tweet in browser.
+  Open tweet in browser
+
+<Plug>(twitter:tweet:new)
+  Open |twitter-buffer-tweet|
 
 ------------------------------------------------------------------------------
 FUNCTIONS					*twitter-functions*
