@@ -9,10 +9,13 @@ Please refer help to see more details.
 
 ```vim
 " open the user or my time line
-:TwitterTimeline [username]
+:TwitterTimeline [userid]
 
 " open tweet buffer
 :TwitterTweet
+
+" edit config
+:TwitterEditConfig
 ```
 
 ## Author
