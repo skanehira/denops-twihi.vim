@@ -73,11 +73,23 @@ VARIABLES					*twitter-variables*
 ------------------------------------------------------------------------------
 COMMANDS					*twitter-commands*
 
-:TwitterTimeline [userid]			*:TwitterTimeline*
-  Open the timeline
-  if userid is specified, open user's timeline,
-  otherwise my timeline in new tabpage
+:TwitterHome					*:TwitterHome*
+  Open home timeline
 
+:TwitterMentions				*:TwitterMentions*
+  Open mentions timeline
+
+:TwitterTimeline {userid}			*:TwitterTimeline*
+  Open the user's timeline
+
+:TwitterTweet					*:TwitterTweet*
+  Open tweet buffer
+
+:TwitterEditConfig				*:TwitterEditConfig*
+  Open config.
+
+------------------------------------------------------------------------------
+LAYOUT						*twitter-timeline-layout*
   The timeline layout has tow windows
   Left window is overview of tweet, right window will display
   detail of tweet
@@ -99,22 +111,20 @@ COMMANDS					*twitter-commands*
                                               |  └ retweet count
 >
 
-:TwitterTweet					*:TwitterTweet*
-  Open tweet buffer
-
-:TwitterEditConfig				*:TwitterEditConfig*
-  Open config.
-
 ------------------------------------------------------------------------------
 BUFFER							*twitter-buffers*
 
 twitter://home						*twitter-buffer-home*
-  Display my timeline
+  Display home timeline
   This is same as |:TwitterTimeline|
 
 twitter://timeline/{userid}				*twitter-buffer-timeline*
   Display userid's timeline
   This is same as |:TwitterTimeline| {userid}
+
+twitter://mentions
+  Display mentions
+  This is same as |:TwitterMentions|
 
 twitter://tweet						*twitter-buffer-tweet*
   Post tweet
@@ -142,8 +152,11 @@ twitter://rewteet					*twitter-buffer-rewteet*
 KEY-MAPPINGS					*twitter-key-mappings*
 
 KEY-MAPPINGS-TIMELINE				*twitter-key-mappings-timeline*
-You can do some actions as bellow in the 
-|twitter-buffer-timeline| and |twitter-buffer-home|
+You can do some actions in the bellow buffers.
+
+  |twitter-buffer-timeline| 
+  |twitter-buffer-home|
+  |twitter-buffer-mentions|
 
   <Plug>(twitter:tweet:open)			*<Plug>(twitter:tweet:open)*
     Open tweet in browser
