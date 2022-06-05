@@ -144,10 +144,13 @@ You can do some actions as bellow in the
     Open |twitter-buffer-tweet|
   
   <Plug>(twitter:tweet:like)			*<Plug>(twitter:tweet:like)*
-    Do like the tweet
+    Add like to the tweet
 
   <Plug>(twitter:tweet:reply)			*<Plug>(twitter:tweet:reply)*
     Open |twitter-buffer-reply|
+
+  <Plug>(twitter:tweet:retweet)			*<Plug>(twitter:tweet:retweet)*
+    Retweet the tweet
 
 ------------------------------------------------------------------------------
 FUNCTIONS					*twitter-functions*

@@ -31,3 +31,5 @@ nnoremap <buffer> <silent> <Plug>(twitter:tweet:new)
       \ <Cmd>new twitter://tweet<CR>
 nnoremap <buffer> <silent> <Plug>(twitter:tweet:reply)
       \ <Cmd>call <SID>open_reply_buffer()<CR>
+nnoremap <buffer> <silent> <Plug>(twitter:tweet:retweet)
+      \ <Cmd>call denops#notify("twitter", "retweet", [b:twitter_timelines[line(".")-1]])<CR>
