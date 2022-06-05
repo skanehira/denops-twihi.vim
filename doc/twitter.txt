@@ -101,8 +101,6 @@ COMMANDS					*twitter-commands*
 
 :TwitterTweet					*:TwitterTweet*
   Open tweet buffer
-  The buffer contents will be post when you type |:write|
-  If tweet is successed, the buffer will be deleted
 
 :TwitterEditConfig				*:TwitterEditConfig*
   Open config.
@@ -120,7 +118,17 @@ twitter://timeline/{userid}				*twitter-buffer-timeline*
 
 twitter://tweet						*twitter-buffer-tweet*
   Post tweet
+  The buffer contents will be post when you type |:write|
+  If tweet is successed, the buffer will be deleted
+
   This is same as |:TwitterTimeline|
+
+twitter://reply						*twitter-buffer-reply*
+  Reply to tweet
+  The buffer contents will be post when you type |:write|
+  If reply is successed, the buffer will be deleted
+
+  NOTE: This buffer only avalaible from <Plug>(twitter:tweet:reply)
 
 ------------------------------------------------------------------------------
 KEY-MAPPINGS					*twitter-key-mappings*
@@ -137,6 +145,9 @@ You can do some actions as bellow in the
   
   <Plug>(twitter:tweet:like)			*<Plug>(twitter:tweet:like)*
     Do like the tweet
+
+  <Plug>(twitter:tweet:reply)			*<Plug>(twitter:tweet:reply)*
+    Open |twitter-buffer-reply|
 
 ------------------------------------------------------------------------------
 FUNCTIONS					*twitter-functions*

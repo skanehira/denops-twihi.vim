@@ -4,6 +4,7 @@ import {
   actionOpen,
   actionOpenTimeline,
   actionPreview,
+  actionReply,
   actionTweet,
 } from "./action.ts";
 import StatusesHomeTimeline from "https://esm.sh/v78/twitter-api-client@1.5.2/dist/interfaces/types/StatusesHomeTimelineTypes.d.ts";
@@ -41,6 +42,12 @@ export async function main(denops: Denops): Promise<void> {
       "BufReadCmd",
       "twitter://tweet",
       "setlocal ft=twitter-tweet buftype=acwrite",
+    );
+
+    helper.define(
+      "BufReadCmd",
+      "twitter://reply",
+      "setlocal ft=twitter-reply buftype=acwrite",
     );
   });
 
@@ -95,6 +102,10 @@ export async function main(denops: Denops): Promise<void> {
     async like(arg: unknown): Promise<void> {
       const timeline = arg as Timeline;
       await actionLike(denops, timeline.id_str);
+    },
+
+    async reply(tweet: unknown, text: unknown): Promise<void> {
+      await actionReply(denops, tweet as Timeline, text as string);
     },
   };
 }
