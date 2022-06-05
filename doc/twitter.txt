@@ -136,6 +136,8 @@ twitter://tweet						*twitter-buffer-tweet*
 
   This is same as |:TwitterTimeline|
 
+  NOTE: When you use clipboard on Linux, you have to install xclip
+
 twitter://reply						*twitter-buffer-reply*
   Reply to tweet
   The buffer contents will be post when you type |:write|
