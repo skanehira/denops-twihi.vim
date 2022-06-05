@@ -1,9 +1,11 @@
 import { newTwitterAPI, TwitterAPI } from "./api.ts";
-import { Timeline, Update } from "./type.d.ts";
+import { Media, Timeline, Update } from "./type.d.ts";
 import { readConfig } from "./config.ts";
 import { RequestOptions } from "https://raw.githubusercontent.com/snsinfu/deno-oauth-1.0a/main/extra/mod.ts";
+import { base64 } from "./deps.ts";
 
 export let twitterAPI: TwitterAPI;
+export let uploadAPI: TwitterAPI;
 
 export const loadConfig = async (): Promise<void> => {
   const config = await readConfig();
@@ -15,6 +17,11 @@ export const loadConfig = async (): Promise<void> => {
   const token = { key: config.accessToken, secret: config.accessTokenSecret };
   twitterAPI = newTwitterAPI(
     prefix,
+    consumer,
+    token,
+  );
+  uploadAPI = newTwitterAPI(
+    "https://upload.twitter.com/1.1",
     consumer,
     token,
   );
@@ -57,6 +64,7 @@ export const homeTimeline = async (
 export type StatusesUpdateOptions = {
   status: string;
   in_reply_to_status_id?: string;
+  media_ids?: string;
 };
 
 export const statusesUpdate = async (
@@ -117,4 +125,22 @@ export const mentionsTimeline = async (
     },
   );
   return resp;
+};
+
+export const uploadMedia = async (
+  data: Uint8Array,
+): Promise<Media> => {
+  const b64 = base64.encode(data);
+  const resp = await uploadAPI.client.request("POST", "/media/upload.json", {
+    token: uploadAPI.token,
+    form: {
+      "media_data": b64,
+    },
+  });
+
+  if (!resp.ok) {
+    throw new Error(`status: ${resp.statusText}, body: ${await resp.text()}`);
+  }
+  const media = await resp.json();
+  return media;
 };

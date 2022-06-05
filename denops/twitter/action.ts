@@ -4,9 +4,20 @@ import {
   mentionsTimeline,
   retweet,
   statusesUpdate,
+  StatusesUpdateOptions,
+  uploadMedia,
   userTimeline,
 } from "./twitter.ts";
-import { datetime, Denops, open, stringWidth, vars } from "./deps.ts";
+import {
+  clipboard,
+  datetime,
+  Denops,
+  helper,
+  open,
+  streams,
+  stringWidth,
+  vars,
+} from "./deps.ts";
 import { Timeline } from "./type.d.ts";
 
 type TimelineType = "home" | "user" | "mentions";
@@ -113,10 +124,26 @@ export const actionTweet = async (
   if (width > 280) {
     throw new Error("characters must be less than 280");
   }
-  console.log("sending…");
-  await statusesUpdate({
+  const opts = {
     status: line,
+  } as StatusesUpdateOptions;
+  const input = await helper.input(denops, {
+    prompt: "upload media: ",
+    completion: "file",
   });
+  if (input) {
+    console.log("uploading...");
+    let data: Uint8Array;
+    if (input === "--clipboard") {
+      data = await streams.readAll(await clipboard.read());
+    } else {
+      data = await Deno.readFile(input);
+    }
+    const media = await uploadMedia(data);
+    opts.media_ids = media.media_id_string;
+  }
+  console.log("tweeting...");
+  await statusesUpdate(opts);
   await denops.cmd("echo '' | bw!");
 };
 
