@@ -130,6 +130,14 @@ twitter://reply						*twitter-buffer-reply*
 
   NOTE: This buffer only avalaible from <Plug>(twitter:tweet:reply)
 
+twitter://rewteet					*twitter-buffer-rewteet*
+  Retweet the tweet
+  The buffer contents will be post when you type |:write|
+  If retweet is successed, the buffer will be deleted
+
+  NOTE: This buffer only avalaible from <Plug>(twitter:tweet:retweet:comment)
+  NOTE: Retweet body includes origin tweet url finally
+
 ------------------------------------------------------------------------------
 KEY-MAPPINGS					*twitter-key-mappings*
 
@@ -151,6 +159,9 @@ You can do some actions as bellow in the
 
   <Plug>(twitter:tweet:retweet)			*<Plug>(twitter:tweet:retweet)*
     Retweet the tweet
+
+  <Plug>(twitter:tweet:retweet:comment)		*<Plug>(twitter:tweet:retweet:comment)*
+    Retweet the tweet with comment
 
 ------------------------------------------------------------------------------
 FUNCTIONS					*twitter-functions*
