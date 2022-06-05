@@ -32,7 +32,6 @@ const apiCall = async <T>(
   opts: RequestOptions,
 ): Promise<T> => {
   opts.token = twitterAPI.token;
-  console.log(opts);
   const resp = await twitterAPI.client.request(method, url, opts);
   if (!resp.ok) {
     throw new Error(`status: ${resp.statusText}, body: ${await resp.text()}`);
