@@ -8,8 +8,14 @@ After edit configiguration (`:h :twitter-usage`), you can run some commands.
 Please refer help to see more details.
 
 ```vim
-" open the user or my time line
-:TwitterTimeline [userid]
+" open the user's timeline
+:TwitterTimeline {userid}
+
+" open the home timeline
+:TwitterHome
+
+" open the mentions timeline
+:TwitterMentions
 
 " open tweet buffer
 :TwitterTweet
