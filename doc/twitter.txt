@@ -125,11 +125,18 @@ twitter://tweet						*twitter-buffer-tweet*
 ------------------------------------------------------------------------------
 KEY-MAPPINGS					*twitter-key-mappings*
 
-<Plug>(twitter:tweet:open)			*<Plug>(twitter:tweet:open)*
-  Open tweet in browser
+KEY-MAPPINGS-TIMELINE				*twitter-key-mappings-timeline*
+You can do some actions as bellow in the 
+|twitter-buffer-timeline| and |twitter-buffer-home|
 
-<Plug>(twitter:tweet:new)
-  Open |twitter-buffer-tweet|
+  <Plug>(twitter:tweet:open)			*<Plug>(twitter:tweet:open)*
+    Open tweet in browser
+  
+  <Plug>(twitter:tweet:new)			*<Plug>(twitter:tweet:new)*
+    Open |twitter-buffer-tweet|
+  
+  <Plug>(twitter:tweet:like)			*<Plug>(twitter:tweet:like)*
+    Do like the tweet
 
 ------------------------------------------------------------------------------
 FUNCTIONS					*twitter-functions*

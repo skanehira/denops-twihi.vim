@@ -17,3 +17,6 @@ augroup twitter_timeline
 augroup END
 
 nnoremap <buffer> <silent> q :bw!<CR>
+
+nnoremap <buffer> <silent> <Plug>(twitter:tweet:like)
+      \ <Cmd>call denops#request("twitter", "like", [b:twitter_timelines[line(".")-1]])<CR>
