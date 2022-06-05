@@ -1,4 +1,4 @@
-import { autocmd, Denops } from "./deps.ts";
+import { autocmd, Denops, vars } from "./deps.ts";
 import {
   actionLike,
   actionOpen,
@@ -111,6 +111,25 @@ export async function main(denops: Denops): Promise<void> {
 
     async retweet(tweet: unknown): Promise<void> {
       await actionRetweet(denops, (tweet as Timeline).id_str);
+    },
+
+    async retweetWithComment(arg: unknown): Promise<void> {
+      try {
+        const tweet = await vars.b.get(
+          denops,
+          "twitter_original_tweet",
+          {},
+        ) as Timeline;
+        if (!Object.keys(tweet).length) {
+          throw new Error(`b:twitter_original_tweet is undefined`);
+        }
+        const url =
+          `https://twitter.com/${tweet.user.screen_name}/status/${tweet.id_str}`;
+        const text = arg + "\n" + url;
+        await actionTweet(denops, text);
+      } catch (e) {
+        console.error(e.message);
+      }
     },
   };
 }
