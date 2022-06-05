@@ -1,7 +1,5 @@
 import { TwitterApi } from "https://raw.githubusercontent.com/stefanuros/deno_twitter_api/v1.2.1/mod.ts";
-import StatusesHomeTimeline from "https://esm.sh/v78/twitter-api-client@1.5.2/dist/interfaces/types/StatusesHomeTimelineTypes.d.ts";
-import StatusesUpdate from "https://esm.sh/v78/twitter-api-client@1.5.2/dist/interfaces/types/StatusesUpdateTypes.d.ts";
-import StatusesUserTimeline from "https://esm.sh/v78/twitter-api-client@1.5.2/dist/interfaces/types/StatusesUserTimelineTypes.d.ts";
+import { Timeline, Update } from "./type.d.ts";
 //import { TwitterClient } from "https://esm.sh/twitter-api-client@1.5.2";
 import { readConfig } from "./config.ts";
 
@@ -43,8 +41,8 @@ export type HomeTimelineOptions = {
 
 export const homeTimeline = async (
   opts: HomeTimelineOptions,
-): Promise<StatusesHomeTimeline[]> => {
-  const resp = await apiCall<StatusesHomeTimeline[]>(
+): Promise<Timeline[]> => {
+  const resp = await apiCall<Timeline[]>(
     "GET",
     "statuses/home_timeline.json",
     opts,
@@ -59,8 +57,8 @@ export type StatusesUpdateOptions = {
 
 export const statusesUpdate = async (
   opts: StatusesUpdateOptions,
-): Promise<StatusesUpdate> => {
-  const resp = await apiCall<StatusesUpdate>(
+): Promise<Update> => {
+  const resp = await apiCall<Update>(
     "POST",
     "statuses/update.json",
     opts,
@@ -76,8 +74,8 @@ export type UserTimelineOptions = {
 
 export const userTimeline = async (
   opts: UserTimelineOptions,
-): Promise<StatusesUserTimeline[]> => {
-  const resp = await apiCall<StatusesUserTimeline[]>(
+): Promise<Timeline[]> => {
+  const resp = await apiCall<Timeline[]>(
     "GET",
     "statuses/user_timeline.json",
     opts,

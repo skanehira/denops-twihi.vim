@@ -1,8 +1,7 @@
 import { homeTimeline, statusesUpdate, userTimeline } from "./twitter.ts";
 import { autocmd, datetime, Denops, open, stringWidth, vars } from "./deps.ts";
 import { map } from "./mapping.ts";
-import StatusesHomeTimeline from "https://esm.sh/v78/twitter-api-client@1.5.2/dist/interfaces/types/StatusesHomeTimelineTypes.d.ts";
-import StatusesUserTimeline from "https://esm.sh/v78/twitter-api-client@1.5.2/dist/interfaces/types/StatusesUserTimelineTypes.d.ts";
+import { Timeline } from "./type.d.ts";
 
 const icon = {
   white_heart: "\u2661",
@@ -39,8 +38,8 @@ export function tweets2lines(
 
 export const getTimeline = async (
   screenName?: string,
-): Promise<StatusesHomeTimeline[] | StatusesUserTimeline[]> => {
-  let timelines: StatusesUserTimeline[];
+): Promise<Timeline[]> => {
+  let timelines: Timeline[];
   if (screenName) {
     timelines = await userTimeline({
       count: "30",
@@ -135,7 +134,7 @@ export const actionOpenTimeline = async (
 
 export async function actionPreview(
   denops: Denops,
-  tweet: StatusesHomeTimeline,
+  tweet: Timeline,
 ) {
   const bufname = "twitter://preview";
   const bufnr = await denops.call("bufadd", bufname);
@@ -188,7 +187,7 @@ export async function actionPreview(
   await denops.cmd("redraw!");
 }
 
-export async function actionOpen(tweet: StatusesHomeTimeline) {
+export async function actionOpen(tweet: Timeline) {
   const url =
     `https://twitter.com/${tweet.user.screen_name}/status/${tweet.id_str}`;
   console.log("opening...", url);
