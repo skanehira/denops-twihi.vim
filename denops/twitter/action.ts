@@ -1,12 +1,15 @@
 import {
   homeTimeline,
   likeTweet,
+  mentionsTimeline,
   retweet,
   statusesUpdate,
   userTimeline,
 } from "./twitter.ts";
 import { autocmd, datetime, Denops, open, stringWidth, vars } from "./deps.ts";
 import { Timeline } from "./type.d.ts";
+
+type TimelineType = "home" | "user" | "mentions";
 
 const icon = {
   white_heart: "\u2661",
@@ -42,16 +45,24 @@ export function tweets2lines(
 }
 
 export const getTimeline = async (
+  timelineType: TimelineType,
   screenName?: string,
 ): Promise<Timeline[]> => {
   let timelines: Timeline[];
-  if (screenName) {
-    timelines = await userTimeline({
-      count: "30",
-      screen_name: screenName,
-    });
-  } else {
-    timelines = await homeTimeline({ count: "30" });
+
+  switch (timelineType) {
+    case "user":
+      timelines = await userTimeline({
+        count: "30",
+        screen_name: screenName,
+      });
+      break;
+    case "home":
+      timelines = await homeTimeline({ count: "30" });
+      break;
+    case "mentions":
+      timelines = await mentionsTimeline({ count: "30" });
+      break;
   }
 
   if (!timelines.length) {
@@ -62,12 +73,14 @@ export const getTimeline = async (
 
 export const actionOpenTimeline = async (
   denops: Denops,
+  timelineType: TimelineType,
   screenName?: string,
 ): Promise<void> => {
   await denops.cmd(
     "setlocal buftype=nofile nomodified modifiable ft=twitter-timeline nowrap",
   );
-  const timelines = await getTimeline(screenName);
+
+  const timelines = await getTimeline(timelineType, screenName);
   await vars.b.set(denops, "twitter_timelines", timelines);
 
   const tweets = timelines.map((timeline) => {
@@ -222,5 +235,15 @@ export const actionRetweet = async (
 ): Promise<void> => {
   console.log("retweeting...");
   await retweet(id);
+  const num = await denops.call("line", ".") as number;
+  const timelines = await vars.b.get(
+    denops,
+    "twitter_timelines",
+    [],
+  ) as Timeline[];
+  const timeline = timelines[num - 1];
+  timeline.retweeted = true;
+  await vars.b.set(denops, "twitter_timelines", timelines);
+  await actionPreview(denops, timeline);
   await denops.cmd("echo ''");
 };

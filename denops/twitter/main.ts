@@ -15,7 +15,9 @@ import { Timeline } from "./type.d.ts";
 
 export async function main(denops: Denops): Promise<void> {
   const commands = [
-    `command! -nargs=? TwitterTimeline call twitter#timeline(<f-args>)`,
+    `command! -nargs=? TwitterHome call twitter#timeline("home")`,
+    `command! -nargs=1 TwitterTimeline call twitter#timeline("user", <f-args>)`,
+    `command! -nargs=? TwitterMentions call twitter#timeline("mentions")`,
     `command! TwitterTweet :new twitter://tweet`,
     `command! TwitterEditConfig call denops#notify("${denops.name}", "editConfig", [])`,
   ];
@@ -31,6 +33,12 @@ export async function main(denops: Denops): Promise<void> {
       "BufReadCmd",
       "twitter://home",
       `call denops#notify("${denops.name}", "home", [])`,
+    );
+
+    helper.define(
+      "BufReadCmd",
+      "twitter://mentions",
+      `call denops#notify("${denops.name}", "mentions", [])`,
     );
 
     helper.define(
@@ -55,7 +63,13 @@ export async function main(denops: Denops): Promise<void> {
   denops.dispatcher = {
     async home(): Promise<void> {
       console.log("loading...");
-      await actionOpenTimeline(denops);
+      await actionOpenTimeline(denops, "home");
+      await denops.cmd("echo '' | redraw!");
+    },
+
+    async mentions(): Promise<void> {
+      console.log("loading...");
+      await actionOpenTimeline(denops, "mentions");
       await denops.cmd("echo '' | redraw!");
     },
 
@@ -63,7 +77,7 @@ export async function main(denops: Denops): Promise<void> {
       const bufname = await denops.call("bufname") as string;
       const screenName = bufname.replace("twitter://timeline/", "");
       console.log("loading...");
-      await actionOpenTimeline(denops, screenName);
+      await actionOpenTimeline(denops, "user", screenName);
       await denops.cmd("echo '' | redraw!");
     },
 

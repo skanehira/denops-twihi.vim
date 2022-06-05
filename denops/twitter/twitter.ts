@@ -101,3 +101,20 @@ export const likeTweet = async (id: string): Promise<void> => {
 export const retweet = async (id: string): Promise<void> => {
   await apiCall("POST", `/statuses/retweet/${id}.json`, {});
 };
+
+export type MentionsOptions = {
+  count?: string;
+};
+
+export const mentionsTimeline = async (
+  opts: MentionsOptions,
+): Promise<Timeline[]> => {
+  const resp = await apiCall<Timeline[]>(
+    "GET",
+    "/statuses/mentions_timeline.json",
+    {
+      query: opts,
+    },
+  );
+  return resp;
+};
