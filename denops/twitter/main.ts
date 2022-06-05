@@ -1,4 +1,4 @@
-import { autocmd, Denops, vars } from "./deps.ts";
+import { autocmd, Denops } from "./deps.ts";
 import {
   actionLike,
   actionOpen,
