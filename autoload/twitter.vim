@@ -2,10 +2,6 @@
 " Author: skanehira
 " License: MIT
 
-function twitter#deletebufline(bufnr, start, end) abort
-  silent call deletebufline(a:bufnr, a:start, a:end)
-endfunction
-
 function! twitter#timeline(type, ...) abort
   if a:type ==# "user"
     let bufname = "twitter://timeline/" .. a:1
