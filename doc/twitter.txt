@@ -129,6 +129,9 @@ twitter://mentions
 twitter://tweet						*twitter-buffer-tweet*
   Post tweet
   The buffer contents will be post when you type |:write|
+  When you want to upload media, please input file path 
+  or '--clipboard' after |:write|
+  If '--clipboard' be inputed, then clipboard's image will be used.
   If tweet is successed, the buffer will be deleted
 
   This is same as |:TwitterTimeline|
