@@ -66,7 +66,7 @@ export const statusesUpdate = async (
     "POST",
     "/statuses/update.json",
     {
-      query: { status: opts.status },
+      query: opts,
     },
   );
   return resp;

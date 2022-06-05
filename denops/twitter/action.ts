@@ -197,3 +197,20 @@ export const actionLike = async (denops: Denops, id: string): Promise<void> => {
   await vars.b.set(denops, "twitter_timelines", timelines);
   await actionPreview(denops, timeline);
 };
+
+export const actionReply = async (
+  denops: Denops,
+  tweet: Timeline,
+  text: string,
+): Promise<void> => {
+  const width = stringWidth(text);
+  if (width > 280) {
+    throw new Error("characters must be less than 280");
+  }
+  console.log("sending…");
+  await statusesUpdate({
+    status: text,
+    in_reply_to_status_id: tweet.id_str,
+  });
+  await denops.cmd("echo '' | bw!");
+};
