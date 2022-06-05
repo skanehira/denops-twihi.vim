@@ -6,18 +6,10 @@ import {
   statusesUpdate,
   userTimeline,
 } from "./twitter.ts";
-import { autocmd, datetime, Denops, open, stringWidth, vars } from "./deps.ts";
+import { datetime, Denops, open, stringWidth, vars } from "./deps.ts";
 import { Timeline } from "./type.d.ts";
 
 type TimelineType = "home" | "user" | "mentions";
-
-const icon = {
-  white_heart: "\u2661",
-  black_heart: "\u2665",
-  comment: "\uf41f",
-  retweet: "\u267A",
-  retweeted: "\u267B",
-};
 
 export function tweets2lines(
   objs: Record<string, string>[],
@@ -76,6 +68,8 @@ export const actionOpenTimeline = async (
   timelineType: TimelineType,
   screenName?: string,
 ): Promise<void> => {
+  await vars.b.set(denops, "twitter_timeline_type", timelineType);
+
   await denops.cmd(
     "setlocal buftype=nofile nomodified modifiable ft=twitter-timeline nowrap",
   );
@@ -101,80 +95,8 @@ export const actionOpenTimeline = async (
   await denops.call("setline", 1, rows);
   await denops.cmd("setlocal nomodifiable");
 
-  const num = await denops.call("line", ".") as number;
-  const tweet = timelines[num - 1];
-  await actionPreview(denops, tweet);
-
-  const bufnr = await denops.call("bufnr");
-  await autocmd.group(denops, `twitter_preview_${bufnr}`, (helper) => {
-    helper.remove("*", "<buffer>");
-    helper.define(
-      "CursorMoved",
-      "<buffer>",
-      `call denops#request("twitter", "preview", [b:twitter_timelines[line(".")-1]])`,
-    );
-    helper.define(
-      "CursorMoved",
-      "<buffer>",
-      `call execute("vertical resize ${winWidth}")`,
-    );
-  });
+  await denops.cmd("doautocmd User twitter_preview");
 };
-
-export async function actionPreview(
-  denops: Denops,
-  tweet: Timeline,
-) {
-  const bufname = "twitter://preview";
-  const bufnr = await denops.call("bufadd", bufname);
-
-  const rows = tweet.text.split("\n");
-  const count = Math.max(...rows.map((row) => stringWidth(row)));
-  const border = "─".repeat(count);
-
-  const icons = [tweet.retweeted ? icon.retweeted : icon.retweet];
-  icons.push(tweet.retweet_count ? tweet.retweet_count.toString() : " ");
-  icons.push(tweet.favorited ? icon.black_heart : icon.white_heart);
-  if (tweet.favorite_count) icons.push(tweet.favorite_count.toString());
-
-  const tweetBody = [
-    tweet.user.name,
-    `@${tweet.user.screen_name}`,
-    border,
-    "",
-    ...tweet.text.split("\n"),
-    "",
-    border,
-    icons.join(" "),
-  ];
-
-  await denops.batch(
-    ["bufload", bufnr],
-    ["twitter#deletebufline", bufnr, 1, "$"],
-    [
-      "setbufline",
-      bufnr,
-      1,
-      tweetBody,
-    ],
-  );
-
-  if (await denops.call("bufwinid", bufnr) === -1) {
-    const oldwin = await denops.call("win_getid");
-    await denops.cmd(
-      `botright vnew ${bufname} | setlocal buftype=nofile ft=twitter-preview | nnoremap <buffer> <silent> q :bw!<CR>`,
-    );
-    await denops.call("win_gotoid", oldwin);
-    const winWidth = await vars.b.get(
-      denops,
-      "twitter_preview_window_width",
-      "",
-    );
-    await denops.cmd(`vertical resize ${winWidth}`);
-  }
-
-  await denops.cmd("redraw!");
-}
 
 export async function actionOpen(tweet: Timeline) {
   const url =
@@ -209,7 +131,8 @@ export const actionLike = async (denops: Denops, id: string): Promise<void> => {
   const timeline = timelines[num - 1];
   timeline.favorited = true;
   await vars.b.set(denops, "twitter_timelines", timelines);
-  await actionPreview(denops, timeline);
+  await vars.b.set(denops, "twitter_force_preview", true);
+  await denops.cmd(`doautocmd User twitter_force_preview`);
 };
 
 export const actionReply = async (
@@ -244,6 +167,7 @@ export const actionRetweet = async (
   const timeline = timelines[num - 1];
   timeline.retweeted = true;
   await vars.b.set(denops, "twitter_timelines", timelines);
-  await actionPreview(denops, timeline);
+  await vars.b.set(denops, "twitter_force_preview", true);
+  await denops.cmd("doautocmd User twitter_force_preview");
   await denops.cmd("echo ''");
 };

@@ -3,7 +3,6 @@ import {
   actionLike,
   actionOpen,
   actionOpenTimeline,
-  actionPreview,
   actionReply,
   actionRetweet,
   actionTweet,
@@ -79,10 +78,6 @@ export async function main(denops: Denops): Promise<void> {
       console.log("loading...");
       await actionOpenTimeline(denops, "user", screenName);
       await denops.cmd("echo '' | redraw!");
-    },
-
-    async preview(arg: unknown): Promise<void> {
-      await actionPreview(denops, arg as StatusesHomeTimeline);
     },
 
     async open(arg: unknown): Promise<void> {
