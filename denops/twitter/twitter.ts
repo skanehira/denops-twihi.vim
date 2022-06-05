@@ -89,3 +89,11 @@ export const userTimeline = async (
   );
   return resp;
 };
+
+export const likeTweet = async (id: string): Promise<void> => {
+  await apiCall("POST", "/favorites/create.json", {
+    query: {
+      id: id,
+    },
+  });
+};

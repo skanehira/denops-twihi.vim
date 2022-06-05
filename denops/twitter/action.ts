@@ -1,4 +1,9 @@
-import { homeTimeline, statusesUpdate, userTimeline } from "./twitter.ts";
+import {
+  homeTimeline,
+  likeTweet,
+  statusesUpdate,
+  userTimeline,
+} from "./twitter.ts";
 import { autocmd, datetime, Denops, open, stringWidth, vars } from "./deps.ts";
 import { map } from "./mapping.ts";
 import { Timeline } from "./type.d.ts";
@@ -207,4 +212,18 @@ export const actionTweet = async (
     status: line,
   });
   await denops.cmd("echo '' | bw!");
+};
+
+export const actionLike = async (denops: Denops, id: string): Promise<void> => {
+  await likeTweet(id);
+  const num = await denops.call("line", ".") as number;
+  const timelines = await vars.b.get(
+    denops,
+    "twitter_timelines",
+    [],
+  ) as Timeline[];
+  const timeline = timelines[num - 1];
+  timeline.favorited = true;
+  await vars.b.set(denops, "twitter_timelines", timelines);
+  await actionPreview(denops, timeline);
 };

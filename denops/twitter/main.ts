@@ -1,5 +1,6 @@
 import { autocmd, Denops } from "./deps.ts";
 import {
+  actionLike,
   actionOpen,
   actionOpenTimeline,
   actionPreview,
@@ -8,6 +9,7 @@ import {
 import StatusesHomeTimeline from "https://esm.sh/v78/twitter-api-client@1.5.2/dist/interfaces/types/StatusesHomeTimelineTypes.d.ts";
 import { configFile } from "./config.ts";
 import { loadConfig } from "./twitter.ts";
+import { Timeline } from "./type.d.ts";
 
 export async function main(denops: Denops): Promise<void> {
   const commands = [
@@ -88,6 +90,11 @@ export async function main(denops: Denops): Promise<void> {
 
     async reloadConfig(): Promise<void> {
       await loadConfig();
+    },
+
+    async like(arg: unknown): Promise<void> {
+      const timeline = arg as Timeline;
+      await actionLike(denops, timeline.id_str);
     },
   };
 }
