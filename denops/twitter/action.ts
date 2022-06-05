@@ -18,7 +18,7 @@ import {
   stringWidth,
   vars,
 } from "./deps.ts";
-import { Timeline } from "./type.d.ts";
+import { Media, Timeline } from "./type.d.ts";
 
 type TimelineType = "home" | "user" | "mentions";
 
@@ -116,17 +116,9 @@ export async function actionOpen(tweet: Timeline) {
   await open(url);
 }
 
-export const actionTweet = async (
+export const actionUploadMedia = async (
   denops: Denops,
-  line: string,
-): Promise<void> => {
-  const width = stringWidth(line);
-  if (width > 280) {
-    throw new Error("characters must be less than 280");
-  }
-  const opts = {
-    status: line,
-  } as StatusesUpdateOptions;
+): Promise<Media | undefined> => {
   const input = await helper.input(denops, {
     prompt: "upload media: ",
     completion: "file",
@@ -140,6 +132,23 @@ export const actionTweet = async (
       data = await Deno.readFile(input);
     }
     const media = await uploadMedia(data);
+    return media;
+  }
+};
+
+export const actionTweet = async (
+  denops: Denops,
+  text: string,
+): Promise<void> => {
+  const width = stringWidth(text);
+  if (width > 280) {
+    throw new Error("characters must be less than 280");
+  }
+  const opts: StatusesUpdateOptions = {
+    status: text,
+  };
+  const media = await actionUploadMedia(denops);
+  if (media) {
     opts.media_ids = media.media_id_string;
   }
   console.log("tweeting...");
@@ -171,11 +180,16 @@ export const actionReply = async (
   if (width > 280) {
     throw new Error("characters must be less than 280");
   }
-  console.log("sending…");
-  await statusesUpdate({
+  const opts: StatusesUpdateOptions = {
     status: text,
     in_reply_to_status_id: tweet.id_str,
-  });
+  };
+  const media = await actionUploadMedia(denops);
+  if (media) {
+    opts.media_ids = media.media_id_string;
+  }
+  console.log("tweeting...");
+  await statusesUpdate(opts);
   await denops.cmd("echo '' | bw!");
 };
 
@@ -197,4 +211,15 @@ export const actionRetweet = async (
   await vars.b.set(denops, "twitter_force_preview", true);
   await denops.cmd("doautocmd User twitter_force_preview");
   await denops.cmd("echo ''");
+};
+
+export const actionRetweetWithComment = async (
+  denops: Denops,
+  tweet: Timeline,
+  text: string,
+): Promise<void> => {
+  const url =
+    `https://twitter.com/${tweet.user.screen_name}/status/${tweet.id_str}`;
+  text = text + "\n" + url;
+  await actionTweet(denops, text);
 };
