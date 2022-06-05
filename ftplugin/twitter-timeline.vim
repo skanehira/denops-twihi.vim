@@ -20,6 +20,9 @@ function! s:open_reply_buffer() abort
   let tweet = b:twitter_timelines[line(".")-1]
   new twitter://reply
   let b:twitter_reply_tweet = tweet
+  call setline(1, ["@" .. tweet.user.screen_name, ""])
+  call feedkeys("A ")
+  setlocal nomodified
 endfunction
 
 " when retweet with comment, tweet body must includes original tweet url.
