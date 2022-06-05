@@ -5,6 +5,7 @@ import {
   actionOpenTimeline,
   actionReply,
   actionRetweet,
+  actionRetweetWithComment,
   actionTweet,
 } from "./action.ts";
 import StatusesHomeTimeline from "https://esm.sh/v78/twitter-api-client@1.5.2/dist/interfaces/types/StatusesHomeTimelineTypes.d.ts";
@@ -16,7 +17,7 @@ export async function main(denops: Denops): Promise<void> {
   const commands = [
     `command! -nargs=? TwitterHome call twitter#timeline("home")`,
     `command! -nargs=1 TwitterTimeline call twitter#timeline("user", <f-args>)`,
-    `command! -nargs=? TwitterMentions call twitter#timeline("mentions")`,
+    `command! TwitterMentions call twitter#timeline("mentions")`,
     `command! TwitterTweet :new twitter://tweet`,
     `command! TwitterEditConfig call denops#notify("${denops.name}", "editConfig", [])`,
   ];
@@ -122,23 +123,8 @@ export async function main(denops: Denops): Promise<void> {
       await actionRetweet(denops, (tweet as Timeline).id_str);
     },
 
-    async retweetWithComment(arg: unknown): Promise<void> {
-      try {
-        const tweet = await vars.b.get(
-          denops,
-          "twitter_original_tweet",
-          {},
-        ) as Timeline;
-        if (!Object.keys(tweet).length) {
-          throw new Error(`b:twitter_original_tweet is undefined`);
-        }
-        const url =
-          `https://twitter.com/${tweet.user.screen_name}/status/${tweet.id_str}`;
-        const text = arg + "\n" + url;
-        await actionTweet(denops, text);
-      } catch (e) {
-        console.error(e.message);
-      }
+    async retweetWithComment(tweet: unknown, text: unknown): Promise<void> {
+      await actionRetweetWithComment(denops, tweet as Timeline, text as string);
     },
   };
 }
