@@ -1,20 +1,23 @@
-import { TwitterApi } from "https://raw.githubusercontent.com/stefanuros/deno_twitter_api/v1.2.1/mod.ts";
-import StatusesHomeTimeline from "https://esm.sh/v78/twitter-api-client@1.5.2/dist/interfaces/types/StatusesHomeTimelineTypes.d.ts";
-import StatusesUpdate from "https://esm.sh/v78/twitter-api-client@1.5.2/dist/interfaces/types/StatusesUpdateTypes.d.ts";
-import StatusesUserTimeline from "https://esm.sh/v78/twitter-api-client@1.5.2/dist/interfaces/types/StatusesUserTimelineTypes.d.ts";
-//import { TwitterClient } from "https://esm.sh/twitter-api-client@1.5.2";
+import { newTwitterAPI, TwitterAPI } from "./api.ts";
+import { Timeline, Update } from "./type.d.ts";
 import { readConfig } from "./config.ts";
+import { RequestOptions } from "https://raw.githubusercontent.com/snsinfu/deno-oauth-1.0a/main/extra/mod.ts";
 
-export let twitterAPI: TwitterApi;
+export let twitterAPI: TwitterAPI;
 
 export const loadConfig = async (): Promise<void> => {
   const config = await readConfig();
-  twitterAPI = new TwitterApi({
-    consumerApiKey: config.consumerAPIKey,
-    consumerApiSecret: config.consumerAPISecret,
-    accessToken: config.accessToken,
-    accessTokenSecret: config.accessTokenSecret,
-  });
+  const prefix = Deno.env.get("TEST_ENDPOINT") ?? "https://api.twitter.com/1.1";
+  const consumer = {
+    key: config.consumerAPIKey,
+    secret: config.consumerAPISecret,
+  };
+  const token = { key: config.accessToken, secret: config.accessTokenSecret };
+  twitterAPI = newTwitterAPI(
+    prefix,
+    consumer,
+    token,
+  );
 };
 
 try {
@@ -25,12 +28,12 @@ try {
 
 const apiCall = async <T>(
   method: "GET" | "POST",
-  endpoint: string,
-  opts: Record<string, string>,
+  url: string,
+  opts: RequestOptions,
 ): Promise<T> => {
-  const resp = method === "POST"
-    ? await twitterAPI.post(endpoint, opts)
-    : await twitterAPI.get(endpoint, opts);
+  opts.token = twitterAPI.token;
+  console.log(opts);
+  const resp = await twitterAPI.client.request(method, url, opts);
   if (!resp.ok) {
     throw new Error(`status: ${resp.statusText}, body: ${await resp.text()}`);
   }
@@ -43,44 +46,47 @@ export type HomeTimelineOptions = {
 
 export const homeTimeline = async (
   opts: HomeTimelineOptions,
-): Promise<StatusesHomeTimeline[]> => {
-  const resp = await apiCall<StatusesHomeTimeline[]>(
+): Promise<Timeline[]> => {
+  const resp = await apiCall<Timeline[]>(
     "GET",
-    "statuses/home_timeline.json",
-    opts,
+    "/statuses/home_timeline.json",
+    { query: opts },
   );
   return resp;
 };
 
 export type StatusesUpdateOptions = {
-  status?: string;
+  status: string;
   in_reply_to_status_id?: string;
 };
 
 export const statusesUpdate = async (
   opts: StatusesUpdateOptions,
-): Promise<StatusesUpdate> => {
-  const resp = await apiCall<StatusesUpdate>(
+): Promise<Update> => {
+  const resp = await apiCall<Update>(
     "POST",
-    "statuses/update.json",
-    opts,
+    "/statuses/update.json",
+    {
+      query: { status: opts.status },
+    },
   );
   return resp;
 };
 
 export type UserTimelineOptions = {
-  user_id?: string;
   screen_name?: string;
   count?: string;
 };
 
 export const userTimeline = async (
   opts: UserTimelineOptions,
-): Promise<StatusesUserTimeline[]> => {
-  const resp = await apiCall<StatusesUserTimeline[]>(
+): Promise<Timeline[]> => {
+  const resp = await apiCall<Timeline[]>(
     "GET",
-    "statuses/user_timeline.json",
-    opts,
+    "/statuses/user_timeline.json",
+    {
+      query: opts,
+    },
   );
   return resp;
 };

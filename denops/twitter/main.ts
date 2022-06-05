@@ -1,4 +1,4 @@
-import { autocmd, Denops, fs } from "./deps.ts";
+import { autocmd, Denops } from "./deps.ts";
 import {
   actionOpen,
   actionOpenTimeline,
@@ -75,9 +75,8 @@ export async function main(denops: Denops): Promise<void> {
     },
 
     async editConfig(): Promise<void> {
-      await fs.ensureFile(configFile);
       await denops.cmd(`new ${configFile}`);
-      autocmd.group(denops, "twitter_edit_config", (helper) => {
+      await autocmd.group(denops, "twitter_edit_config", (helper) => {
         helper.remove("*", "<buffer>");
         helper.define(
           "BufWritePost",

@@ -2,3 +2,4 @@
 .vim/
 cov/
 .DS_Store
+doc/tags
