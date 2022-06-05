@@ -5,7 +5,6 @@ import {
   userTimeline,
 } from "./twitter.ts";
 import { autocmd, datetime, Denops, open, stringWidth, vars } from "./deps.ts";
-import { map } from "./mapping.ts";
 import { Timeline } from "./type.d.ts";
 
 const icon = {
@@ -106,35 +105,6 @@ export const actionOpenTimeline = async (
       `call execute("vertical resize ${winWidth}")`,
     );
   });
-
-  const keyMaps = [
-    {
-      defaultKey: "<C-o>",
-      lhs: "<Plug>(twitter:tweet:open)",
-      rhs:
-        `:<C-u>call denops#notify("twitter", "open", [b:twitter_timelines[line(".")-1]])<CR>`,
-    },
-    {
-      defaultKey: "<C-n>",
-      lhs: "<Plug>(twitter:tweet:new)",
-      rhs: `:<C-u>new twitter://tweet<CR>`,
-    },
-  ];
-
-  for (const m of keyMaps) {
-    await map(
-      denops,
-      m.defaultKey,
-      m.lhs,
-      m.rhs,
-      {
-        buffer: true,
-        silent: true,
-        mode: "n",
-        noremap: true,
-      },
-    );
-  }
 };
 
 export async function actionPreview(
