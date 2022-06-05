@@ -1,6 +1,7 @@
 import {
   homeTimeline,
   likeTweet,
+  retweet,
   statusesUpdate,
   userTimeline,
 } from "./twitter.ts";
@@ -213,4 +214,13 @@ export const actionReply = async (
     in_reply_to_status_id: tweet.id_str,
   });
   await denops.cmd("echo '' | bw!");
+};
+
+export const actionRetweet = async (
+  denops: Denops,
+  id: string,
+): Promise<void> => {
+  console.log("retweeting...");
+  await retweet(id);
+  await denops.cmd("echo ''");
 };

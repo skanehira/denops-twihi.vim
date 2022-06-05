@@ -97,3 +97,7 @@ export const likeTweet = async (id: string): Promise<void> => {
     },
   });
 };
+
+export const retweet = async (id: string): Promise<void> => {
+  await apiCall("POST", `/statuses/retweet/${id}.json`, {});
+};

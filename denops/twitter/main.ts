@@ -5,6 +5,7 @@ import {
   actionOpenTimeline,
   actionPreview,
   actionReply,
+  actionRetweet,
   actionTweet,
 } from "./action.ts";
 import StatusesHomeTimeline from "https://esm.sh/v78/twitter-api-client@1.5.2/dist/interfaces/types/StatusesHomeTimelineTypes.d.ts";
@@ -106,6 +107,10 @@ export async function main(denops: Denops): Promise<void> {
 
     async reply(tweet: unknown, text: unknown): Promise<void> {
       await actionReply(denops, tweet as Timeline, text as string);
+    },
+
+    async retweet(tweet: unknown): Promise<void> {
+      await actionRetweet(denops, (tweet as Timeline).id_str);
     },
   };
 }
