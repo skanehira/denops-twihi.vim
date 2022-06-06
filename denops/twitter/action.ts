@@ -102,11 +102,16 @@ export const actionOpenTimeline = async (
 
   const [winWidth, rows] = tweets2lines(tweets);
   await vars.b.set(denops, "twitter_preview_window_width", winWidth.toString());
+  await vars.b.set(denops, "twitter_cursor", { line: -1 });
+  await vars.t.set(
+    denops,
+    "twitter_preview_bufname",
+    `twitter://${timelineType}/preview`,
+  );
 
   await denops.call("setline", 1, rows);
   await denops.cmd("setlocal nomodifiable");
-
-  await denops.cmd("doautocmd User twitter_preview");
+  await denops.call("twitter#preview", true);
 };
 
 export async function actionOpen(tweet: Timeline) {
@@ -168,7 +173,7 @@ export const actionLike = async (denops: Denops, id: string): Promise<void> => {
   timeline.favorited = true;
   await vars.b.set(denops, "twitter_timelines", timelines);
   await vars.b.set(denops, "twitter_force_preview", true);
-  await denops.cmd(`doautocmd User twitter_force_preview`);
+  await denops.call("twitter#preview", true);
 };
 
 export const actionReply = async (
@@ -209,7 +214,7 @@ export const actionRetweet = async (
   timeline.retweeted = true;
   await vars.b.set(denops, "twitter_timelines", timelines);
   await vars.b.set(denops, "twitter_force_preview", true);
-  await denops.cmd("doautocmd User twitter_force_preview");
+  await denops.call("twitter#preview", true);
   await denops.cmd("echo ''");
 };
 
