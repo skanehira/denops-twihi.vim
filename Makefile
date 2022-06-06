@@ -13,7 +13,7 @@ test-local:
 		DENOPS_TEST_NVIM=$$(which nvim) \
 		DENOPS_TEST_VIM=$$(which vim) \
 		TEST_ENDPOINT=http://localhost:12345 \
-		deno test -A --unstable --coverage=cov
+		deno test -A --unstable --coverage=cov --trace-ops
 
 .PHONY: test
 test:

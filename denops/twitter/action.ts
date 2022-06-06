@@ -9,10 +9,10 @@ import {
   userTimeline,
 } from "./twitter.ts";
 import {
+  autocmd,
   clipboard,
   datetime,
   Denops,
-  helper,
   open,
   streams,
   stringWidth,
@@ -112,6 +112,12 @@ export const actionOpenTimeline = async (
   await denops.call("setline", 1, rows);
   await denops.cmd("setlocal nomodifiable");
   await denops.call("twitter#preview", true);
+
+  autocmd.group(denops, `twitter_timeline_${timelineType}`, (helper) => {
+    helper.remove("*");
+    helper.define("CursorMoved", "<buffer>", "call twitter#preview(v:false)");
+    helper.define("BufDelete", "<buffer>", "call twitter#close_preview()");
+  });
 };
 
 export async function actionOpen(tweet: Timeline) {

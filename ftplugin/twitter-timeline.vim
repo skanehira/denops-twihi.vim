@@ -2,19 +2,6 @@
 " Author: skanehira
 " License: MIT
 
-exe "augroup twitter_timeline_" .. b:twitter_timeline_type
-  au!
-  au CursorMoved <buffer> call twitter#preview(v:false)
-  au BufDelete <buffer> call <SID>close_preview()
-augroup END
-
-" when timeline buffer close, close preview buffer
-function! s:close_preview() abort
-  if has_key(t:, "twitter_preview_bufname") && bufexists(t:twitter_preview_bufname)
-    exe "bw!" t:twitter_preview_bufname
-  endif
-endfunction
-
 function! s:open_reply_buffer() abort
   let tweet = b:twitter_timelines[line(".")-1]
   new twitter://reply

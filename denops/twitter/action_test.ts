@@ -1,4 +1,4 @@
-import { assertEquals, Denops, helper, path, test } from "./deps.ts";
+import { Denops, helper, path, test } from "./deps.ts";
 import { actionOpenTimeline } from "./action.ts";
 import { mockServer } from "./mock/server.ts";
 import { assertEqualTextFile } from "./_util/assert.ts";
@@ -43,9 +43,7 @@ test({
   fn: async (denops: Denops) => {
     await load(denops, autoloadDir);
 
-    let gotReq: Request;
-    const server = mockServer(host, port, async (req: Request) => {
-      gotReq = req;
+    const server = mockServer(host, port, async (_req: Request) => {
       const respBody = await Deno.readTextFile(
         path.join("denops", "twitter", "testdata", "homeTimeline.json"),
       );
@@ -55,11 +53,6 @@ test({
     });
     await actionOpenTimeline(denops, "home");
     server.close();
-
-    assertEquals({ method: gotReq!.method, url: gotReq!.url }, {
-      method: "GET",
-      url: "http://localhost:12345/statuses/home_timeline.json?count=30",
-    });
 
     const actual = await denops.call("getline", 1, "$") as string[];
     const expectFile = path.join(
@@ -81,5 +74,23 @@ test({
     );
 
     await assertEqualTextFile(preview.join("\n"), expectPreview);
+
+    // NOTE: assert preview changing only in Neovim
+    // because Vim's feedkeys doesn't working correctly trough denops
+    if (denops.meta.host == "nvim") {
+      await denops.call("feedkeys", "j");
+      const newPreview = await denops.call(
+        "getbufline",
+        "twitter://home/preview",
+        1,
+        "$",
+      ) as string[];
+
+      const expectNewPreivew = path.join(
+        testdataDir,
+        "want_homeline_new_preivew.text",
+      );
+      await assertEqualTextFile(newPreview.join("\n"), expectNewPreivew);
+    }
   },
 });

@@ -83,3 +83,10 @@ function! s:make_tweet_body(tweet) abort
   let tweetBody = tweetBody + ["", border, join(icons, " ")]
   return tweetBody
 endfunction
+
+" When timeline buffer be closed, close preview buffer
+function! twitter#close_preview() abort
+  if has_key(t:, "twitter_preview_bufname") && bufexists(t:twitter_preview_bufname)
+    exe "bw!" t:twitter_preview_bufname
+  endif
+endfunction
