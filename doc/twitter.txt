@@ -166,9 +166,6 @@ You can do some actions in the bellow buffers.
   <Plug>(twitter:tweet:open)			*<Plug>(twitter:tweet:open)*
     Open tweet in browser
   
-  <Plug>(twitter:tweet:new)			*<Plug>(twitter:tweet:new)*
-    Open |twitter-buffer-tweet|
-  
   <Plug>(twitter:tweet:like)			*<Plug>(twitter:tweet:like)*
     Add like to the tweet
 

@@ -39,8 +39,6 @@ nnoremap <buffer> <silent> <Plug>(twitter:tweet:like)
       \ <Cmd>call denops#request("twitter", "like", [b:twitter_timelines[line(".")-1]])<CR>
 nnoremap <buffer> <silent> <Plug>(twitter:tweet:open)
       \ <Cmd>call denops#notify("twitter", "open", [b:twitter_timelines[line(".")-1]])<CR>
-nnoremap <buffer> <silent> <Plug>(twitter:tweet:new)
-      \ <Cmd>new twitter://tweet<CR>
 nnoremap <buffer> <silent> <Plug>(twitter:tweet:reply)
       \ <Cmd>call <SID>open_reply_buffer()<CR>
 nnoremap <buffer> <silent> <Plug>(twitter:tweet:retweet)
