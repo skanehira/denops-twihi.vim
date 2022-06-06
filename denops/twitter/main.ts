@@ -14,18 +14,6 @@ import { loadConfig } from "./twitter.ts";
 import { Timeline } from "./type.d.ts";
 
 export async function main(denops: Denops): Promise<void> {
-  const commands = [
-    `command! -nargs=? TwitterHome call twitter#timeline("home")`,
-    `command! -nargs=1 TwitterTimeline call twitter#timeline("user", <f-args>)`,
-    `command! TwitterMentions call twitter#timeline("mentions")`,
-    `command! TwitterTweet :new twitter://tweet`,
-    `command! TwitterEditConfig call denops#notify("${denops.name}", "editConfig", [])`,
-  ];
-
-  for (const command of commands) {
-    await denops.cmd(command);
-  }
-
   await autocmd.group(denops, "twitter_buffer", (helper) => {
     helper.remove("*");
 
