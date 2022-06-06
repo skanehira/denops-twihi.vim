@@ -46,7 +46,10 @@ const apiCall = async <T>(
   if (!resp.ok) {
     throw new Error(`status: ${resp.statusText}, body: ${await resp.text()}`);
   }
-  return await resp.json() as T;
+  const body = resp.json();
+  const json = JSON.stringify(body, null, " ");
+  Deno.writeFile("golden.json", new TextEncoder().encode(json));
+  return await body as T;
 };
 
 export type HomeTimelineOptions = {

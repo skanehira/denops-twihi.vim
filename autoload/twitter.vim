@@ -26,6 +26,15 @@ function! twitter#timeline(type, ...) abort
   endif
 endfunction
 
+function! twitter#tweet_with_media(...) abort
+  new twitter://tweet
+  if a:0 ==# 0
+    let b:twitter_media_clipboard = v:true
+  else
+    let b:twitter_media = a:1
+  endif
+endfunction
+
 function! twitter#preview(force) abort
   let line = line(".")
   if b:twitter_cursor.line ==# line && !a:force

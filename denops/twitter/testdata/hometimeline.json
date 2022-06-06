@@ -1,0 +1,780 @@
+[
+  {
+    "created_at": "Sun Jun 05 23:33:12 +0000 2022",
+    "id": 1533592806630912000,
+    "id_str": "1533592806630912000",
+    "text": "RT @dayjournal_nori: Amplify CLIとDocsのプルリクエストがマージ &amp; リリースされて遂にAWS Amplifyから新マップスタイル(初の日本語化)が利用可能になりました🎉 \n\n最新のAmplify CLIから手軽に設定できます🗺️ \n\nhttp…",
+    "truncated": false,
+    "entities": {
+      "hashtags": [],
+      "symbols": [],
+      "user_mentions": [
+        {
+          "screen_name": "dayjournal_nori",
+          "name": "Yasunori Kirimoto 🗺",
+          "id": 2532637830,
+          "id_str": "2532637830",
+          "indices": [
+            3,
+            19
+          ]
+        }
+      ],
+      "urls": []
+    },
+    "source": "<a href=\"http://twitter.com/download/iphone\" rel=\"nofollow\">Twitter for iPhone</a>",
+    "in_reply_to_status_id": null,
+    "in_reply_to_status_id_str": null,
+    "in_reply_to_user_id": null,
+    "in_reply_to_user_id_str": null,
+    "in_reply_to_screen_name": null,
+    "user": {
+      "id": 1053968757159157800,
+      "id_str": "1053968757159157760",
+      "name": "はまーん / hamaaaan",
+      "screen_name": "track3jyo",
+      "location": "Kansai/Japan",
+      "description": "🦄 Startup SA, West Japan / working for @AWSCloud / My opinions are my own. / Container, Serverless, DevOps/ No Coke, no life !!",
+      "url": "https://t.co/PXAJy8JF5g",
+      "entities": {
+        "url": {
+          "urls": [
+            {
+              "url": "https://t.co/PXAJy8JF5g",
+              "expanded_url": "https://track3jyo.com/",
+              "display_url": "track3jyo.com",
+              "indices": [
+                0,
+                23
+              ]
+            }
+          ]
+        },
+        "description": {
+          "urls": []
+        }
+      },
+      "protected": false,
+      "followers_count": 1698,
+      "friends_count": 128,
+      "listed_count": 15,
+      "created_at": "Sun Oct 21 11:18:28 +0000 2018",
+      "favourites_count": 10550,
+      "utc_offset": null,
+      "time_zone": null,
+      "geo_enabled": true,
+      "verified": false,
+      "statuses_count": 6648,
+      "lang": null,
+      "contributors_enabled": false,
+      "is_translator": false,
+      "is_translation_enabled": false,
+      "profile_background_color": "000000",
+      "profile_background_image_url": "http://abs.twimg.com/images/themes/theme1/bg.png",
+      "profile_background_image_url_https": "https://abs.twimg.com/images/themes/theme1/bg.png",
+      "profile_background_tile": false,
+      "profile_image_url": "http://pbs.twimg.com/profile_images/1053971368474079233/4daUtjwr_normal.jpg",
+      "profile_image_url_https": "https://pbs.twimg.com/profile_images/1053971368474079233/4daUtjwr_normal.jpg",
+      "profile_banner_url": "https://pbs.twimg.com/profile_banners/1053968757159157760/1554521084",
+      "profile_link_color": "FF691F",
+      "profile_sidebar_border_color": "000000",
+      "profile_sidebar_fill_color": "000000",
+      "profile_text_color": "000000",
+      "profile_use_background_image": false,
+      "has_extended_profile": true,
+      "default_profile": false,
+      "default_profile_image": false,
+      "following": true,
+      "follow_request_sent": false,
+      "notifications": false,
+      "translator_type": "none",
+      "withheld_in_countries": []
+    },
+    "geo": null,
+    "coordinates": null,
+    "place": null,
+    "contributors": null,
+    "retweeted_status": {
+      "created_at": "Sun Jun 05 23:05:00 +0000 2022",
+      "id": 1533585709633720300,
+      "id_str": "1533585709633720321",
+      "text": "Amplify CLIとDocsのプルリクエストがマージ &amp; リリースされて遂にAWS Amplifyから新マップスタイル(初の日本語化)が利用可能になりました🎉 \n\n最新のAmplify CLIから手軽に設定できます🗺️… https://t.co/UNVXo3PJQi",
+      "truncated": true,
+      "entities": {
+        "hashtags": [],
+        "symbols": [],
+        "user_mentions": [],
+        "urls": [
+          {
+            "url": "https://t.co/UNVXo3PJQi",
+            "expanded_url": "https://twitter.com/i/web/status/1533585709633720321",
+            "display_url": "twitter.com/i/web/status/1…",
+            "indices": [
+              117,
+              140
+            ]
+          }
+        ]
+      },
+      "source": "<a href=\"https://mobile.twitter.com\" rel=\"nofollow\">Twitter Web App</a>",
+      "in_reply_to_status_id": null,
+      "in_reply_to_status_id_str": null,
+      "in_reply_to_user_id": null,
+      "in_reply_to_user_id_str": null,
+      "in_reply_to_screen_name": null,
+      "user": {
+        "id": 2532637830,
+        "id_str": "2532637830",
+        "name": "Yasunori Kirimoto 🗺",
+        "screen_name": "dayjournal_nori",
+        "location": "Hokkaido",
+        "description": "Location-based Architect | AWS DevTools Hero | \nCo-founder & CTO of MIERUNE Inc. | Owner of dayjournal | \nFOSS4G Hokkaido | Notion Sapporo | \nENG @dayjournal_",
+        "url": "https://t.co/EbvJODlsTh",
+        "entities": {
+          "url": {
+            "urls": [
+              {
+                "url": "https://t.co/EbvJODlsTh",
+                "expanded_url": "https://dayjournal.dev",
+                "display_url": "dayjournal.dev",
+                "indices": [
+                  0,
+                  23
+                ]
+              }
+            ]
+          },
+          "description": {
+            "urls": []
+          }
+        },
+        "protected": false,
+        "followers_count": 993,
+        "friends_count": 601,
+        "listed_count": 26,
+        "created_at": "Thu May 29 13:22:58 +0000 2014",
+        "favourites_count": 8752,
+        "utc_offset": null,
+        "time_zone": null,
+        "geo_enabled": false,
+        "verified": false,
+        "statuses_count": 7506,
+        "lang": null,
+        "contributors_enabled": false,
+        "is_translator": false,
+        "is_translation_enabled": false,
+        "profile_background_color": "C0DEED",
+        "profile_background_image_url": "http://abs.twimg.com/images/themes/theme1/bg.png",
+        "profile_background_image_url_https": "https://abs.twimg.com/images/themes/theme1/bg.png",
+        "profile_background_tile": false,
+        "profile_image_url": "http://pbs.twimg.com/profile_images/1392090085865099272/a-RB7Wdk_normal.jpg",
+        "profile_image_url_https": "https://pbs.twimg.com/profile_images/1392090085865099272/a-RB7Wdk_normal.jpg",
+        "profile_banner_url": "https://pbs.twimg.com/profile_banners/2532637830/1627302629",
+        "profile_link_color": "ABB8C2",
+        "profile_sidebar_border_color": "C0DEED",
+        "profile_sidebar_fill_color": "DDEEF6",
+        "profile_text_color": "333333",
+        "profile_use_background_image": true,
+        "has_extended_profile": true,
+        "default_profile": false,
+        "default_profile_image": false,
+        "following": false,
+        "follow_request_sent": false,
+        "notifications": false,
+        "translator_type": "none",
+        "withheld_in_countries": []
+      },
+      "geo": null,
+      "coordinates": null,
+      "place": null,
+      "contributors": null,
+      "is_quote_status": false,
+      "retweet_count": 2,
+      "favorite_count": 6,
+      "favorited": false,
+      "retweeted": false,
+      "possibly_sensitive": false,
+      "possibly_sensitive_appealable": false,
+      "lang": "ja"
+    },
+    "is_quote_status": false,
+    "retweet_count": 2,
+    "favorite_count": 0,
+    "favorited": false,
+    "retweeted": false,
+    "lang": "ja"
+  },
+  {
+    "created_at": "Sun Jun 05 23:32:09 +0000 2022",
+    "id": 1533592543426117600,
+    "id_str": "1533592543426117632",
+    "text": "おはよう、世界。\n\n今朝は雨だね。\n今週も、頑張らないと。",
+    "truncated": false,
+    "entities": {
+      "hashtags": [],
+      "symbols": [],
+      "user_mentions": [],
+      "urls": []
+    },
+    "source": "<a href=\"https://mobile.twitter.com\" rel=\"nofollow\">Twitter Web App</a>",
+    "in_reply_to_status_id": null,
+    "in_reply_to_status_id_str": null,
+    "in_reply_to_user_id": null,
+    "in_reply_to_user_id_str": null,
+    "in_reply_to_screen_name": null,
+    "user": {
+      "id": 5803802,
+      "id_str": "5803802",
+      "name": "kabukawa",
+      "screen_name": "kabukawa",
+      "location": "Japan,Chiba",
+      "description": "詩人になれなかったソフトウェアエンジニア。理想と現実の狭間でもがきながら今日もどこかで生きてます。Trance好き。自分自身がコンテンツでありたい。   I hope to be able to work happily. 楽しく仕事ができることが望みです。",
+      "url": "https://t.co/6YS6MSk70S",
+      "entities": {
+        "url": {
+          "urls": [
+            {
+              "url": "https://t.co/6YS6MSk70S",
+              "expanded_url": "https://resume.kabukawa.biz/",
+              "display_url": "resume.kabukawa.biz",
+              "indices": [
+                0,
+                23
+              ]
+            }
+          ]
+        },
+        "description": {
+          "urls": []
+        }
+      },
+      "protected": false,
+      "followers_count": 4183,
+      "friends_count": 4998,
+      "listed_count": 33,
+      "created_at": "Sun May 06 08:17:40 +0000 2007",
+      "favourites_count": 202984,
+      "utc_offset": null,
+      "time_zone": null,
+      "geo_enabled": false,
+      "verified": false,
+      "statuses_count": 94583,
+      "lang": null,
+      "contributors_enabled": false,
+      "is_translator": false,
+      "is_translation_enabled": false,
+      "profile_background_color": "FCEBB6",
+      "profile_background_image_url": "http://abs.twimg.com/images/themes/theme1/bg.png",
+      "profile_background_image_url_https": "https://abs.twimg.com/images/themes/theme1/bg.png",
+      "profile_background_tile": true,
+      "profile_image_url": "http://pbs.twimg.com/profile_images/1347537201047826433/hKbmH82g_normal.jpg",
+      "profile_image_url_https": "https://pbs.twimg.com/profile_images/1347537201047826433/hKbmH82g_normal.jpg",
+      "profile_banner_url": "https://pbs.twimg.com/profile_banners/5803802/1645888917",
+      "profile_link_color": "1B95E0",
+      "profile_sidebar_border_color": "FFFFFF",
+      "profile_sidebar_fill_color": "78C0A8",
+      "profile_text_color": "CE7834",
+      "profile_use_background_image": true,
+      "has_extended_profile": true,
+      "default_profile": false,
+      "default_profile_image": false,
+      "following": true,
+      "follow_request_sent": false,
+      "notifications": false,
+      "translator_type": "none",
+      "withheld_in_countries": []
+    },
+    "geo": null,
+    "coordinates": null,
+    "place": null,
+    "contributors": null,
+    "is_quote_status": false,
+    "retweet_count": 0,
+    "favorite_count": 0,
+    "favorited": false,
+    "retweeted": false,
+    "lang": "ja"
+  },
+  {
+    "created_at": "Sun Jun 05 23:32:04 +0000 2022",
+    "id": 1533592520424231000,
+    "id_str": "1533592520424230912",
+    "text": "RT @itengr_matome: IT関係以外のフォワロワーさんが昨晩から増えておるな…\n\nエンジニアじゃなくて人間的魅力にも気づかれたんやろか(´・ω・)",
+    "truncated": false,
+    "entities": {
+      "hashtags": [],
+      "symbols": [],
+      "user_mentions": [
+        {
+          "screen_name": "itengr_matome",
+          "name": "無能なボンブ@休暇中",
+          "id": 1006844551036731400,
+          "id_str": "1006844551036731393",
+          "indices": [
+            3,
+            17
+          ]
+        }
+      ],
+      "urls": []
+    },
+    "source": "<a href=\"http://twitter.com/download/android\" rel=\"nofollow\">Twitter for Android</a>",
+    "in_reply_to_status_id": null,
+    "in_reply_to_status_id_str": null,
+    "in_reply_to_user_id": null,
+    "in_reply_to_user_id_str": null,
+    "in_reply_to_screen_name": null,
+    "user": {
+      "id": 138243503,
+      "id_str": "138243503",
+      "name": "ねこぷぅ@ダイエット猫(1ヶ月目-3.4kg)",
+      "screen_name": "kaipu1224",
+      "location": "猫の肉球",
+      "description": "いつでもどこでもにゃーん♪\n育児&お弁当＆筋トレアカ。\n娘2人と3人で平和に暮らしてるにゃ。\nフリーランス野良猫エンジニア、お仕事たくさんありがとにゃ\n\n干し芋\nhttps://t.co/b035yC7eIL",
+      "url": null,
+      "entities": {
+        "description": {
+          "urls": [
+            {
+              "url": "https://t.co/b035yC7eIL",
+              "expanded_url": "https://www.amazon.jp/hz/wishlist/ls/Q8SYYGCBOI5N?ref_=wl_share",
+              "display_url": "amazon.jp/hz/wishlist/ls…",
+              "indices": [
+                81,
+                104
+              ]
+            }
+          ]
+        }
+      },
+      "protected": false,
+      "followers_count": 4234,
+      "friends_count": 3112,
+      "listed_count": 59,
+      "created_at": "Thu Apr 29 01:05:41 +0000 2010",
+      "favourites_count": 197255,
+      "utc_offset": null,
+      "time_zone": null,
+      "geo_enabled": false,
+      "verified": false,
+      "statuses_count": 112915,
+      "lang": null,
+      "contributors_enabled": false,
+      "is_translator": false,
+      "is_translation_enabled": false,
+      "profile_background_color": "000000",
+      "profile_background_image_url": "http://abs.twimg.com/images/themes/theme1/bg.png",
+      "profile_background_image_url_https": "https://abs.twimg.com/images/themes/theme1/bg.png",
+      "profile_background_tile": false,
+      "profile_image_url": "http://pbs.twimg.com/profile_images/1372067658783367173/YzwV5cnP_normal.jpg",
+      "profile_image_url_https": "https://pbs.twimg.com/profile_images/1372067658783367173/YzwV5cnP_normal.jpg",
+      "profile_banner_url": "https://pbs.twimg.com/profile_banners/138243503/1585725005",
+      "profile_link_color": "1B95E0",
+      "profile_sidebar_border_color": "000000",
+      "profile_sidebar_fill_color": "000000",
+      "profile_text_color": "000000",
+      "profile_use_background_image": false,
+      "has_extended_profile": true,
+      "default_profile": false,
+      "default_profile_image": false,
+      "following": true,
+      "follow_request_sent": false,
+      "notifications": false,
+      "translator_type": "none",
+      "withheld_in_countries": []
+    },
+    "geo": null,
+    "coordinates": null,
+    "place": null,
+    "contributors": null,
+    "retweeted_status": {
+      "created_at": "Sun Jun 05 23:28:48 +0000 2022",
+      "id": 1533591699871608800,
+      "id_str": "1533591699871608834",
+      "text": "IT関係以外のフォワロワーさんが昨晩から増えておるな…\n\nエンジニアじゃなくて人間的魅力にも気づかれたんやろか(´・ω・)",
+      "truncated": false,
+      "entities": {
+        "hashtags": [],
+        "symbols": [],
+        "user_mentions": [],
+        "urls": []
+      },
+      "source": "<a href=\"http://twitter.com/download/iphone\" rel=\"nofollow\">Twitter for iPhone</a>",
+      "in_reply_to_status_id": null,
+      "in_reply_to_status_id_str": null,
+      "in_reply_to_user_id": null,
+      "in_reply_to_user_id_str": null,
+      "in_reply_to_screen_name": null,
+      "user": {
+        "id": 1006844551036731400,
+        "id_str": "1006844551036731393",
+        "name": "無能なボンブ@休暇中",
+        "screen_name": "itengr_matome",
+        "location": "",
+        "description": "『ITエンジニアのまとめ』の管理人の「ボンブ」(ﾟ∀ﾟ） #ITエンジニアの食事 をつぶやいてます。初学者には優しく現実を伝え、経験者とは現場の経験を語り合います。無能だけど有能っぽい発言するのが得意です(´・ω・)",
+        "url": "https://t.co/GouYbmnFT6",
+        "entities": {
+          "url": {
+            "urls": [
+              {
+                "url": "https://t.co/GouYbmnFT6",
+                "expanded_url": "https://itenginner-matome.net/",
+                "display_url": "itenginner-matome.net",
+                "indices": [
+                  0,
+                  23
+                ]
+              }
+            ]
+          },
+          "description": {
+            "urls": []
+          }
+        },
+        "protected": false,
+        "followers_count": 9037,
+        "friends_count": 7562,
+        "listed_count": 79,
+        "created_at": "Wed Jun 13 10:23:42 +0000 2018",
+        "favourites_count": 333132,
+        "utc_offset": null,
+        "time_zone": null,
+        "geo_enabled": false,
+        "verified": false,
+        "statuses_count": 104956,
+        "lang": null,
+        "contributors_enabled": false,
+        "is_translator": false,
+        "is_translation_enabled": false,
+        "profile_background_color": "000000",
+        "profile_background_image_url": "http://abs.twimg.com/images/themes/theme1/bg.png",
+        "profile_background_image_url_https": "https://abs.twimg.com/images/themes/theme1/bg.png",
+        "profile_background_tile": false,
+        "profile_image_url": "http://pbs.twimg.com/profile_images/1269882562589028352/7UOxRTe6_normal.jpg",
+        "profile_image_url_https": "https://pbs.twimg.com/profile_images/1269882562589028352/7UOxRTe6_normal.jpg",
+        "profile_banner_url": "https://pbs.twimg.com/profile_banners/1006844551036731393/1638091271",
+        "profile_link_color": "1B95E0",
+        "profile_sidebar_border_color": "000000",
+        "profile_sidebar_fill_color": "000000",
+        "profile_text_color": "000000",
+        "profile_use_background_image": false,
+        "has_extended_profile": false,
+        "default_profile": false,
+        "default_profile_image": false,
+        "following": false,
+        "follow_request_sent": false,
+        "notifications": false,
+        "translator_type": "none",
+        "withheld_in_countries": []
+      },
+      "geo": null,
+      "coordinates": null,
+      "place": null,
+      "contributors": null,
+      "is_quote_status": false,
+      "retweet_count": 1,
+      "favorite_count": 8,
+      "favorited": false,
+      "retweeted": false,
+      "lang": "ja"
+    },
+    "is_quote_status": false,
+    "retweet_count": 1,
+    "favorite_count": 0,
+    "favorited": false,
+    "retweeted": false,
+    "lang": "ja"
+  },
+  {
+    "created_at": "Sun Jun 05 23:31:13 +0000 2022",
+    "id": 1533592306468950000,
+    "id_str": "1533592306468950016",
+    "text": "生肉触りたくないのは変に潔癖だからなんですねー。だから既に切れてあるやつを買うんです。",
+    "truncated": false,
+    "entities": {
+      "hashtags": [],
+      "symbols": [],
+      "user_mentions": [],
+      "urls": []
+    },
+    "source": "<a href=\"http://twitter.com/download/iphone\" rel=\"nofollow\">Twitter for iPhone</a>",
+    "in_reply_to_status_id": 1533592044433965000,
+    "in_reply_to_status_id_str": "1533592044433965062",
+    "in_reply_to_user_id": 929893251389124600,
+    "in_reply_to_user_id_str": "929893251389124608",
+    "in_reply_to_screen_name": "potatopi1600",
+    "user": {
+      "id": 929893251389124600,
+      "id_str": "929893251389124608",
+      "name": "にこ",
+      "screen_name": "potatopi1600",
+      "location": "",
+      "description": "成り行きでデザインすることになったけど、楽しいので頑張りたい。完全に独学です。コーヒー屋さんlove",
+      "url": null,
+      "entities": {
+        "description": {
+          "urls": []
+        }
+      },
+      "protected": false,
+      "followers_count": 263,
+      "friends_count": 316,
+      "listed_count": 5,
+      "created_at": "Mon Nov 13 02:06:42 +0000 2017",
+      "favourites_count": 8354,
+      "utc_offset": null,
+      "time_zone": null,
+      "geo_enabled": false,
+      "verified": false,
+      "statuses_count": 12868,
+      "lang": null,
+      "contributors_enabled": false,
+      "is_translator": false,
+      "is_translation_enabled": false,
+      "profile_background_color": "000000",
+      "profile_background_image_url": "http://abs.twimg.com/images/themes/theme1/bg.png",
+      "profile_background_image_url_https": "https://abs.twimg.com/images/themes/theme1/bg.png",
+      "profile_background_tile": false,
+      "profile_image_url": "http://pbs.twimg.com/profile_images/1235883752292663296/3uJCNv5y_normal.jpg",
+      "profile_image_url_https": "https://pbs.twimg.com/profile_images/1235883752292663296/3uJCNv5y_normal.jpg",
+      "profile_banner_url": "https://pbs.twimg.com/profile_banners/929893251389124608/1605227646",
+      "profile_link_color": "1B95E0",
+      "profile_sidebar_border_color": "000000",
+      "profile_sidebar_fill_color": "000000",
+      "profile_text_color": "000000",
+      "profile_use_background_image": false,
+      "has_extended_profile": true,
+      "default_profile": false,
+      "default_profile_image": false,
+      "following": true,
+      "follow_request_sent": false,
+      "notifications": false,
+      "translator_type": "none",
+      "withheld_in_countries": []
+    },
+    "geo": null,
+    "coordinates": null,
+    "place": null,
+    "contributors": null,
+    "is_quote_status": false,
+    "retweet_count": 0,
+    "favorite_count": 0,
+    "favorited": false,
+    "retweeted": false,
+    "lang": "ja"
+  },
+  {
+    "created_at": "Sun Jun 05 23:31:08 +0000 2022",
+    "id": 1533592284880437200,
+    "id_str": "1533592284880437248",
+    "text": "おっす！おーっす！\n\n#こむぎ日常記録 #シヴァ犬こむぎっす #わらび #愛犬 #柴犬 #豆柴 https://t.co/uGGPDNVzQf",
+    "truncated": false,
+    "entities": {
+      "hashtags": [
+        {
+          "text": "こむぎ日常記録",
+          "indices": [
+            11,
+            19
+          ]
+        },
+        {
+          "text": "シヴァ犬こむぎっす",
+          "indices": [
+            20,
+            30
+          ]
+        },
+        {
+          "text": "わらび",
+          "indices": [
+            31,
+            35
+          ]
+        },
+        {
+          "text": "愛犬",
+          "indices": [
+            36,
+            39
+          ]
+        },
+        {
+          "text": "柴犬",
+          "indices": [
+            40,
+            43
+          ]
+        },
+        {
+          "text": "豆柴",
+          "indices": [
+            44,
+            47
+          ]
+        }
+      ],
+      "symbols": [],
+      "user_mentions": [],
+      "urls": [],
+      "media": [
+        {
+          "id": 1533592268317216800,
+          "id_str": "1533592268317216770",
+          "indices": [
+            48,
+            71
+          ],
+          "media_url": "http://pbs.twimg.com/media/FUhqCu9VUAIYyF3.jpg",
+          "media_url_https": "https://pbs.twimg.com/media/FUhqCu9VUAIYyF3.jpg",
+          "url": "https://t.co/uGGPDNVzQf",
+          "display_url": "pic.twitter.com/uGGPDNVzQf",
+          "expanded_url": "https://twitter.com/Shibamugi28/status/1533592284880437248/photo/1",
+          "type": "photo",
+          "sizes": {
+            "thumb": {
+              "w": 150,
+              "h": 150,
+              "resize": "crop"
+            },
+            "large": {
+              "w": 1536,
+              "h": 2048,
+              "resize": "fit"
+            },
+            "medium": {
+              "w": 900,
+              "h": 1200,
+              "resize": "fit"
+            },
+            "small": {
+              "w": 510,
+              "h": 680,
+              "resize": "fit"
+            }
+          }
+        }
+      ]
+    },
+    "extended_entities": {
+      "media": [
+        {
+          "id": 1533592268317216800,
+          "id_str": "1533592268317216770",
+          "indices": [
+            48,
+            71
+          ],
+          "media_url": "http://pbs.twimg.com/media/FUhqCu9VUAIYyF3.jpg",
+          "media_url_https": "https://pbs.twimg.com/media/FUhqCu9VUAIYyF3.jpg",
+          "url": "https://t.co/uGGPDNVzQf",
+          "display_url": "pic.twitter.com/uGGPDNVzQf",
+          "expanded_url": "https://twitter.com/Shibamugi28/status/1533592284880437248/photo/1",
+          "type": "photo",
+          "sizes": {
+            "thumb": {
+              "w": 150,
+              "h": 150,
+              "resize": "crop"
+            },
+            "large": {
+              "w": 1536,
+              "h": 2048,
+              "resize": "fit"
+            },
+            "medium": {
+              "w": 900,
+              "h": 1200,
+              "resize": "fit"
+            },
+            "small": {
+              "w": 510,
+              "h": 680,
+              "resize": "fit"
+            }
+          }
+        }
+      ]
+    },
+    "source": "<a href=\"http://twitter.com/download/iphone\" rel=\"nofollow\">Twitter for iPhone</a>",
+    "in_reply_to_status_id": null,
+    "in_reply_to_status_id_str": null,
+    "in_reply_to_user_id": null,
+    "in_reply_to_user_id_str": null,
+    "in_reply_to_screen_name": null,
+    "user": {
+      "id": 1303229581587964000,
+      "id_str": "1303229581587963909",
+      "name": "シヴァ犬こむぎっす",
+      "screen_name": "Shibamugi28",
+      "location": "こむぎっすYouTube☟",
+      "description": "こむぎ：男の子 【職 業】柴犬(2歳) 【誕生日】 2020/05/28🎂 【性格】ツンデレボーイ、優しい＊*＊わらび：女の子 【職 業】豆柴(0歳5ヵ月) 【誕生日】 2021/12/30🎂 【性格】好奇心旺盛 、甘えん坊＊* ＊*⚠️転載禁止 ※パパさんと間違えられますが、ママメインで更新してます",
+      "url": "https://t.co/tu9uGeRafi",
+      "entities": {
+        "url": {
+          "urls": [
+            {
+              "url": "https://t.co/tu9uGeRafi",
+              "expanded_url": "https://www.youtube.com/channel/UCtq-YnnMcvIB3MFF8zfl1-Q",
+              "display_url": "youtube.com/channel/UCtq-Y…",
+              "indices": [
+                0,
+                23
+              ]
+            }
+          ]
+        },
+        "description": {
+          "urls": []
+        }
+      },
+      "protected": false,
+      "followers_count": 38189,
+      "friends_count": 3698,
+      "listed_count": 479,
+      "created_at": "Tue Sep 08 07:12:31 +0000 2020",
+      "favourites_count": 55109,
+      "utc_offset": null,
+      "time_zone": null,
+      "geo_enabled": false,
+      "verified": false,
+      "statuses_count": 36059,
+      "lang": null,
+      "contributors_enabled": false,
+      "is_translator": false,
+      "is_translation_enabled": false,
+      "profile_background_color": "F5F8FA",
+      "profile_background_image_url": null,
+      "profile_background_image_url_https": null,
+      "profile_background_tile": false,
+      "profile_image_url": "http://pbs.twimg.com/profile_images/1508636773437493254/RuLZ8jSl_normal.jpg",
+      "profile_image_url_https": "https://pbs.twimg.com/profile_images/1508636773437493254/RuLZ8jSl_normal.jpg",
+      "profile_banner_url": "https://pbs.twimg.com/profile_banners/1303229581587963909/1646464909",
+      "profile_link_color": "1DA1F2",
+      "profile_sidebar_border_color": "C0DEED",
+      "profile_sidebar_fill_color": "DDEEF6",
+      "profile_text_color": "333333",
+      "profile_use_background_image": true,
+      "has_extended_profile": false,
+      "default_profile": true,
+      "default_profile_image": false,
+      "following": true,
+      "follow_request_sent": false,
+      "notifications": false,
+      "translator_type": "none",
+      "withheld_in_countries": []
+    },
+    "geo": null,
+    "coordinates": null,
+    "place": null,
+    "contributors": null,
+    "is_quote_status": false,
+    "retweet_count": 5,
+    "favorite_count": 52,
+    "favorited": false,
+    "retweeted": false,
+    "possibly_sensitive": false,
+    "possibly_sensitive_appealable": false,
+    "lang": "ja"
+  }
+]

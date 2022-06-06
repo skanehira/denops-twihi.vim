@@ -124,21 +124,21 @@ export async function actionOpen(tweet: Timeline) {
 export const actionUploadMedia = async (
   denops: Denops,
 ): Promise<Media | undefined> => {
-  const input = await helper.input(denops, {
-    prompt: "upload media: ",
-    completion: "file",
-  });
-  if (input) {
-    console.log("uploading...");
-    let data: Uint8Array;
-    if (input === "--clipboard") {
-      data = await streams.readAll(await clipboard.read());
-    } else {
-      data = await Deno.readFile(input);
-    }
-    const media = await uploadMedia(data);
-    return media;
+  let data: Uint8Array;
+
+  const file = await vars.b.get(denops, "twitter_media", "");
+  if (file) {
+    data = await Deno.readFile(file);
+  } else if (await vars.b.get(denops, "twitter_media_clipboard")) {
+    data = await streams.readAll(await clipboard.read());
+  } else {
+    // do nothing
+    return;
   }
+
+  console.log("uploading...");
+  const media = await uploadMedia(data);
+  return media;
 };
 
 export const actionTweet = async (
