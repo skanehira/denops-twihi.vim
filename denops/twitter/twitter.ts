@@ -20,8 +20,11 @@ export const loadConfig = async (): Promise<void> => {
     consumer,
     token,
   );
+  const uploadPrefix = Deno.env.get("TEST_UPLOAD_ENDPOINT") ??
+    "https://upload.twitter.com/1.1";
+
   uploadAPI = newTwitterAPI(
-    "https://upload.twitter.com/1.1",
+    uploadPrefix,
     consumer,
     token,
   );
