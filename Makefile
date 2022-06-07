@@ -22,7 +22,7 @@ test-local: down-mock up-mock
 		DENOPS_TEST_VIM=$$(which vim) \
 		TEST_ENDPOINT=http://localhost:8080 \
 		TEST_LOCAL=true \
-		deno test -A --unstable --coverage=cov
+		deno test -A --unstable
 
 .PHONY: test
 test: up-mock
