@@ -5,26 +5,19 @@ import { RequestOptions } from "https://raw.githubusercontent.com/snsinfu/deno-o
 import { base64 } from "./deps.ts";
 
 export let twitterAPI: TwitterAPI;
-export let uploadAPI: TwitterAPI;
+export const endpoint = {
+  api: Deno.env.get("TEST_ENDPOINT") ?? "https://api.twitter.com/1.1",
+  upload: Deno.env.get("TEST_ENDPOINT") ?? "https://upload.twitter.com/1.1",
+};
 
 export const loadConfig = async (): Promise<void> => {
   const config = await readConfig();
-  const prefix = Deno.env.get("TEST_ENDPOINT") ?? "https://api.twitter.com/1.1";
   const consumer = {
     key: config.consumerAPIKey,
     secret: config.consumerAPISecret,
   };
   const token = { key: config.accessToken, secret: config.accessTokenSecret };
   twitterAPI = newTwitterAPI(
-    prefix,
-    consumer,
-    token,
-  );
-  const uploadPrefix = Deno.env.get("TEST_UPLOAD_ENDPOINT") ??
-    "https://upload.twitter.com/1.1";
-
-  uploadAPI = newTwitterAPI(
-    uploadPrefix,
     consumer,
     token,
   );
@@ -42,14 +35,16 @@ const apiCall = async <T>(
   opts: RequestOptions,
 ): Promise<T> => {
   opts.token = twitterAPI.token;
-  const resp = await twitterAPI.client.request(method, url, opts);
+  const resp = await twitterAPI.client.request(
+    method,
+    endpoint.api + url,
+    opts,
+  );
   if (!resp.ok) {
     throw new Error(`status: ${resp.statusText}, body: ${await resp.text()}`);
   }
-  const body = resp.json();
-  const json = JSON.stringify(body, null, " ");
-  Deno.writeFile("golden.json", new TextEncoder().encode(json));
-  return await body as T;
+  const body = await resp.json();
+  return body as T;
 };
 
 export type HomeTimelineOptions = {
@@ -113,7 +108,7 @@ export const likeTweet = async (id: string): Promise<void> => {
 };
 
 export const retweet = async (id: string): Promise<void> => {
-  await apiCall("POST", `/statuses/retweet/${id}.json`, {});
+  return await apiCall("POST", `/statuses/retweet/${id}.json`, {});
 };
 
 export type MentionsOptions = {
@@ -137,12 +132,16 @@ export const uploadMedia = async (
   data: Uint8Array,
 ): Promise<Media> => {
   const b64 = base64.encode(data);
-  const resp = await uploadAPI.client.request("POST", "/media/upload.json", {
-    token: uploadAPI.token,
-    form: {
-      "media_data": b64,
+  const resp = await twitterAPI.client.request(
+    "POST",
+    endpoint.upload + "/media/upload.json",
+    {
+      token: twitterAPI.token,
+      form: {
+        "media_data": b64,
+      },
     },
-  });
+  );
 
   if (!resp.ok) {
     throw new Error(`status: ${resp.statusText}, body: ${await resp.text()}`);

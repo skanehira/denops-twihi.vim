@@ -18,7 +18,7 @@ import {
   stringWidth,
   vars,
 } from "./deps.ts";
-import { Media, Timeline } from "./type.d.ts";
+import { Media, Timeline, Update } from "./type.d.ts";
 
 type TimelineType = "home" | "user" | "mentions";
 
@@ -56,15 +56,15 @@ export const getTimeline = async (
   switch (timelineType) {
     case "user":
       timelines = await userTimeline({
-        count: "30",
+        count: "100",
         screen_name: screenName,
       });
       break;
     case "home":
-      timelines = await homeTimeline({ count: "30" });
+      timelines = await homeTimeline({ count: "100" });
       break;
     case "mentions":
-      timelines = await mentionsTimeline({ count: "30" });
+      timelines = await mentionsTimeline({ count: "100" });
       break;
   }
 
@@ -132,6 +132,7 @@ export const actionUploadMedia = async (
 ): Promise<Media | undefined> => {
   let data: Uint8Array;
 
+  console.log("media uploading...");
   const file = await vars.b.get(denops, "twitter_media", "");
   if (file) {
     data = await Deno.readFile(file);
@@ -142,7 +143,6 @@ export const actionUploadMedia = async (
     return;
   }
 
-  console.log("uploading...");
   const media = await uploadMedia(data);
   return media;
 };
@@ -150,7 +150,7 @@ export const actionUploadMedia = async (
 export const actionTweet = async (
   denops: Denops,
   text: string,
-): Promise<void> => {
+): Promise<Update> => {
   const width = stringWidth(text);
   if (width > 280) {
     throw new Error("characters must be less than 280");
@@ -163,8 +163,9 @@ export const actionTweet = async (
     opts.media_ids = media.media_id_string;
   }
   console.log("tweeting...");
-  await statusesUpdate(opts);
+  const resp = await statusesUpdate(opts);
   await denops.cmd("echo '' | bw!");
+  return resp;
 };
 
 export const actionLike = async (denops: Denops, id: string): Promise<void> => {
@@ -178,7 +179,6 @@ export const actionLike = async (denops: Denops, id: string): Promise<void> => {
   const timeline = timelines[num - 1];
   timeline.favorited = true;
   await vars.b.set(denops, "twitter_timelines", timelines);
-  await vars.b.set(denops, "twitter_force_preview", true);
   await denops.call("twitter#preview", true);
 };
 
@@ -219,18 +219,13 @@ export const actionRetweet = async (
   const timeline = timelines[num - 1];
   timeline.retweeted = true;
   await vars.b.set(denops, "twitter_timelines", timelines);
-  await vars.b.set(denops, "twitter_force_preview", true);
   await denops.call("twitter#preview", true);
   await denops.cmd("echo ''");
 };
 
 export const actionRetweetWithComment = async (
   denops: Denops,
-  tweet: Timeline,
   text: string,
 ): Promise<void> => {
-  const url =
-    `https://twitter.com/${tweet.user.screen_name}/status/${tweet.id_str}`;
-  text = text + "\n" + url;
   await actionTweet(denops, text);
 };

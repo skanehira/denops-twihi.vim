@@ -10,7 +10,6 @@ export type TwitterAPI = {
 };
 
 export const newTwitterAPI = (
-  prefix: string,
   consumer: {
     key: string;
     secret: string;
@@ -21,7 +20,6 @@ export const newTwitterAPI = (
   },
 ): TwitterAPI => {
   const client = new oauth.Api({
-    prefix: prefix,
     consumer: { key: consumer.key, secret: consumer.secret },
     signature: oauth.HMAC_SHA1,
   });

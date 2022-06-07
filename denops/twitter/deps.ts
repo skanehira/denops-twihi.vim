@@ -17,3 +17,4 @@ export * as streams from "https://deno.land/std@0.142.0/streams/mod.ts";
 export * as helper from "https://deno.land/x/denops_std@v3.3.1/helper/mod.ts";
 export * from "https://deno.land/x/denops_std@v3.3.1/test/mod.ts";
 export * as http from "https://deno.land/std@0.142.0/http/mod.ts";
+export * from "https://deno.land/std@0.142.0/async/delay.ts";

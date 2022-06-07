@@ -82,8 +82,13 @@ COMMANDS					*twitter-commands*
 :TwitterTimeline {userid}			*:TwitterTimeline*
   Open the user's timeline
 
-:TwitterTweet					*:TwitterTweet*
+:TwitterTweet {file}				*:TwitterTweet*
   Open tweet buffer
+  If you want to tweet with some image, please input {file}
+  {file} must be media file(like *.png) or '--clipboard'
+  '--clipboard' will use image data from clipboard.
+
+  NOTE: When you want use clipboard on Linux, pelase install xclip
 
 :TwitterEditConfig				*:TwitterEditConfig*
   Open config.
@@ -129,29 +134,29 @@ twitter://mentions
 twitter://tweet						*twitter-buffer-tweet*
   Post tweet
   The buffer contents will be post when you type |:write|
-  When you want to upload media, please input file path 
-  or '--clipboard' after |:write|
-  If '--clipboard' be inputed, then clipboard's image will be used.
   If tweet is successed, the buffer will be deleted
 
   This is same as |:TwitterTimeline|
-
-  NOTE: When you use clipboard on Linux, you have to install xclip
 
 twitter://reply						*twitter-buffer-reply*
   Reply to tweet
   The buffer contents will be post when you type |:write|
   If reply is successed, the buffer will be deleted
 
-  NOTE: This buffer only avalaible from <Plug>(twitter:tweet:reply)
+  NOTE: This buffer only avalaible from bellow keymaps
+    * <Plug>(twitter:reply)
+    * <Plug>(twitter:reply:media)
+    * <Plug>(twitter:reply:media:clipboard)
 
 twitter://rewteet					*twitter-buffer-rewteet*
   Retweet the tweet
   The buffer contents will be post when you type |:write|
   If retweet is successed, the buffer will be deleted
 
-  NOTE: This buffer only avalaible from <Plug>(twitter:tweet:retweet:comment)
-  NOTE: Retweet body includes origin tweet url finally
+  NOTE: This buffer only avalaible from bellow keymaps
+    * <Plug>(twitter:retweet:comment)
+    * <Plug>(twitter:retweet:comment:media)
+    * <Plug>(twitter:retweet:comment:media:clipboard)
 
 ------------------------------------------------------------------------------
 KEY-MAPPINGS					*twitter-key-mappings*
@@ -159,24 +164,40 @@ KEY-MAPPINGS					*twitter-key-mappings*
 KEY-MAPPINGS-TIMELINE				*twitter-key-mappings-timeline*
 You can do some actions in the bellow buffers.
 
-  |twitter-buffer-timeline| 
+  |twitter-buffer-timeline|
   |twitter-buffer-home|
   |twitter-buffer-mentions|
 
-  <Plug>(twitter:tweet:open)			*<Plug>(twitter:tweet:open)*
+  *<Plug>(twitter:action)*
+    Choose action
+
+  *<Plug>(twitter:tweet:open)*
     Open tweet in browser
-  
-  <Plug>(twitter:tweet:like)			*<Plug>(twitter:tweet:like)*
+
+  *<Plug>(twitter:tweet:like)*
     Add like to the tweet
 
-  <Plug>(twitter:tweet:reply)			*<Plug>(twitter:tweet:reply)*
-    Open |twitter-buffer-reply|
+  *<Plug>(twitter:reply)*
+    Reply the tweet
 
-  <Plug>(twitter:tweet:retweet)			*<Plug>(twitter:tweet:retweet)*
+  *<Plug>(twitter:reply:media)*
+    Reply the tweet with image file
+
+  *<Plug>(twitter:reply:media:clipboard)*
+    Reply with image(from clipboard)
+
+  *<Plug>(twitter:retweet)*
     Retweet the tweet
 
-  <Plug>(twitter:tweet:retweet:comment)		*<Plug>(twitter:tweet:retweet:comment)*
+  *<Plug>(twitter:retweet:comment)*
     Retweet the tweet with comment
+
+  *<Plug>(twitter:retweet:comment:media)*
+    Retweet the tweet with comment and image file
+
+  *<Plug>(twitter:retweet:comment:media:clipboard)*
+    Retweet the tweet with comment and image(from clipboard)
+
 
 ------------------------------------------------------------------------------
 FUNCTIONS					*twitter-functions*
