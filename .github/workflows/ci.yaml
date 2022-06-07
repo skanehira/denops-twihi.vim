@@ -13,7 +13,7 @@ jobs:
     strategy:
       matrix:
         deno-version: [v1.x]
-        os: [ubuntu-latest, windows-latest, macos-latest]
+        os: [ubuntu-latest]
     name: deno lint
     runs-on: ${{ matrix.os }}
     steps:
@@ -27,7 +27,7 @@ jobs:
     strategy:
       matrix:
         runner:
-          - windows-latest
+          #- windows-latest
           - macos-latest
           - ubuntu-latest
         version:
@@ -69,8 +69,22 @@ jobs:
         run: |
           git clone https://github.com/vim-denops/denops.vim $HOME/denops.vim
           echo "::set-output name=path::$HOME/denops.vim"
+      - name: Setup config
+        if: runner.os != 'Windows'
+        run: |
+          mkdir -p $HOME/.config/denops_twitter
+          cat <<EOF > $HOME/.config/denops_twitter/config.json
+          {
+            "consumerAPIKey": "aaaaa",
+            "consumerAPISecret": "bbbbbbbbbbbb",
+            "accessToken": "ccccccccccc",
+            "accessTokenSecret": "dddddddddddddd"
+          }
+          EOF
       - name: Test
         run: |
+          export TZ=Asia/Tokyo
+          export XDG_CONFIG_HOME=$HOME/.config
           make test
         env:
           DENOPS_TEST_VIM: ${{ steps.vim.outputs.executable_path }}

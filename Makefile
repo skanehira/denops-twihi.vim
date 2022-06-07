@@ -21,11 +21,12 @@ test-local: down-mock up-mock
 		DENOPS_TEST_NVIM=$$(which nvim) \
 		DENOPS_TEST_VIM=$$(which vim) \
 		TEST_ENDPOINT=http://localhost:8080 \
+		TEST_LOCAL=true \
 		deno test -A --unstable --coverage=cov
 
 .PHONY: test
 test: up-mock
-	@deno test -A --unstable
+	@TEST_ENDPOINT=http://localhost:8080 deno test -A --unstable
 
 .PHONY: deps
 deps:

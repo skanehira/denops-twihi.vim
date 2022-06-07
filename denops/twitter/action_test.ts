@@ -125,6 +125,7 @@ test({
 
 test({
   mode: "all",
+  ignore: Deno.env.get("TEST_LOCAL") !== "true",
   name: "post tweet with media from clipboard",
   fn: async (denops: Denops) => {
     await load(denops, autoloadDir);
