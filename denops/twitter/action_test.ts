@@ -1,6 +1,13 @@
-import { Denops, helper, path, test } from "./deps.ts";
-import { actionOpenTimeline } from "./action.ts";
-import { mockServer } from "./mock/server.ts";
+import {
+  assertEquals,
+  clipboard,
+  Denops,
+  helper,
+  path,
+  test,
+  vars,
+} from "./deps.ts";
+import { actionOpenTimeline, actionTweet } from "./action.ts";
 import { assertEqualTextFile } from "./_util/assert.ts";
 
 const pluginRoot = path.dirname(
@@ -34,25 +41,13 @@ const testdataDir = path.join(
   "testdata",
 );
 
-const host = "localhost";
-const port = 12345;
-
 test({
   mode: "all",
   name: "open home timeline",
   fn: async (denops: Denops) => {
     await load(denops, autoloadDir);
 
-    const server = mockServer(host, port, async (_req: Request) => {
-      const respBody = await Deno.readTextFile(
-        path.join("denops", "twitter", "testdata", "homeTimeline.json"),
-      );
-      return new Response(respBody, {
-        headers: { "Content-Type": "application/json" },
-      });
-    });
     await actionOpenTimeline(denops, "home");
-    server.close();
 
     const actual = await denops.call("getline", 1, "$") as string[];
     const expectFile = path.join(
@@ -92,5 +87,63 @@ test({
       );
       await assertEqualTextFile(newPreview.join("\n"), expectNewPreivew);
     }
+  },
+});
+
+test({
+  mode: "all",
+  name: "post tweet",
+  fn: async (denops: Denops) => {
+    await load(denops, autoloadDir);
+
+    const want = "hello world";
+    const resp = await actionTweet(denops, want);
+    assertEquals(resp.text, want);
+  },
+});
+
+test({
+  mode: "all",
+  name: "post tweet with media",
+  fn: async (denops: Denops) => {
+    await load(denops, autoloadDir);
+
+    const want = {
+      text: "tweet with media",
+      media_id: "3a117ca7799fffa26f62d9a13a9144a1",
+    };
+    const mediaFile = path.join(testdataDir, "test.png");
+    vars.b.set(denops, "twitter_media", mediaFile);
+    const resp = await actionTweet(denops, want.text);
+    const actual = {
+      text: resp.text,
+      media_id: resp.entities.media[0].id_str,
+    };
+    assertEquals(actual, want);
+  },
+});
+
+test({
+  mode: "all",
+  ignore: Deno.env.get("TEST_LOCAL") !== "true",
+  name: "post tweet with media from clipboard",
+  fn: async (denops: Denops) => {
+    await load(denops, autoloadDir);
+
+    const want = {
+      text: "tweet with media",
+      media_id: "3a117ca7799fffa26f62d9a13a9144a1",
+    };
+    const mediaFile = path.join(testdataDir, "test.png");
+    const file = await Deno.open(mediaFile);
+    await clipboard.write(file);
+    file.close();
+    vars.b.set(denops, "twitter_media_clipboard", true);
+    const resp = await actionTweet(denops, want.text);
+    const actual = {
+      text: resp.text,
+      media_id: resp.entities.media[0].id_str,
+    };
+    assertEquals(actual, want);
   },
 });

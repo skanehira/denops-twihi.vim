@@ -37,6 +37,12 @@ export async function main(denops: Denops): Promise<void> {
 
     helper.define(
       "BufReadCmd",
+      "twitter://retweet",
+      "setlocal ft=twitter-retweet buftype=acwrite",
+    );
+
+    helper.define(
+      "BufReadCmd",
       "twitter://tweet",
       "setlocal ft=twitter-tweet buftype=acwrite",
     );
@@ -111,8 +117,8 @@ export async function main(denops: Denops): Promise<void> {
       await actionRetweet(denops, (tweet as Timeline).id_str);
     },
 
-    async retweetWithComment(tweet: unknown, text: unknown): Promise<void> {
-      await actionRetweetWithComment(denops, tweet as Timeline, text as string);
+    async retweetWithComment(text: unknown): Promise<void> {
+      await actionRetweetWithComment(denops, text as string);
     },
   };
 }

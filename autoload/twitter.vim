@@ -26,12 +26,49 @@ function! twitter#timeline(type, ...) abort
   endif
 endfunction
 
-function! twitter#tweet_with_media(...) abort
+function! twitter#tweet(...) abort
   new twitter://tweet
-  if a:0 ==# 0
-    let b:twitter_media_clipboard = v:true
-  else
-    let b:twitter_media = a:1
+  if a:0 ==# 1
+    if a:1 ==# "--clipboard"
+      let b:twitter_media_clipboard = v:true
+    else
+      let b:twitter_media = a:1
+    endif
+  endif
+endfunction
+
+function! twitter#reply(...) abort
+  let tweet = b:twitter_timelines[line(".")-1]
+  new twitter://reply
+  let b:twitter_reply_tweet = tweet
+  call setline(1, ["@" .. tweet.user.screen_name, ""])
+  call feedkeys("A ")
+  setlocal nomodified
+  if a:0 ==# 1
+    if a:1 ==# "--clipboard"
+      let b:twitter_media_clipboard = v:true
+    else
+      let b:twitter_media = a:1
+    endif
+  endif
+endfunction
+
+function! twitter#retweet_comment(...) abort
+  let tweet = b:twitter_timelines[line(".")-1]
+  new twitter://retweet
+
+  " when retweet with comment, tweet body must includes original tweet url.
+  let url = printf("https://twitter.com/%s/status/%s", tweet.user.screen_name, tweet.id_str)
+  call setline(1, ["", url])
+  call feedkeys("A")
+
+  setlocal nomodified
+  if a:0 ==# 1
+    if a:1 ==# "--clipboard"
+      let b:twitter_media_clipboard = v:true
+    else
+      let b:twitter_media = a:1
+    endif
   endif
 endfunction
 
@@ -50,7 +87,7 @@ function! twitter#preview(force) abort
   call setbufline(bufnr, 1, tweetBody)
 
   if bufwinid(bufnr) ==# -1
-    let curwin = win_getid() 
+    let curwin = win_getid()
     keepjumps silent exe "botright vnew" t:twitter_preview_bufname
     setlocal buftype=nofile ft=twitter-preview
     nnoremap <buffer> <silent> q :bw!<CR>
@@ -89,4 +126,65 @@ function! twitter#close_preview() abort
   if has_key(t:, "twitter_preview_bufname") && bufexists(t:twitter_preview_bufname)
     exe "bw!" t:twitter_preview_bufname
   endif
+endfunction
+
+function! twitter#open() abort
+  let tweet = b:twitter_timelines[line(".")-1]
+  call denops#notify("twitter", "open", [tweet])
+endfunction
+
+function! twitter#retweet() abort
+  let tweet = b:twitter_timelines[line(".")-1]
+  call denops#notify("twitter", "retweet", [tweet])
+endfunction
+
+function! twitter#like() abort
+  let tweet = b:twitter_timelines[line(".")-1]
+  call denops#notify("twitter", "like", [tweet])
+endfunction
+
+let s:action_list = {
+      \ "open": function("twitter#open"),
+      \ "retweet": function("twitter#retweet"),
+      \ "like": function("twitter#like"),
+      \ "reply": function("twitter#reply"),
+      \ "reply:media": function("twitter#reply"),
+      \ "reply:media:clipboard": function("twitter#reply"),
+      \ "retweet:comment": function("twitter#retweet_comment"),
+      \ "retweet:comment:media": function("twitter#retweet_comment"),
+      \ "retweet:comment:clipboard": function("twitter#retweet_comment"),
+      \ }
+
+function! twitter#action_list(x, l, p) abort
+  if a:l ==# ""
+    return keys(s:action_list)
+  endif
+  let result = filter(keys(s:action_list), { _, v ->  v =~# "^" .. a:l })
+  return result
+endfunction
+
+function! twitter#choose_action() abort
+  let action = input("action: ", "", "customlist,twitter#action_list")
+  if action ==# ""
+    return
+  endif
+  call twitter#do_action(action)
+endfunction
+
+function! twitter#do_action(action) abort
+  if a:action ==# ""
+    return
+  endif
+  let args = []
+  if a:action =~# "clipboard$"
+    call add(args, "--clipboard")
+  elseif a:action =~# "media$"
+    let file = input("media: ", "", "file")
+    if file ==# ""
+      echom "[twitter.vim] cancel"
+      return
+    endif
+    call add(args, file)
+  endif
+  call call(s:action_list[a:action], args)
 endfunction
