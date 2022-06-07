@@ -44,7 +44,7 @@ export function tweets2lines(
       return col;
     }).join(" ")
   );
-  return [Math.max(...len) * 2.7, lines];
+  return [Math.max(...lines.map((line) => stringWidth(line))), lines];
 }
 
 export const getTimeline = async (
@@ -89,9 +89,11 @@ export const actionOpenTimeline = async (
   await vars.b.set(denops, "twitter_timelines", timelines);
 
   const tweets = timelines.map((timeline) => {
-    const name = timeline.user.name;
+    const name = [...timeline.user.name];
     return {
-      name: `[${stringWidth(name) > 10 ? name.slice(0, 10) + "…" : name}]`,
+      name: `[${
+        name.length > 10 ? name.slice(0, 8).join("") + "…" : name.join("")
+      }]`,
       screen_name: `@${timeline.user.screen_name}`,
       created_at: datetime.format(
         new Date(timeline.created_at),
