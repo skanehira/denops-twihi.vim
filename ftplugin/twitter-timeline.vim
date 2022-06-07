@@ -25,9 +25,9 @@ nnoremap <buffer> <silent> <Plug>(twitter:reply:media)
 nnoremap <buffer> <silent> <Plug>(twitter:reply:media:clipboard)
       \ <Cmd>call twitter#do_action("reply:media:clipboard")<CR>
 
-nnorema <buffer> <silent> <Plug>(twitter:retweet:comment)
-      \ <Cmd>call twitter#do_action("retweet:comment")<CR>
-nnorema <buffer> <silent> <Plug>(twitter:retweet:comment:media)
-      \ <Cmd>call twitter#do_action("retweet:comment:media")<CR>
-nnorema <buffer> <silent> <Plug>(twitter:retweet:comment:clipboard)
+nnoremap <buffer> <silent> <Plug>(twitter:retweet:comment)
+      \  <Cmd>call twitter#do_action("retweet:comment")<CR>
+nnoremap <buffer> <silent> <Plug>(twitter:retweet:comment:media)
+      \  <Cmd>call twitter#do_action("retweet:comment:media")<CR>
+nnoremap <buffer> <silent> <Plug>(twitter:retweet:comment:clipboard)
       \ <Cmd>call twitter#do_action("retweet:comment:media:clipboard")<CR>
