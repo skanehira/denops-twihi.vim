@@ -143,7 +143,15 @@ function! twitter#like() abort
   call denops#notify("twitter", "like", [tweet])
 endfunction
 
+function! twitter#yank() abort
+  let tweet = b:twitter_timelines[line(".")-1]
+  let url = printf("https://twitter.com/%s/status/%s", tweet.user.screen_name, tweet.id_str)
+  call setreg(v:register, url)
+  echom "yank: " .. url
+endfunction
+
 let s:action_list = {
+      \ "yank": function("twitter#yank"),
       \ "open": function("twitter#open"),
       \ "retweet": function("twitter#retweet"),
       \ "like": function("twitter#like"),
@@ -168,6 +176,7 @@ function! twitter#choose_action() abort
   if action ==# ""
     return
   endif
+  echom '' | redraw!
   call twitter#do_action(action)
 endfunction
 
@@ -181,7 +190,7 @@ function! twitter#do_action(action) abort
   elseif a:action =~# "media$"
     let file = input("media: ", "", "file")
     if file ==# ""
-      echom "[twitter.vim] cancel"
+      echom "cancel"
       return
     endif
     call add(args, file)

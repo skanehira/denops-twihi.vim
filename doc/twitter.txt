@@ -177,6 +177,9 @@ You can do some actions in the bellow buffers.
   *<Plug>(twitter:tweet:like)*
     Add like to the tweet
 
+  *<Plug>(twitter:tweet:yank)*
+    Copy tweet's url to clipboard
+
   *<Plug>(twitter:reply)*
     Reply the tweet
 
