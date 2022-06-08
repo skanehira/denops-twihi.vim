@@ -9,6 +9,12 @@ const app = new Application();
 const router = new Router();
 
 router
+  .post("/statuses/retweet/:id", (context) => {
+    context.response.body = timeline;
+  })
+  .post("/favorites/create.json", (context) => {
+    context.response.body = timeline;
+  })
   .post("/media/upload.json", async (context) => {
     const form = await context.request.body({ type: "form" }).value;
     const hash = createHash("md5");
@@ -18,7 +24,6 @@ router
   })
   .post("/statuses/update.json", (context) => {
     const params = context.request.url.searchParams;
-    console.log(params.toString());
     const status = params.get("status");
     if (status) {
       timeline.text = status!;
