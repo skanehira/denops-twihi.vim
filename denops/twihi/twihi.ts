@@ -1,5 +1,5 @@
 import { newTwitterAPI, TwitterAPI } from "./api.ts";
-import { Media, Timeline, Update } from "./type.d.ts";
+import { Media, SearchResult, Timeline, Update } from "./type.d.ts";
 import { readConfig } from "./config.ts";
 import { RequestOptions } from "https://raw.githubusercontent.com/snsinfu/deno-oauth-1.0a/main/extra/mod.ts";
 import { base64 } from "./deps.ts";
@@ -148,4 +148,17 @@ export const uploadMedia = async (
   }
   const media = await resp.json();
   return media;
+};
+
+export const searchTweets = async (
+  q: string,
+): Promise<SearchResult> => {
+  const resp = await apiCall<SearchResult>("GET", "/search/tweets.json", {
+    query: {
+      q,
+      count: "100",
+    },
+  });
+
+  return resp;
 };

@@ -35,6 +35,12 @@ export async function main(denops: Denops): Promise<void> {
     );
 
     helper.define(
+      "BufWriteCmd",
+      "twihi://search",
+      `call denops#notify("${denops.name}", "search", [])`,
+    );
+
+    helper.define(
       "BufReadCmd",
       "twihi://retweet",
       "setlocal ft=twihi-retweet buftype=acwrite",
@@ -70,7 +76,16 @@ export async function main(denops: Denops): Promise<void> {
       const bufname = await denops.call("bufname") as string;
       const screenName = bufname.replace("twihi://timeline/", "");
       console.log("loading...");
-      await actionOpenTimeline(denops, "user", screenName);
+      await actionOpenTimeline(denops, "user", { screenName });
+      await denops.cmd("echo '' | redraw!");
+    },
+
+    async search(): Promise<void> {
+      const line = await denops.call("getline", 1);
+      await denops.cmd("set nomodified");
+      await denops.cmd("q | tabnew twihi://search/result");
+      console.log("searching...");
+      await actionOpenTimeline(denops, "search", { query: line as string });
       await denops.cmd("echo '' | redraw!");
     },
 

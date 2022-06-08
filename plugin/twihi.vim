@@ -7,6 +7,7 @@ if exists('loaded_twihi')
 endif
 let g:loaded_twihi = 1
 
+command! TwihiSearch call twihi#timeline("search")
 command! -nargs=? TwihiHome call twihi#timeline("home")
 command! -nargs=1 TwihiTimeline call twihi#timeline("user", <f-args>)
 command! TwihiMentions call twihi#timeline("mentions")

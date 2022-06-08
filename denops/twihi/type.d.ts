@@ -40,3 +40,5 @@ export interface Update extends Omit<StatusesUpdate, "entities"> {
   entities: Entities;
 }
 export type Media = MediaUpload;
+
+export type SearchResult = { statuses: Timeline[] };

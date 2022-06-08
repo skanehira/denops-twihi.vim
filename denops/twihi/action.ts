@@ -3,6 +3,7 @@ import {
   likeTweet,
   mentionsTimeline,
   retweet,
+  searchTweets,
   statusesUpdate,
   StatusesUpdateOptions,
   uploadMedia,
@@ -20,7 +21,7 @@ import {
 } from "./deps.ts";
 import { Media, Timeline, Update } from "./type.d.ts";
 
-type TimelineType = "home" | "user" | "mentions";
+type TimelineType = "home" | "user" | "mentions" | "search";
 
 export function tweets2lines(
   objs: Record<string, string>[],
@@ -47,9 +48,14 @@ export function tweets2lines(
   return [Math.max(...lines.map((line) => stringWidth(line))), lines];
 }
 
+export type GetTimelineOpts = {
+  screenName?: string;
+  query?: string;
+};
+
 export const getTimeline = async (
   timelineType: TimelineType,
-  screenName?: string,
+  opts?: GetTimelineOpts,
 ): Promise<Timeline[]> => {
   let timelines: Timeline[];
 
@@ -57,7 +63,7 @@ export const getTimeline = async (
     case "user":
       timelines = await userTimeline({
         count: "100",
-        screen_name: screenName,
+        screen_name: opts!.screenName,
       });
       break;
     case "home":
@@ -65,6 +71,12 @@ export const getTimeline = async (
       break;
     case "mentions":
       timelines = await mentionsTimeline({ count: "100" });
+      break;
+    case "search":
+      {
+        const result = await searchTweets(opts!.query!);
+        timelines = result.statuses;
+      }
       break;
   }
 
@@ -77,7 +89,7 @@ export const getTimeline = async (
 export const actionOpenTimeline = async (
   denops: Denops,
   timelineType: TimelineType,
-  screenName?: string,
+  opts?: GetTimelineOpts,
 ): Promise<void> => {
   await vars.b.set(denops, "twihi_timeline_type", timelineType);
 
@@ -85,7 +97,7 @@ export const actionOpenTimeline = async (
     "setlocal buftype=nofile nomodified modifiable ft=twihi-timeline nowrap",
   );
 
-  const timelines = await getTimeline(timelineType, screenName);
+  const timelines = await getTimeline(timelineType, opts);
   await vars.b.set(denops, "twihi_timelines", timelines);
 
   const tweets = timelines.map((timeline) => {

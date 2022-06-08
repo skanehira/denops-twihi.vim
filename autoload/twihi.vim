@@ -24,6 +24,8 @@ function! twihi#timeline(type, ...) abort
     let bufname = "twihi://home"
   elseif a:type ==# "mentions"
     let bufname = "twihi://mentions"
+  elseif a:type ==# "search"
+    let bufname = "twihi://search"
   endif
   let winList = win_findbuf(bufnr(bufname))
   if empty(winList)
