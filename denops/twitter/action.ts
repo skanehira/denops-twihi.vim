@@ -134,7 +134,6 @@ export const actionUploadMedia = async (
 ): Promise<Media | undefined> => {
   let data: Uint8Array;
 
-  console.log("media uploading...");
   const file = await vars.b.get(denops, "twitter_media", "");
   if (file) {
     data = await Deno.readFile(file);
@@ -145,6 +144,7 @@ export const actionUploadMedia = async (
     return;
   }
 
+  console.log("media uploading...");
   const media = await uploadMedia(data);
   return media;
 };
@@ -188,7 +188,7 @@ export const actionReply = async (
   denops: Denops,
   tweet: Timeline,
   text: string,
-): Promise<void> => {
+): Promise<Update> => {
   const width = stringWidth(text);
   if (width > 280) {
     throw new Error("characters must be less than 280");
@@ -202,8 +202,9 @@ export const actionReply = async (
     opts.media_ids = media.media_id_string;
   }
   console.log("tweeting...");
-  await statusesUpdate(opts);
+  const resp = await statusesUpdate(opts);
   await denops.cmd("echo '' | bw!");
+  return resp;
 };
 
 export const actionRetweet = async (
@@ -228,6 +229,6 @@ export const actionRetweet = async (
 export const actionRetweetWithComment = async (
   denops: Denops,
   text: string,
-): Promise<void> => {
-  await actionTweet(denops, text);
+): Promise<Update> => {
+  return await actionTweet(denops, text);
 };

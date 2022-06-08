@@ -32,5 +32,5 @@ nnoremap <buffer> <silent> <Plug>(twitter:retweet:comment)
       \  <Cmd>call twitter#do_action("retweet:comment")<CR>
 nnoremap <buffer> <silent> <Plug>(twitter:retweet:comment:media)
       \  <Cmd>call twitter#do_action("retweet:comment:media")<CR>
-nnoremap <buffer> <silent> <Plug>(twitter:retweet:comment:clipboard)
+nnoremap <buffer> <silent> <Plug>(twitter:retweet:comment:media:clipboard)
       \ <Cmd>call twitter#do_action("retweet:comment:media:clipboard")<CR>

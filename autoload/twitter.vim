@@ -2,6 +2,10 @@
 " Author: skanehira
 " License: MIT
 
+" NOTE: When run test in denops, the plugin name will be "@denops-core-test"
+" So, when call denops#request(), the plugin name must be "@denops-core-test"
+let s:denops_name = has_key(environ(), "TEST_ENDPOINT") ? "@denops-core-test" : "twitter"
+
 let s:icon = {
       \   "white_heart": "\u2661",
       \   "black_heart": "\u2665",
@@ -130,17 +134,17 @@ endfunction
 
 function! twitter#open() abort
   let tweet = b:twitter_timelines[line(".")-1]
-  call denops#notify("twitter", "open", [tweet])
+  call denops#request(s:denops_name, "open", [tweet])
 endfunction
 
 function! twitter#retweet() abort
   let tweet = b:twitter_timelines[line(".")-1]
-  call denops#notify("twitter", "retweet", [tweet])
+  call denops#request(s:denops_name, "retweet", [tweet])
 endfunction
 
 function! twitter#like() abort
   let tweet = b:twitter_timelines[line(".")-1]
-  call denops#notify("twitter", "like", [tweet])
+  call denops#request(s:denops_name, "like", [tweet])
 endfunction
 
 function! twitter#yank() abort
@@ -160,7 +164,7 @@ let s:action_list = {
       \ "reply:media:clipboard": function("twitter#reply"),
       \ "retweet:comment": function("twitter#retweet_comment"),
       \ "retweet:comment:media": function("twitter#retweet_comment"),
-      \ "retweet:comment:clipboard": function("twitter#retweet_comment"),
+      \ "retweet:comment:media:clipboard": function("twitter#retweet_comment"),
       \ }
 
 function! twitter#action_list(x, l, p) abort
