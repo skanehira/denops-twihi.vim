@@ -144,7 +144,7 @@ test({
     const url = await denops.call("getreg", await denops.eval("v:register"));
     assertEquals(
       url,
-      "https://twihi.com/track3jyo/status/1533592806630912000",
+      "https://twitter.com/track3jyo/status/1533592806630912000",
     );
   },
 });
