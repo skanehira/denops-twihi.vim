@@ -179,7 +179,11 @@ export const actionLike = async (denops: Denops, id: string): Promise<void> => {
     [],
   ) as Timeline[];
   const timeline = timelines[num - 1];
-  timeline.favorited = true;
+  if (timeline.retweeted_status) {
+    timeline.retweeted_status.favorited = true;
+  } else {
+    timeline.favorited = true;
+  }
   await vars.b.set(denops, "twitter_timelines", timelines);
   await denops.call("twitter#preview", true);
 };
@@ -220,7 +224,11 @@ export const actionRetweet = async (
     [],
   ) as Timeline[];
   const timeline = timelines[num - 1];
-  timeline.retweeted = true;
+  if (timeline.retweeted_status) {
+    timeline.retweeted_status.retweeted = true;
+  } else {
+    timeline.retweeted = true;
+  }
   await vars.b.set(denops, "twitter_timelines", timelines);
   await denops.call("twitter#preview", true);
   await denops.cmd("echo ''");
