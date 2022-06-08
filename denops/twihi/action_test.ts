@@ -23,7 +23,7 @@ const pluginRoot = path.dirname(
 
 const testdataDir = path.join(
   "denops",
-  "twitter",
+  "twihi",
   "testdata",
 );
 
@@ -44,7 +44,7 @@ test({
 
     const preview = await denops.call(
       "getbufline",
-      "twitter://home/preview",
+      "twihi://home/preview",
       1,
       "$",
     ) as string[];
@@ -62,7 +62,7 @@ test({
       await denops.call("feedkeys", "j");
       const newPreview = await denops.call(
         "getbufline",
-        "twitter://home/preview",
+        "twihi://home/preview",
         1,
         "$",
       ) as string[];
@@ -99,7 +99,7 @@ test({
       media_id: "3a117ca7799fffa26f62d9a13a9144a1",
     };
     const mediaFile = path.join(testdataDir, "test.png");
-    vars.b.set(denops, "twitter_media", mediaFile);
+    vars.b.set(denops, "twihi_media", mediaFile);
     const resp = await actionTweet(denops, want.text);
     const actual = {
       text: resp.text,
@@ -124,7 +124,7 @@ test({
     const file = await Deno.open(mediaFile);
     await clipboard.write(file);
     file.close();
-    vars.b.set(denops, "twitter_media_clipboard", true);
+    vars.b.set(denops, "twihi_media_clipboard", true);
     const resp = await actionTweet(denops, want.text);
     const actual = {
       text: resp.text,
@@ -140,11 +140,11 @@ test({
   fn: async (denops: Denops) => {
     await denops.cmd(`set rtp^=${pluginRoot}`);
     await actionOpenTimeline(denops, "home");
-    await denops.call("twitter#do_action", "yank");
+    await denops.call("twihi#do_action", "yank");
     const url = await denops.call("getreg", await denops.eval("v:register"));
     assertEquals(
       url,
-      "https://twitter.com/track3jyo/status/1533592806630912000",
+      "https://twihi.com/track3jyo/status/1533592806630912000",
     );
   },
 });
@@ -156,11 +156,11 @@ test({
     await main(denops);
     await denops.cmd(`set rtp^=${pluginRoot}`);
     await actionOpenTimeline(denops, "home");
-    await denops.call("twitter#do_action", "like");
-    await denops.call("twitter#do_action", "retweet");
+    await denops.call("twihi#do_action", "like");
+    await denops.call("twihi#do_action", "retweet");
     const actual = await denops.call(
       "getbufline",
-      "twitter://home/preview",
+      "twihi://home/preview",
       1,
       "$",
     ) as string[];
@@ -178,13 +178,13 @@ const testReply = async (
   await denops.cmd(`set rtp^=${pluginRoot}`);
   await actionOpenTimeline(denops, "home");
   await denops.call(
-    "twitter#do_action",
+    "twihi#do_action",
     useClipboard ? "reply:media:clipboard" : "reply",
   );
   await denops.call("setline", 2, ["this is test"]);
   const tweet = await vars.b.get(
     denops,
-    "twitter_reply_tweet",
+    "twihi_reply_tweet",
     {},
   ) as Timeline;
   assertNotEquals(Object.keys(tweet).length, 0);
@@ -241,7 +241,7 @@ const testRetweetComment = async (
   await denops.cmd(`set rtp^=${pluginRoot}`);
   await actionOpenTimeline(denops, "home");
   await denops.call(
-    "twitter#do_action",
+    "twihi#do_action",
     useClipboard ? "retweet:comment:media:clipboard" : "retweet:comment",
   );
   await denops.call("setline", 2, ["this is retweet test"]);

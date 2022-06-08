@@ -1,13 +1,13 @@
-" twitter.vim
+" twihi.vim
 " Author: skanehira
 " License: MIT
 
-let s:V = vital#twitter#new()
+let s:V = vital#twihi#new()
 let s:S = s:V.import("Data.String")
 
 " NOTE: When run test in denops, the plugin name will be "@denops-core-test"
 " So, when call denops#request(), the plugin name must be "@denops-core-test"
-let s:denops_name = has_key(environ(), "TEST_ENDPOINT") ? "@denops-core-test" : "twitter"
+let s:denops_name = has_key(environ(), "TEST_ENDPOINT") ? "@denops-core-test" : "twihi"
 
 let s:icon = {
       \   "white_heart": "\u2661",
@@ -17,13 +17,13 @@ let s:icon = {
       \   "retweeted": "\u267B",
       \ }
 
-function! twitter#timeline(type, ...) abort
+function! twihi#timeline(type, ...) abort
   if a:type ==# "user"
-    let bufname = "twitter://timeline/" .. a:1
+    let bufname = "twihi://timeline/" .. a:1
   elseif a:type ==# "home"
-    let bufname = "twitter://home"
+    let bufname = "twihi://home"
   elseif a:type ==# "mentions"
-    let bufname = "twitter://mentions"
+    let bufname = "twihi://mentions"
   endif
   let winList = win_findbuf(bufnr(bufname))
   if empty(winList)
@@ -33,36 +33,36 @@ function! twitter#timeline(type, ...) abort
   endif
 endfunction
 
-function! twitter#tweet(...) abort
-  new twitter://tweet
+function! twihi#tweet(...) abort
+  new twihi://tweet
   if a:0 ==# 1
     if a:1 ==# "--clipboard"
-      let b:twitter_media_clipboard = v:true
+      let b:twihi_media_clipboard = v:true
     else
-      let b:twitter_media = a:1
+      let b:twihi_media = a:1
     endif
   endif
 endfunction
 
-function! twitter#reply(...) abort
-  let tweet = b:twitter_timelines[line(".")-1]
-  new twitter://reply
-  let b:twitter_reply_tweet = tweet
+function! twihi#reply(...) abort
+  let tweet = b:twihi_timelines[line(".")-1]
+  new twihi://reply
+  let b:twihi_reply_tweet = tweet
   call setline(1, ["@" .. tweet.user.screen_name, ""])
   call feedkeys("A ")
   setlocal nomodified
   if a:0 ==# 1
     if a:1 ==# "--clipboard"
-      let b:twitter_media_clipboard = v:true
+      let b:twihi_media_clipboard = v:true
     else
-      let b:twitter_media = a:1
+      let b:twihi_media = a:1
     endif
   endif
 endfunction
 
-function! twitter#retweet_comment(...) abort
-  let tweet = b:twitter_timelines[line(".")-1]
-  new twitter://retweet
+function! twihi#retweet_comment(...) abort
+  let tweet = b:twihi_timelines[line(".")-1]
+  new twihi://retweet
 
   " when retweet with comment, tweet body must includes original tweet url.
   let url = printf("https://twitter.com/%s/status/%s", tweet.user.screen_name, tweet.id_str)
@@ -72,40 +72,40 @@ function! twitter#retweet_comment(...) abort
   setlocal nomodified
   if a:0 ==# 1
     if a:1 ==# "--clipboard"
-      let b:twitter_media_clipboard = v:true
+      let b:twihi_media_clipboard = v:true
     else
-      let b:twitter_media = a:1
+      let b:twihi_media = a:1
     endif
   endif
 endfunction
 
-function! twitter#preview(force) abort
+function! twihi#preview(force) abort
   let line = line(".")
-  if b:twitter_cursor.line ==# line && !a:force
+  if b:twihi_cursor.line ==# line && !a:force
     return
   endif
-  let b:twitter_cursor.line = line
-  let tweet = b:twitter_timelines[line-1]
-  let bufnr = bufadd(t:twitter_preview_bufname)
+  let b:twihi_cursor.line = line
+  let tweet = b:twihi_timelines[line-1]
+  let bufnr = bufadd(t:twihi_preview_bufname)
   call bufload(bufnr)
   silent call deletebufline(bufnr, 1, "$")
 
   if bufwinid(bufnr) ==# -1
     let curwin = win_getid()
-    keepjumps silent exe "botright vnew" t:twitter_preview_bufname
-    setlocal buftype=nofile ft=twitter-preview
+    keepjumps silent exe "botright vnew" t:twihi_preview_bufname
+    setlocal buftype=nofile ft=twihi-preview
     nnoremap <buffer> <silent> q :bw!<CR>
     keepjumps call win_gotoid(curwin)
   endif
 
   let tweet_body = s:make_tweet_body(tweet)
   call setbufline(bufnr, 1, tweet_body)
-  exe "vertical resize" b:twitter_preview_window_width
+  exe "vertical resize" b:twihi_preview_window_width
   redraw!
 endfunction
 
 function! s:make_tweet_body(tweet) abort
-  let width = winwidth(bufwinnr(t:twitter_preview_bufname)) - 5
+  let width = winwidth(bufwinnr(t:twihi_preview_bufname)) - 5
   let rows = s:S.split_by_displaywidth(a:tweet.text, width, -1, 1)
   let rows = map(rows, "trim(v:val)")
 
@@ -142,48 +142,48 @@ function! s:make_tweet_body(tweet) abort
 endfunction
 
 " When timeline buffer be closed, close preview buffer
-function! twitter#close_preview() abort
-  if has_key(t:, "twitter_preview_bufname") && bufexists(t:twitter_preview_bufname)
-    exe "bw!" t:twitter_preview_bufname
+function! twihi#close_preview() abort
+  if has_key(t:, "twihi_preview_bufname") && bufexists(t:twihi_preview_bufname)
+    exe "bw!" t:twihi_preview_bufname
   endif
 endfunction
 
-function! twitter#open() abort
-  let tweet = b:twitter_timelines[line(".")-1]
+function! twihi#open() abort
+  let tweet = b:twihi_timelines[line(".")-1]
   call denops#request(s:denops_name, "open", [tweet])
 endfunction
 
-function! twitter#retweet() abort
-  let tweet = b:twitter_timelines[line(".")-1]
+function! twihi#retweet() abort
+  let tweet = b:twihi_timelines[line(".")-1]
   call denops#request(s:denops_name, "retweet", [tweet])
 endfunction
 
-function! twitter#like() abort
-  let tweet = b:twitter_timelines[line(".")-1]
+function! twihi#like() abort
+  let tweet = b:twihi_timelines[line(".")-1]
   call denops#request(s:denops_name, "like", [tweet])
 endfunction
 
-function! twitter#yank() abort
-  let tweet = b:twitter_timelines[line(".")-1]
+function! twihi#yank() abort
+  let tweet = b:twihi_timelines[line(".")-1]
   let url = printf("https://twitter.com/%s/status/%s", tweet.user.screen_name, tweet.id_str)
   call setreg(v:register, url)
   echom "yank: " .. url
 endfunction
 
 let s:action_list = {
-      \ "yank": function("twitter#yank"),
-      \ "open": function("twitter#open"),
-      \ "retweet": function("twitter#retweet"),
-      \ "like": function("twitter#like"),
-      \ "reply": function("twitter#reply"),
-      \ "reply:media": function("twitter#reply"),
-      \ "reply:media:clipboard": function("twitter#reply"),
-      \ "retweet:comment": function("twitter#retweet_comment"),
-      \ "retweet:comment:media": function("twitter#retweet_comment"),
-      \ "retweet:comment:media:clipboard": function("twitter#retweet_comment"),
+      \ "yank": function("twihi#yank"),
+      \ "open": function("twihi#open"),
+      \ "retweet": function("twihi#retweet"),
+      \ "like": function("twihi#like"),
+      \ "reply": function("twihi#reply"),
+      \ "reply:media": function("twihi#reply"),
+      \ "reply:media:clipboard": function("twihi#reply"),
+      \ "retweet:comment": function("twihi#retweet_comment"),
+      \ "retweet:comment:media": function("twihi#retweet_comment"),
+      \ "retweet:comment:media:clipboard": function("twihi#retweet_comment"),
       \ }
 
-function! twitter#action_list(x, l, p) abort
+function! twihi#action_list(x, l, p) abort
   if a:l ==# ""
     return keys(s:action_list)
   endif
@@ -191,16 +191,16 @@ function! twitter#action_list(x, l, p) abort
   return result
 endfunction
 
-function! twitter#choose_action() abort
-  let action = input("action: ", "", "customlist,twitter#action_list")
+function! twihi#choose_action() abort
+  let action = input("action: ", "", "customlist,twihi#action_list")
   if action ==# ""
     return
   endif
   echom '' | redraw!
-  call twitter#do_action(action)
+  call twihi#do_action(action)
 endfunction
 
-function! twitter#do_action(action) abort
+function! twihi#do_action(action) abort
   if a:action ==# ""
     return
   endif

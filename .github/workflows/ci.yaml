@@ -72,8 +72,8 @@ jobs:
       - name: Setup config
         if: runner.os != 'Windows'
         run: |
-          mkdir -p $HOME/.config/denops_twitter
-          cat <<EOF > $HOME/.config/denops_twitter/config.json
+          mkdir -p $HOME/.config/denops_twihi
+          cat <<EOF > $HOME/.config/denops_twihi/config.json
           {
             "consumerAPIKey": "aaaaa",
             "consumerAPISecret": "bbbbbbbbbbbb",

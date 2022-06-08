@@ -2,7 +2,7 @@ export const timeline = {
   "retweeted": false,
   "lang": "ja",
   "source":
-    '<a href="https://mobile.twitter.com" rel="nofollow">Twitter Web App</a>',
+    '<a href="https://mobile.twihi.com" rel="nofollow">Twitter Web App</a>',
   "user": {
     "profile_background_image_url_https":
       "https://abs.twimg.com/images/themes/theme1/bg.png",
@@ -90,10 +90,10 @@ export const timeline = {
       "id_str": "1533350362186665984",
       "media_url": "http://pbs.twimg.com/media/FUeOB8ZaUAAmHk-.jpg",
       "indices": [36, 59],
-      "display_url": "pic.twitter.com/uCzbocrMXT",
+      "display_url": "pic.twihi.com/uCzbocrMXT",
       "type": "photo",
       "expanded_url":
-        "https://twitter.com/gorilla0513/status/1533350593263456256/photo/1",
+        "https://twihi.com/gorilla0513/status/1533350593263456256/photo/1",
       "sizes": {
         "medium": { "w": 1200, "h": 962, "resize": "fit" },
         "large": { "w": 2048, "h": 1641, "resize": "fit" },
@@ -119,10 +119,10 @@ export const timeline = {
       "id_str": "1533350362186665984",
       "media_url": "http://pbs.twimg.com/media/FUeOB8ZaUAAmHk-.jpg",
       "indices": [36, 59],
-      "display_url": "pic.twitter.com/uCzbocrMXT",
+      "display_url": "pic.twihi.com/uCzbocrMXT",
       "type": "photo",
       "expanded_url":
-        "https://twitter.com/gorilla0513/status/1533350593263456256/photo/1",
+        "https://twihi.com/gorilla0513/status/1533350593263456256/photo/1",
       "sizes": {
         "medium": { "w": 1200, "h": 962, "resize": "fit" },
         "large": { "w": 2048, "h": 1641, "resize": "fit" },

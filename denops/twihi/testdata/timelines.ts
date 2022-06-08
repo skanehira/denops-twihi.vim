@@ -24,7 +24,7 @@ export const timelines = [
       "urls": [],
     },
     "source":
-      '<a href="http://twitter.com/download/iphone" rel="nofollow">Twitter for iPhone</a>',
+      '<a href="http://twihi.com/download/iphone" rel="nofollow">Twitter for iPhone</a>',
     "in_reply_to_status_id": null,
     "in_reply_to_status_id_str": null,
     "in_reply_to_user_id": null,
@@ -117,8 +117,8 @@ export const timelines = [
           {
             "url": "https://t.co/UNVXo3PJQi",
             "expanded_url":
-              "https://twitter.com/i/web/status/1533585709633720321",
-            "display_url": "twitter.com/i/web/status/1…",
+              "https://twihi.com/i/web/status/1533585709633720321",
+            "display_url": "twihi.com/i/web/status/1…",
             "indices": [
               117,
               140,
@@ -127,7 +127,7 @@ export const timelines = [
         ],
       },
       "source":
-        '<a href="https://mobile.twitter.com" rel="nofollow">Twitter Web App</a>',
+        '<a href="https://mobile.twihi.com" rel="nofollow">Twitter Web App</a>',
       "in_reply_to_status_id": null,
       "in_reply_to_status_id_str": null,
       "in_reply_to_user_id": null,
@@ -234,7 +234,7 @@ export const timelines = [
       "urls": [],
     },
     "source":
-      '<a href="https://mobile.twitter.com" rel="nofollow">Twitter Web App</a>',
+      '<a href="https://mobile.twihi.com" rel="nofollow">Twitter Web App</a>',
     "in_reply_to_status_id": null,
     "in_reply_to_status_id_str": null,
     "in_reply_to_user_id": null,
@@ -344,7 +344,7 @@ export const timelines = [
       "urls": [],
     },
     "source":
-      '<a href="http://twitter.com/download/android" rel="nofollow">Twitter for Android</a>',
+      '<a href="http://twihi.com/download/android" rel="nofollow">Twitter for Android</a>',
     "in_reply_to_status_id": null,
     "in_reply_to_status_id_str": null,
     "in_reply_to_user_id": null,
@@ -433,7 +433,7 @@ export const timelines = [
         "urls": [],
       },
       "source":
-        '<a href="http://twitter.com/download/iphone" rel="nofollow">Twitter for iPhone</a>',
+        '<a href="http://twihi.com/download/iphone" rel="nofollow">Twitter for iPhone</a>',
       "in_reply_to_status_id": null,
       "in_reply_to_status_id_str": null,
       "in_reply_to_user_id": null,
@@ -538,7 +538,7 @@ export const timelines = [
       "urls": [],
     },
     "source":
-      '<a href="http://twitter.com/download/iphone" rel="nofollow">Twitter for iPhone</a>',
+      '<a href="http://twihi.com/download/iphone" rel="nofollow">Twitter for iPhone</a>',
     "in_reply_to_status_id": 1533592044433965000,
     "in_reply_to_status_id_str": "1533592044433965062",
     "in_reply_to_user_id": 929893251389124600,
@@ -675,9 +675,9 @@ export const timelines = [
           "media_url": "http://pbs.twimg.com/media/FUhqCu9VUAIYyF3.jpg",
           "media_url_https": "https://pbs.twimg.com/media/FUhqCu9VUAIYyF3.jpg",
           "url": "https://t.co/uGGPDNVzQf",
-          "display_url": "pic.twitter.com/uGGPDNVzQf",
+          "display_url": "pic.twihi.com/uGGPDNVzQf",
           "expanded_url":
-            "https://twitter.com/Shibamugi28/status/1533592284880437248/photo/1",
+            "https://twihi.com/Shibamugi28/status/1533592284880437248/photo/1",
           "type": "photo",
           "sizes": {
             "thumb": {
@@ -716,9 +716,9 @@ export const timelines = [
           "media_url": "http://pbs.twimg.com/media/FUhqCu9VUAIYyF3.jpg",
           "media_url_https": "https://pbs.twimg.com/media/FUhqCu9VUAIYyF3.jpg",
           "url": "https://t.co/uGGPDNVzQf",
-          "display_url": "pic.twitter.com/uGGPDNVzQf",
+          "display_url": "pic.twihi.com/uGGPDNVzQf",
           "expanded_url":
-            "https://twitter.com/Shibamugi28/status/1533592284880437248/photo/1",
+            "https://twihi.com/Shibamugi28/status/1533592284880437248/photo/1",
           "type": "photo",
           "sizes": {
             "thumb": {
@@ -746,7 +746,7 @@ export const timelines = [
       ],
     },
     "source":
-      '<a href="http://twitter.com/download/iphone" rel="nofollow">Twitter for iPhone</a>',
+      '<a href="http://twihi.com/download/iphone" rel="nofollow">Twitter for iPhone</a>',
     "in_reply_to_status_id": null,
     "in_reply_to_status_id_str": null,
     "in_reply_to_user_id": null,

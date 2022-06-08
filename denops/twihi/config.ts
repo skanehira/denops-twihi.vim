@@ -3,7 +3,7 @@ import xdg from "https://deno.land/x/xdg@v9.4.0/src/mod.deno.ts";
 
 export const configFile = path.join(
   xdg.config(),
-  "denops_twitter",
+  "denops_twihi",
   "config.json",
 );
 

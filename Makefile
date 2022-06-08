@@ -9,7 +9,7 @@ coverage: test-local
 
 .PHONY: up-mock
 up-mock:
-	@deno run -A denops/twitter/mock/server.ts &
+	@deno run -A denops/twihi/mock/server.ts &
 
 .PHONY: down-mock
 down-mock:
@@ -30,4 +30,4 @@ test: up-mock
 
 .PHONY: deps
 deps:
-	@deno run -A https://deno.land/x/udd@0.7.3/main.ts denops/twitter/deps.ts
+	@deno run -A https://deno.land/x/udd@0.7.3/main.ts denops/twihi/deps.ts

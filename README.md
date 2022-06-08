@@ -1,5 +1,5 @@
-# denops-twitter.vim
-A plugin for Twitter.
+# denops-twihi.vim
+Unoffical Twitter plugin.
 
 ![](https://i.gyazo.com/8edb0482b70d4732f17a6ae474e22b6d.png)
 
@@ -8,24 +8,24 @@ A plugin for Twitter.
 - xclip(Linux only)
 
 ## Usage
-After edit configiguration (`:h :twitter-usage`), you can run some commands.
+After edit configiguration (`:h :twihi-usage`), you can run some commands.
 Please refer help to see more details.
 
 ```vim
 " open the user's timeline
-:TwitterTimeline {userid}
+:TwihiTimeline {userid}
 
 " open the home timeline
-:TwitterHome
+:TwihiHome
 
 " open the mentions timeline
-:TwitterMentions
+:TwihiMentions
 
 " open tweet buffer
-:TwitterTweet
+:TwihiTweet
 
 " edit config
-:TwitterEditConfig
+:TwihiEditConfig
 ```
 
 ## Author

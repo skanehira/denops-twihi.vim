@@ -7,7 +7,7 @@ import {
   StatusesUpdateOptions,
   uploadMedia,
   userTimeline,
-} from "./twitter.ts";
+} from "./twihi.ts";
 import {
   autocmd,
   clipboard,
@@ -79,14 +79,14 @@ export const actionOpenTimeline = async (
   timelineType: TimelineType,
   screenName?: string,
 ): Promise<void> => {
-  await vars.b.set(denops, "twitter_timeline_type", timelineType);
+  await vars.b.set(denops, "twihi_timeline_type", timelineType);
 
   await denops.cmd(
-    "setlocal buftype=nofile nomodified modifiable ft=twitter-timeline nowrap",
+    "setlocal buftype=nofile nomodified modifiable ft=twihi-timeline nowrap",
   );
 
   const timelines = await getTimeline(timelineType, screenName);
-  await vars.b.set(denops, "twitter_timelines", timelines);
+  await vars.b.set(denops, "twihi_timelines", timelines);
 
   const tweets = timelines.map((timeline) => {
     const name = [...timeline.user.name];
@@ -103,22 +103,22 @@ export const actionOpenTimeline = async (
   });
 
   const [winWidth, rows] = tweets2lines(tweets);
-  await vars.b.set(denops, "twitter_preview_window_width", winWidth.toString());
-  await vars.b.set(denops, "twitter_cursor", { line: -1 });
+  await vars.b.set(denops, "twihi_preview_window_width", winWidth.toString());
+  await vars.b.set(denops, "twihi_cursor", { line: -1 });
   await vars.t.set(
     denops,
-    "twitter_preview_bufname",
-    `twitter://${timelineType}/preview`,
+    "twihi_preview_bufname",
+    `twihi://${timelineType}/preview`,
   );
 
   await denops.call("setline", 1, rows);
   await denops.cmd("setlocal nomodifiable");
-  await denops.call("twitter#preview", true);
+  await denops.call("twihi#preview", true);
 
-  autocmd.group(denops, `twitter_timeline_${timelineType}`, (helper) => {
+  autocmd.group(denops, `twihi_timeline_${timelineType}`, (helper) => {
     helper.remove("*");
-    helper.define("CursorMoved", "<buffer>", "call twitter#preview(v:false)");
-    helper.define("BufDelete", "<buffer>", "call twitter#close_preview()");
+    helper.define("CursorMoved", "<buffer>", "call twihi#preview(v:false)");
+    helper.define("BufDelete", "<buffer>", "call twihi#close_preview()");
   });
 };
 
@@ -134,10 +134,10 @@ export const actionUploadMedia = async (
 ): Promise<Media | undefined> => {
   let data: Uint8Array;
 
-  const file = await vars.b.get(denops, "twitter_media", "");
+  const file = await vars.b.get(denops, "twihi_media", "");
   if (file) {
     data = await Deno.readFile(file);
-  } else if (await vars.b.get(denops, "twitter_media_clipboard")) {
+  } else if (await vars.b.get(denops, "twihi_media_clipboard")) {
     data = await streams.readAll(await clipboard.read());
   } else {
     // do nothing
@@ -175,7 +175,7 @@ export const actionLike = async (denops: Denops, id: string): Promise<void> => {
   const num = await denops.call("line", ".") as number;
   const timelines = await vars.b.get(
     denops,
-    "twitter_timelines",
+    "twihi_timelines",
     [],
   ) as Timeline[];
   const timeline = timelines[num - 1];
@@ -184,8 +184,8 @@ export const actionLike = async (denops: Denops, id: string): Promise<void> => {
   } else {
     timeline.favorited = true;
   }
-  await vars.b.set(denops, "twitter_timelines", timelines);
-  await denops.call("twitter#preview", true);
+  await vars.b.set(denops, "twihi_timelines", timelines);
+  await denops.call("twihi#preview", true);
 };
 
 export const actionReply = async (
@@ -220,7 +220,7 @@ export const actionRetweet = async (
   const num = await denops.call("line", ".") as number;
   const timelines = await vars.b.get(
     denops,
-    "twitter_timelines",
+    "twihi_timelines",
     [],
   ) as Timeline[];
   const timeline = timelines[num - 1];
@@ -229,8 +229,8 @@ export const actionRetweet = async (
   } else {
     timeline.retweeted = true;
   }
-  await vars.b.set(denops, "twitter_timelines", timelines);
-  await denops.call("twitter#preview", true);
+  await vars.b.set(denops, "twihi_timelines", timelines);
+  await denops.call("twihi#preview", true);
   await denops.cmd("echo ''");
 };
 

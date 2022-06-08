@@ -4,7 +4,7 @@ import { readConfig } from "./config.ts";
 import { RequestOptions } from "https://raw.githubusercontent.com/snsinfu/deno-oauth-1.0a/main/extra/mod.ts";
 import { base64 } from "./deps.ts";
 
-export let twitterAPI: TwitterAPI;
+export let twihiAPI: TwitterAPI;
 export const endpoint = {
   api: Deno.env.get("TEST_ENDPOINT") ?? "https://api.twitter.com/1.1",
   upload: Deno.env.get("TEST_ENDPOINT") ?? "https://upload.twitter.com/1.1",
@@ -17,7 +17,7 @@ export const loadConfig = async (): Promise<void> => {
     secret: config.consumerAPISecret,
   };
   const token = { key: config.accessToken, secret: config.accessTokenSecret };
-  twitterAPI = newTwitterAPI(
+  twihiAPI = newTwitterAPI(
     consumer,
     token,
   );
@@ -34,8 +34,8 @@ const apiCall = async <T>(
   url: string,
   opts: RequestOptions,
 ): Promise<T> => {
-  opts.token = twitterAPI.token;
-  const resp = await twitterAPI.client.request(
+  opts.token = twihiAPI.token;
+  const resp = await twihiAPI.client.request(
     method,
     endpoint.api + url,
     opts,
@@ -132,11 +132,11 @@ export const uploadMedia = async (
   data: Uint8Array,
 ): Promise<Media> => {
   const b64 = base64.encode(data);
-  const resp = await twitterAPI.client.request(
+  const resp = await twihiAPI.client.request(
     "POST",
     endpoint.upload + "/media/upload.json",
     {
-      token: twitterAPI.token,
+      token: twihiAPI.token,
       form: {
         "media_data": b64,
       },

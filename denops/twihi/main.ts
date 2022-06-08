@@ -8,49 +8,48 @@ import {
   actionRetweetWithComment,
   actionTweet,
 } from "./action.ts";
-import StatusesHomeTimeline from "https://esm.sh/v78/twitter-api-client@1.5.2/dist/interfaces/types/StatusesHomeTimelineTypes.d.ts";
 import { configFile } from "./config.ts";
-import { loadConfig } from "./twitter.ts";
+import { loadConfig } from "./twihi.ts";
 import { Timeline } from "./type.d.ts";
 
 export async function main(denops: Denops): Promise<void> {
-  await autocmd.group(denops, "twitter_buffer", (helper) => {
+  await autocmd.group(denops, "twihi_buffer", (helper) => {
     helper.remove("*");
 
     helper.define(
       "BufReadCmd",
-      "twitter://home",
+      "twihi://home",
       `call denops#notify("${denops.name}", "home", [])`,
     );
 
     helper.define(
       "BufReadCmd",
-      "twitter://mentions",
+      "twihi://mentions",
       `call denops#notify("${denops.name}", "mentions", [])`,
     );
 
     helper.define(
       "BufReadCmd",
-      "twitter://timeline/?*",
+      "twihi://timeline/?*",
       `call denops#notify("${denops.name}", "timeline", [])`,
     );
 
     helper.define(
       "BufReadCmd",
-      "twitter://retweet",
-      "setlocal ft=twitter-retweet buftype=acwrite",
+      "twihi://retweet",
+      "setlocal ft=twihi-retweet buftype=acwrite",
     );
 
     helper.define(
       "BufReadCmd",
-      "twitter://tweet",
-      "setlocal ft=twitter-tweet buftype=acwrite",
+      "twihi://tweet",
+      "setlocal ft=twihi-tweet buftype=acwrite",
     );
 
     helper.define(
       "BufReadCmd",
-      "twitter://reply",
-      "setlocal ft=twitter-reply buftype=acwrite",
+      "twihi://reply",
+      "setlocal ft=twihi-reply buftype=acwrite",
     );
   });
 
@@ -69,14 +68,14 @@ export async function main(denops: Denops): Promise<void> {
 
     async timeline(): Promise<void> {
       const bufname = await denops.call("bufname") as string;
-      const screenName = bufname.replace("twitter://timeline/", "");
+      const screenName = bufname.replace("twihi://timeline/", "");
       console.log("loading...");
       await actionOpenTimeline(denops, "user", screenName);
       await denops.cmd("echo '' | redraw!");
     },
 
     async open(arg: unknown): Promise<void> {
-      await actionOpen(arg as StatusesHomeTimeline);
+      await actionOpen(arg as Timeline);
     },
 
     async tweet(arg: unknown): Promise<void> {
@@ -90,7 +89,7 @@ export async function main(denops: Denops): Promise<void> {
 
     async editConfig(): Promise<void> {
       await denops.cmd(`new ${configFile}`);
-      await autocmd.group(denops, "twitter_edit_config", (helper) => {
+      await autocmd.group(denops, "twihi_edit_config", (helper) => {
         helper.remove("*", "<buffer>");
         helper.define(
           "BufWritePost",

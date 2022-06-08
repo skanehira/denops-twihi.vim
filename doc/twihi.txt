@@ -1,4 +1,4 @@
-*twitter.txt*	twitter client for Vim/Neovim
+*twihi.txt*	Twihi client for Vim/Neovim
 
 Author: skanehira <sho19921005@gmail.com>
 License : MIT license  {{{
@@ -22,38 +22,38 @@ License : MIT license  {{{
 }}}
 
 ==============================================================================
-CONTENTS					*twitter-contents*
+CONTENTS					*twihi-contents*
 
-INTRODUCTION			|twitter-introduction|
-USAGE				|twitter-usage|
-INTERFACE			|twitter-interface|
-  COMMANDS			  |twitter-commands|
-  VARIABLES			  |twitter-variables|
-  BUFFER			  |twitter-buffers|
-  KEY-MAPPINGS			  |twitter-key-mappings|
-  FUNCTIONS			  |twitter-functions|
-TODO				|twitter-todo|
-CHANGELOG			|twitter-changelog|
+INTRODUCTION			|twihi-introduction|
+USAGE				|twihi-usage|
+INTERFACE			|twihi-interface|
+  COMMANDS			  |twihi-commands|
+  VARIABLES			  |twihi-variables|
+  BUFFER			  |twihi-buffers|
+  KEY-MAPPINGS			  |twihi-key-mappings|
+  FUNCTIONS			  |twihi-functions|
+TODO				|twihi-todo|
+CHANGELOG			|twihi-changelog|
 
 
 ==============================================================================
-INTRODUCTION					*twitter-introduction*
+INTRODUCTION					*twihi-introduction*
 
-*denops-twitter.vim* is a Vim/Neovim plugin for twitter
+*denops-twihi.vim* is a Vim/Neovim plugin for Twihi.
 
 Latest version:
-https://github.com/skanehira/denops-twitter.vim
+https://github.com/skanehira/denops-twihi.vim
 
 
 ==============================================================================
-USAGE						*twitter-usage*
-At first, you have to get bellow keys from https://developer.twitter.com
+USAGE						*twihi-usage*
+At first, you have to get bellow keys from https://developer.twihi.com
 
   * API Key and Secret
   * Access Token and Secret
 
 After get keys and secrets,
-Please edit config as bellow using |:TwitterEditConfig|
+Please edit config as bellow using |:TwihiEditConfig|
 After |:write|, the config will be auto reload.
 >
   {
@@ -65,24 +65,24 @@ After |:write|, the config will be auto reload.
 >
 
 ==============================================================================
-INTERFACE					*twitter-interface*
+INTERFACE					*twihi-interface*
 
 ------------------------------------------------------------------------------
-VARIABLES					*twitter-variables*
+VARIABLES					*twihi-variables*
 
 ------------------------------------------------------------------------------
-COMMANDS					*twitter-commands*
+COMMANDS					*twihi-commands*
 
-:TwitterHome					*:TwitterHome*
+:TwihiHome					*:TwihiHome*
   Open home timeline
 
-:TwitterMentions				*:TwitterMentions*
+:TwihiMentions				*:TwihiMentions*
   Open mentions timeline
 
-:TwitterTimeline {userid}			*:TwitterTimeline*
+:TwihiTimeline {userid}			*:TwihiTimeline*
   Open the user's timeline
 
-:TwitterTweet {file}				*:TwitterTweet*
+:TwihiTweet {file}				*:TwihiTweet*
   Open tweet buffer
   If you want to tweet with some image, please input {file}
   {file} must be media file(like *.png) or '--clipboard'
@@ -90,11 +90,11 @@ COMMANDS					*twitter-commands*
 
   NOTE: When you want use clipboard on Linux, pelase install xclip
 
-:TwitterEditConfig				*:TwitterEditConfig*
+:TwihiEditConfig				*:TwihiEditConfig*
   Open config.
 
 ------------------------------------------------------------------------------
-LAYOUT						*twitter-timeline-layout*
+LAYOUT						*twihi-timeline-layout*
   The timeline layout has tow windows
   Left window is overview of tweet, right window will display
   detail of tweet
@@ -117,118 +117,118 @@ LAYOUT						*twitter-timeline-layout*
 >
 
 ------------------------------------------------------------------------------
-BUFFER							*twitter-buffers*
+BUFFER							*twihi-buffers*
 
-twitter://home						*twitter-buffer-home*
+twihi://home						*twihi-buffer-home*
   Display home timeline
-  This is same as |:TwitterTimeline|
+  This is same as |:TwihiTimeline|
 
-twitter://timeline/{userid}				*twitter-buffer-timeline*
+twihi://timeline/{userid}				*twihi-buffer-timeline*
   Display userid's timeline
-  This is same as |:TwitterTimeline| {userid}
+  This is same as |:TwihiTimeline| {userid}
 
-twitter://mentions
+twihi://mentions
   Display mentions
-  This is same as |:TwitterMentions|
+  This is same as |:TwihiMentions|
 
-twitter://tweet						*twitter-buffer-tweet*
+twihi://tweet						*twihi-buffer-tweet*
   Post tweet
   The buffer contents will be post when you type |:write|
   If tweet is successed, the buffer will be deleted
 
-  This is same as |:TwitterTimeline|
+  This is same as |:TwihiTimeline|
 
-twitter://reply						*twitter-buffer-reply*
+twihi://reply						*twihi-buffer-reply*
   Reply to tweet
   The buffer contents will be post when you type |:write|
   If reply is successed, the buffer will be deleted
 
   NOTE: This buffer only avalaible from bellow keymaps
-    * <Plug>(twitter:reply)
-    * <Plug>(twitter:reply:media)
-    * <Plug>(twitter:reply:media:clipboard)
+    * <Plug>(twihi:reply)
+    * <Plug>(twihi:reply:media)
+    * <Plug>(twihi:reply:media:clipboard)
 
-twitter://rewteet					*twitter-buffer-rewteet*
+twihi://rewteet					*twihi-buffer-rewteet*
   Retweet the tweet
   The buffer contents will be post when you type |:write|
   If retweet is successed, the buffer will be deleted
 
   NOTE: This buffer only avalaible from bellow keymaps
-    * <Plug>(twitter:retweet:comment)
-    * <Plug>(twitter:retweet:comment:media)
-    * <Plug>(twitter:retweet:comment:media:clipboard)
+    * <Plug>(twihi:retweet:comment)
+    * <Plug>(twihi:retweet:comment:media)
+    * <Plug>(twihi:retweet:comment:media:clipboard)
 
 ------------------------------------------------------------------------------
-KEY-MAPPINGS					*twitter-key-mappings*
+KEY-MAPPINGS					*twihi-key-mappings*
 
-KEY-MAPPINGS-TIMELINE				*twitter-key-mappings-timeline*
+KEY-MAPPINGS-TIMELINE				*twihi-key-mappings-timeline*
 You can do some actions in the bellow buffers.
 
-  |twitter-buffer-timeline|
-  |twitter-buffer-home|
-  |twitter-buffer-mentions|
+  |twihi-buffer-timeline|
+  |twihi-buffer-home|
+  |twihi-buffer-mentions|
 
 Bellow settings is sample.
 >
-  function! s:twitter_keymap() abort
-    nmap <buffer> <silent> <C-g>y <Plug>(twitter:tweet:yank)
-    nmap <buffer> <silent> <C-g><C-l> <Plug>(twitter:tweet:like)
-    nmap <buffer> <silent> <C-o> <Plug>(twitter:tweet:open)
-    nmap <buffer> <silent> <C-p> <Plug>(twitter:reply)
-    nmap <buffer> <silent> <C-r> <Plug>(twitter:retweet:comment)
+  function! s:twihi_keymap() abort
+    nmap <buffer> <silent> <C-g>y <Plug>(twihi:tweet:yank)
+    nmap <buffer> <silent> <C-g><C-l> <Plug>(twihi:tweet:like)
+    nmap <buffer> <silent> <C-o> <Plug>(twihi:tweet:open)
+    nmap <buffer> <silent> <C-p> <Plug>(twihi:reply)
+    nmap <buffer> <silent> <C-r> <Plug>(twihi:retweet:comment)
   endfunction
 
-  augroup twitter_keymap
+  augroup twihi_keymap
     au!
-    au FileType twitter-timeline call <SID>twitter_keymap()
+    au FileType twihi-timeline call <SID>twihi_keymap()
   augroup END
 <
 
-  *<Plug>(twitter:action)*
+  *<Plug>(twihi:action)*
     Choose action
 
-  *<Plug>(twitter:tweet:open)*
+  *<Plug>(twihi:tweet:open)*
     Open tweet in browser
 
-  *<Plug>(twitter:tweet:like)*
+  *<Plug>(twihi:tweet:like)*
     Add like to the tweet
 
-  *<Plug>(twitter:tweet:yank)*
+  *<Plug>(twihi:tweet:yank)*
     Copy tweet's url to clipboard
 
-  *<Plug>(twitter:reply)*
+  *<Plug>(twihi:reply)*
     Reply the tweet
 
-  *<Plug>(twitter:reply:media)*
+  *<Plug>(twihi:reply:media)*
     Reply the tweet with image file
 
-  *<Plug>(twitter:reply:media:clipboard)*
+  *<Plug>(twihi:reply:media:clipboard)*
     Reply with image(from clipboard)
 
-  *<Plug>(twitter:retweet)*
+  *<Plug>(twihi:retweet)*
     Retweet the tweet
 
-  *<Plug>(twitter:retweet:comment)*
+  *<Plug>(twihi:retweet:comment)*
     Retweet the tweet with comment
 
-  *<Plug>(twitter:retweet:comment:media)*
+  *<Plug>(twihi:retweet:comment:media)*
     Retweet the tweet with comment and image file
 
-  *<Plug>(twitter:retweet:comment:media:clipboard)*
+  *<Plug>(twihi:retweet:comment:media:clipboard)*
     Retweet the tweet with comment and image(from clipboard)
 
 
 ------------------------------------------------------------------------------
-FUNCTIONS					*twitter-functions*
+FUNCTIONS					*twihi-functions*
 
 
 ==============================================================================
-TODO						*twitter-todo*
+TODO						*twihi-todo*
 
 
 
 ==============================================================================
-CHANGELOG					*twitter-changelog*
+CHANGELOG					*twihi-changelog*
 
 
 ==============================================================================
