@@ -104,25 +104,36 @@ endfunction
 
 function! s:make_tweet_body(tweet) abort
   let rows = split(a:tweet.text, "\n")
+  if has_key(a:tweet, "quoted_status")
+    let text = s:make_tweet_body(a:tweet.quoted_status)
+    let quoted_rows = map(text, { _, v -> " │ " .. v })
+    let rows = rows + [""] + quoted_rows
+  endif
+
   let barCount = max(map(copy(rows), { _, v -> strdisplaywidth(v) }))
   let border = repeat("─", barCount)
 
-  let icons = [a:tweet.retweeted ? s:icon.retweeted : s:icon.retweet ]
-  let icons = add(icons, a:tweet.retweet_count ? a:tweet.retweet_count : " ")
-  let icons = add(icons, a:tweet.favorited ? s:icon.black_heart : s:icon.white_heart)
-  if a:tweet.favorite_count
-    let icons = add(icons, a:tweet.favorite_count)
+  let tweet = a:tweet
+  if has_key(a:tweet, "retweeted_status")
+    let tweet = a:tweet.retweeted_status 
   endif
 
-  let tweetBody = [
+  let icons = [tweet.retweeted ? s:icon.retweeted : s:icon.retweet]
+  let icons = add(icons, tweet.retweet_count ? tweet.retweet_count : " ")
+  let icons = add(icons, tweet.favorited ? s:icon.black_heart : s:icon.white_heart)
+  if tweet.favorite_count
+    let icons = add(icons, tweet.favorite_count)
+  endif
+
+  let tweet_body = [
         \ a:tweet.user.name,
         \ "@" .. a:tweet.user.screen_name,
         \ border,
         \ "",
         \ ]
-  let tweetBody = tweetBody + rows
-  let tweetBody = tweetBody + ["", border, join(icons, " ")]
-  return tweetBody
+  let tweet_body = tweet_body + rows
+  let tweet_body = tweet_body + ["", border, join(icons, " ")]
+  return tweet_body
 endfunction
 
 " When timeline buffer be closed, close preview buffer
