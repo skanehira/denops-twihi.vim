@@ -168,6 +168,22 @@ You can do some actions in the bellow buffers.
   |twitter-buffer-home|
   |twitter-buffer-mentions|
 
+Bellow settings is sample.
+>
+  function! s:twitter_keymap() abort
+    nmap <buffer> <silent> <C-g>y <Plug>(twitter:tweet:yank)
+    nmap <buffer> <silent> <C-g><C-l> <Plug>(twitter:tweet:like)
+    nmap <buffer> <silent> <C-o> <Plug>(twitter:tweet:open)
+    nmap <buffer> <silent> <C-p> <Plug>(twitter:reply)
+    nmap <buffer> <silent> <C-r> <Plug>(twitter:retweet:comment)
+  endfunction
+
+  augroup twitter_keymap
+    au!
+    au FileType twitter-timeline call <SID>twitter_keymap()
+  augroup END
+<
+
   *<Plug>(twitter:action)*
     Choose action
 
