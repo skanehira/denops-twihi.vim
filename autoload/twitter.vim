@@ -120,7 +120,7 @@ function! s:make_tweet_body(tweet) abort
 
   let tweet = a:tweet
   if has_key(a:tweet, "retweeted_status")
-    let tweet = a:tweet.retweeted_status 
+    let tweet = a:tweet.retweeted_status
   endif
 
   let icons = [tweet.retweeted ? s:icon.retweeted : s:icon.retweet]
