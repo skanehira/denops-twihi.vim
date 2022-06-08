@@ -2,6 +2,9 @@
 " Author: skanehira
 " License: MIT
 
+let s:V = vital#twitter#new()
+let s:S = s:V.import("Data.String")
+
 " NOTE: When run test in denops, the plugin name will be "@denops-core-test"
 " So, when call denops#request(), the plugin name must be "@denops-core-test"
 let s:denops_name = has_key(environ(), "TEST_ENDPOINT") ? "@denops-core-test" : "twitter"
@@ -84,11 +87,8 @@ function! twitter#preview(force) abort
   let b:twitter_cursor.line = line
   let tweet = b:twitter_timelines[line-1]
   let bufnr = bufadd(t:twitter_preview_bufname)
-  let tweetBody = s:make_tweet_body(tweet)
-
   call bufload(bufnr)
   silent call deletebufline(bufnr, 1, "$")
-  call setbufline(bufnr, 1, tweetBody)
 
   if bufwinid(bufnr) ==# -1
     let curwin = win_getid()
@@ -98,20 +98,25 @@ function! twitter#preview(force) abort
     keepjumps call win_gotoid(curwin)
   endif
 
+  let tweet_body = s:make_tweet_body(tweet)
+  call setbufline(bufnr, 1, tweet_body)
   exe "vertical resize" b:twitter_preview_window_width
   redraw!
 endfunction
 
 function! s:make_tweet_body(tweet) abort
-  let rows = split(a:tweet.text, "\n")
+  let width = winwidth(bufwinnr(t:twitter_preview_bufname)) - 5
+  let rows = s:S.split_by_displaywidth(a:tweet.text, width, -1, 1)
+  let rows = map(rows, "trim(v:val)")
+
   if has_key(a:tweet, "quoted_status")
     let text = s:make_tweet_body(a:tweet.quoted_status)
     let quoted_rows = map(text, { _, v -> " │ " .. v })
     let rows = rows + [""] + quoted_rows
   endif
 
-  let barCount = max(map(copy(rows), { _, v -> strdisplaywidth(v) }))
-  let border = repeat("─", barCount)
+  let bar_count = max(map(copy(rows), { _, v -> strdisplaywidth(v) }))
+  let border = repeat("─", bar_count)
 
   let tweet = a:tweet
   if has_key(a:tweet, "retweeted_status")

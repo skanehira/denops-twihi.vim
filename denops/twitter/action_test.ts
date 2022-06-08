@@ -3,7 +3,6 @@ import {
   assertNotEquals,
   clipboard,
   Denops,
-  helper,
   path,
   test,
   vars,
@@ -22,27 +21,6 @@ const pluginRoot = path.dirname(
   path.dirname(path.dirname(path.fromFileUrl(import.meta.url))),
 );
 
-export const autoloadDir = path.join(
-  pluginRoot,
-  "autoload",
-);
-
-export const ftpluginDir = path.join(
-  pluginRoot,
-  "ftplugin",
-);
-
-export async function load(denops: Denops, dir: string) {
-  for await (const entry of Deno.readDir(dir)) {
-    if (entry.isFile) {
-      await helper.load(
-        denops,
-        path.toFileUrl(path.join(dir, entry.name)),
-      );
-    }
-  }
-}
-
 const testdataDir = path.join(
   "denops",
   "twitter",
@@ -53,7 +31,7 @@ test({
   mode: "all",
   name: "open home timeline",
   fn: async (denops: Denops) => {
-    await load(denops, autoloadDir);
+    await denops.cmd(`set rtp^=${pluginRoot}`);
 
     await actionOpenTimeline(denops, "home");
 
@@ -102,7 +80,7 @@ test({
   mode: "all",
   name: "post tweet",
   fn: async (denops: Denops) => {
-    await load(denops, autoloadDir);
+    await denops.cmd(`set rtp^=${pluginRoot}`);
 
     const want = "hello world";
     const resp = await actionTweet(denops, want);
@@ -114,7 +92,7 @@ test({
   mode: "all",
   name: "post tweet with media",
   fn: async (denops: Denops) => {
-    await load(denops, autoloadDir);
+    await denops.cmd(`set rtp^=${pluginRoot}`);
 
     const want = {
       text: "tweet with media",
@@ -136,7 +114,7 @@ test({
   ignore: Deno.env.get("TEST_LOCAL") !== "true",
   name: "post tweet with media from clipboard",
   fn: async (denops: Denops) => {
-    await load(denops, autoloadDir);
+    await denops.cmd(`set rtp^=${pluginRoot}`);
 
     const want = {
       text: "tweet with media",
@@ -160,7 +138,7 @@ test({
   mode: "all",
   name: "yank url",
   fn: async (denops: Denops) => {
-    await load(denops, autoloadDir);
+    await denops.cmd(`set rtp^=${pluginRoot}`);
     await actionOpenTimeline(denops, "home");
     await denops.call("twitter#do_action", "yank");
     const url = await denops.call("getreg", await denops.eval("v:register"));
@@ -176,7 +154,7 @@ test({
   name: "like and retweet the tweet",
   fn: async (denops: Denops) => {
     await main(denops);
-    await load(denops, autoloadDir);
+    await denops.cmd(`set rtp^=${pluginRoot}`);
     await actionOpenTimeline(denops, "home");
     await denops.call("twitter#do_action", "like");
     await denops.call("twitter#do_action", "retweet");
@@ -197,7 +175,7 @@ const testReply = async (
   expect: Record<string, string>,
 ): Promise<void> => {
   await main(denops);
-  await load(denops, autoloadDir);
+  await denops.cmd(`set rtp^=${pluginRoot}`);
   await actionOpenTimeline(denops, "home");
   await denops.call(
     "twitter#do_action",
@@ -260,7 +238,7 @@ const testRetweetComment = async (
   expect: Record<string, string>,
 ): Promise<void> => {
   await main(denops);
-  await load(denops, autoloadDir);
+  await denops.cmd(`set rtp^=${pluginRoot}`);
   await actionOpenTimeline(denops, "home");
   await denops.call(
     "twitter#do_action",
