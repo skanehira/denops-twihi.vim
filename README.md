@@ -1,5 +1,5 @@
 # denops-twihi.vim
-Unoffical Twitter plugin.
+Unofficial Twitter Vim/Neovim plugin.
 
 ![](https://i.gyazo.com/8edb0482b70d4732f17a6ae474e22b6d.png)
 
@@ -8,7 +8,7 @@ Unoffical Twitter plugin.
 - xclip(Linux only)
 
 ## Usage
-After edit configiguration (`:h :twihi-usage`), you can run some commands.
+After edit configiguration (`:h twihi-usage`), you can run some commands.
 Please refer help to see more details.
 
 ```vim
