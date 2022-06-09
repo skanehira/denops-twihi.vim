@@ -80,13 +80,14 @@ export async function main(denops: Denops): Promise<void> {
       await denops.cmd("echo '' | redraw!");
     },
 
-    async search(): Promise<void> {
-      const line = await denops.call("getline", 1);
-      await denops.cmd("set nomodified");
-      await denops.cmd("q | tabnew twihi://search/result");
-      console.log("searching...");
-      await actionOpenTimeline(denops, "search", { query: line as string });
-      await denops.cmd("echo '' | redraw!");
+    async search(q: unknown): Promise<void> {
+      try {
+        console.log("searching...");
+        await actionOpenTimeline(denops, "search", { query: q as string });
+        await denops.cmd("echo '' | redraw!");
+      } catch (e) {
+        console.error(e.message);
+      }
     },
 
     async open(arg: unknown): Promise<void> {

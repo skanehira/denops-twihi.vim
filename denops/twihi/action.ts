@@ -74,8 +74,8 @@ export const getTimeline = async (
       break;
     case "search":
       {
-        const result = await searchTweets(opts!.query!);
-        timelines = result.statuses;
+        const { statuses } = await searchTweets(opts!.query!);
+        timelines = statuses;
       }
       break;
   }

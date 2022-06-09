@@ -33,6 +33,10 @@ function! twihi#timeline(type, ...) abort
   else
     keepjumps call win_gotoid(winList[0])
   endif
+
+  if a:type ==# "search"
+    call denops#notify(s:denops_name, "search", a:000)
+  endif
 endfunction
 
 function! twihi#tweet(...) abort
