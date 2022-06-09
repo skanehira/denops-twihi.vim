@@ -76,11 +76,14 @@ COMMANDS					*twihi-commands*
 :TwihiHome					*:TwihiHome*
   Open home timeline
 
-:TwihiMentions				*:TwihiMentions*
+:TwihiMentions					*:TwihiMentions*
   Open mentions timeline
 
-:TwihiTimeline {userid}			*:TwihiTimeline*
+:TwihiTimeline {userid}				*:TwihiTimeline*
   Open the user's timeline
+
+:TwihiSearch {word}				*:TwihiMentions*
+  Search some tweets with {word}
 
 :TwihiTweet {file}				*:TwihiTweet*
   Open tweet buffer
@@ -127,7 +130,7 @@ twihi://timeline/{userid}				*twihi-buffer-timeline*
   Display userid's timeline
   This is same as |:TwihiTimeline| {userid}
 
-twihi://mentions
+twihi://mentions					*twihi-buffer-mentions*
   Display mentions
   This is same as |:TwihiMentions|
 
@@ -136,7 +139,7 @@ twihi://tweet						*twihi-buffer-tweet*
   The buffer contents will be post when you type |:write|
   If tweet is successed, the buffer will be deleted
 
-  This is same as |:TwihiTimeline|
+  This is same as |:TwihiTweet|
 
 twihi://reply						*twihi-buffer-reply*
   Reply to tweet
@@ -148,7 +151,7 @@ twihi://reply						*twihi-buffer-reply*
     * <Plug>(twihi:reply:media)
     * <Plug>(twihi:reply:media:clipboard)
 
-twihi://rewteet					*twihi-buffer-rewteet*
+twihi://rewteet						*twihi-buffer-rewteet*
   Retweet the tweet
   The buffer contents will be post when you type |:write|
   If retweet is successed, the buffer will be deleted

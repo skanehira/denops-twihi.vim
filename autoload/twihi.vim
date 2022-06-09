@@ -24,12 +24,18 @@ function! twihi#timeline(type, ...) abort
     let bufname = "twihi://home"
   elseif a:type ==# "mentions"
     let bufname = "twihi://mentions"
+  elseif a:type ==# "search"
+    let bufname = "twihi://search"
   endif
   let winList = win_findbuf(bufnr(bufname))
   if empty(winList)
     exe "tabnew" bufname
   else
     keepjumps call win_gotoid(winList[0])
+  endif
+
+  if a:type ==# "search"
+    call denops#notify(s:denops_name, "search", a:000)
   endif
 endfunction
 
