@@ -13,3 +13,9 @@ command! -nargs=1 TwihiTimeline call twihi#timeline("user", <f-args>)
 command! TwihiMentions call twihi#timeline("mentions")
 command! -nargs=? -complete=file TwihiTweet call twihi#tweet(<f-args>)
 command! TwihiEditConfig call denops#notify("twihi", "editConfig", [])
+
+augroup twihi-highlight
+  autocmd ColorScheme * call twihi#_define_highlight()
+augroup END
+
+call twihi#_define_highlight()
