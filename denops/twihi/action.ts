@@ -123,7 +123,10 @@ export const actionOpenTimeline = async (
     `twihi://${timelineType}/preview`,
   );
 
-  await denops.call("setline", 1, rows);
+  await denops.batch(
+    ["twihi#_silent_call", "deletebufline", await denops.call("bufnr"), 1, "$"],
+    ["setline", 1, rows],
+  );
   await denops.cmd("setlocal nomodifiable");
   await denops.call("twihi#preview", true);
 
