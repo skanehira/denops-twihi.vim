@@ -24,6 +24,8 @@ import { expandQuotedStatus } from "./_util/timeline.ts";
 
 type TimelineType = "home" | "user" | "mentions" | "search";
 
+const dateTimeFormat = "yyyy/MM/dd HH:mm:ss";
+
 export function tweets2lines(
   objs: Record<string, string>[],
 ): [number, string[]] {
@@ -86,7 +88,22 @@ export const getTimeline = async (
   }
 
   // if tweet has quoted_status, then make flat array
-  return expandQuotedStatus(timelines);
+  const expandedTimelines = expandQuotedStatus(timelines);
+
+  for (const t of expandedTimelines) {
+    t.created_at_str = datetime.format(
+      new Date(t.created_at),
+      dateTimeFormat,
+    );
+    if (t.retweeted_status) {
+      t.retweeted_status.created_at_str = datetime.format(
+        new Date(t.created_at),
+        dateTimeFormat,
+      );
+    }
+  }
+
+  return expandedTimelines;
 };
 
 export const actionOpenTimeline = async (
@@ -113,10 +130,7 @@ export const actionOpenTimeline = async (
     return {
       name: isQuoted ? " └ " + nameText : nameText,
       screen_name: `@${timeline.user.screen_name}`,
-      created_at: datetime.format(
-        new Date(timeline.created_at),
-        "yyyy/MM/dd HH:mm:ss",
-      ),
+      created_at_str: timeline.created_at_str,
     };
   });
 
