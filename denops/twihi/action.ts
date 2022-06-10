@@ -20,6 +20,7 @@ import {
   vars,
 } from "./deps.ts";
 import { Media, Timeline, Update } from "./type.d.ts";
+import { expandQuotedStatus } from "./_util/timeline.ts";
 
 type TimelineType = "home" | "user" | "mentions" | "search";
 
@@ -83,7 +84,9 @@ export const getTimeline = async (
   if (!timelines.length) {
     throw new Error("not found timeline");
   }
-  return timelines;
+
+  // if tweet has quoted_status, then make flat array
+  return expandQuotedStatus(timelines);
 };
 
 export const actionOpenTimeline = async (
@@ -100,12 +103,15 @@ export const actionOpenTimeline = async (
   const timelines = await getTimeline(timelineType, opts);
   await vars.b.set(denops, "twihi_timelines", timelines);
 
-  const tweets = timelines.map((timeline) => {
+  const tweets = timelines.map((timeline, i, timelines) => {
+    const isQuoted = (i - 1 > 0) &&
+      timelines[i - 1].quoted_status_id_str === timeline.id_str;
     const name = [...timeline.user.name];
+    const nameText = `[${
+      name.length > 10 ? name.slice(0, 8).join("") + "…" : name.join("")
+    }]`;
     return {
-      name: `[${
-        name.length > 10 ? name.slice(0, 8).join("") + "…" : name.join("")
-      }]`,
+      name: isQuoted ? " └ " + nameText : nameText,
       screen_name: `@${timeline.user.screen_name}`,
       created_at: datetime.format(
         new Date(timeline.created_at),
