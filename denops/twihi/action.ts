@@ -150,7 +150,7 @@ export const actionOpenTimeline = async (
   await denops.cmd("setlocal nomodifiable");
   await denops.call("twihi#preview", true);
 
-  autocmd.group(denops, `twihi_timeline_${timelineType}`, (helper) => {
+  await autocmd.group(denops, `twihi_timeline_${timelineType}`, (helper) => {
     helper.remove("*");
     helper.define("CursorMoved", "<buffer>", "call twihi#preview(v:false)");
     helper.define("BufDelete", "<buffer>", "call twihi#close_preview()");
