@@ -121,7 +121,7 @@ export const actionOpenTimeline = async (
   await vars.b.set(denops, "twihi_timelines", timelines);
 
   const tweets = timelines.map((timeline, i, timelines) => {
-    const isQuoted = (i - 1 > 0) &&
+    const isQuoted = (i > 0) &&
       timelines[i - 1].quoted_status_id_str === timeline.id_str;
     const name = [...timeline.user.name];
     const nameText = `[${
