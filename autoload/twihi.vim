@@ -151,6 +151,8 @@ function! s:make_tweet_body(tweet) abort
     let icons = add(icons, tweet.favorite_count)
   endif
 
+  let source = matchstr(tweet.source, '<a.*>\zs.*\ze<')
+  let metadata = tweet.created_at_str .. "・" .. source
   let tweet_body = [
         \ a:tweet.user.name,
         \ "@" .. a:tweet.user.screen_name,
@@ -158,7 +160,10 @@ function! s:make_tweet_body(tweet) abort
         \ "",
         \ ]
   let tweet_body = tweet_body + rows
-  let tweet_body = tweet_body + ["", border, join(icons, " ")]
+  let tweet_body = tweet_body + ["", border,
+        \ metadata,
+        \ repeat("─", strdisplaywidth(metadata)),
+        \ join(icons, " ")]
   return tweet_body
 endfunction
 

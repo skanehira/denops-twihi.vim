@@ -7,7 +7,16 @@ import {
 import StatusesUserTimeline from "https://esm.sh/v78/twitter-api-client@1.5.2/dist/interfaces/types/StatusesUserTimelineTypes.d.ts";
 import MediaUpload from "https://esm.sh/v78/twitter-api-client@1.5.2/dist/interfaces/types/MediaUploadTypes.d.ts";
 
-export type Timeline = StatusesUserTimeline | StatusesHomeTimeline;
+import { Retweetedstatus } from "https://esm.sh/v78/twitter-api-client@1.5.2/dist/interfaces/types/StatusesUserTimelineTypes.d.ts";
+
+interface Retweet extends Retweetedstatus {
+  created_at_str: string;
+}
+
+export interface Timeline extends StatusesUserTimeline, StatusesHomeTimeline {
+  created_at_str: string;
+  retweeted_status: Retweet;
+}
 
 export type Size = {
   w: number;
