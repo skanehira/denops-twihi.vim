@@ -144,7 +144,13 @@ export const actionOpenTimeline = async (
   );
 
   await denops.batch(
-    ["twihi#_silent_call", "deletebufline", await denops.call("bufnr"), 1, "$"],
+    [
+      "twihi#internal#helper#_silent_call",
+      "deletebufline",
+      await denops.call("bufnr"),
+      1,
+      "$",
+    ],
     ["setline", 1, rows],
   );
   await denops.cmd("setlocal nomodifiable");

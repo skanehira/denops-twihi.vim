@@ -15,7 +15,7 @@ command! -nargs=? -complete=file TwihiTweet call twihi#tweet(<f-args>)
 command! TwihiEditConfig call denops#notify("twihi", "editConfig", [])
 
 augroup twihi-highlight
-  autocmd ColorScheme * call twihi#_define_highlight()
+  autocmd ColorScheme * call twihi#internal#helper#_define_highlight()
 augroup END
 
-call twihi#_define_highlight()
+call twihi#internal#helper#_define_highlight()
