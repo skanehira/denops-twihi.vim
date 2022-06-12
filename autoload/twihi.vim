@@ -194,7 +194,7 @@ let s:action_list = {
       \ "retweet:comment:media:clipboard": function("twihi#retweet_comment"),
       \ }
 
-function! twihi#action_list(x, l, p) abort
+function! twihi#action_complete(x, l, p) abort
   if a:l ==# ""
     return keys(s:action_list)
   endif
@@ -203,8 +203,9 @@ function! twihi#action_list(x, l, p) abort
 endfunction
 
 function! twihi#choose_action() abort
-  let action = input("action: ", "", "customlist,twihi#action_list")
+  let action = input("action: ", "", "customlist,twihi#action_complete")
   if action ==# ""
+    echom "cancel"
     return
   endif
   echom '' | redraw!
