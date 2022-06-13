@@ -1,1 +1,1 @@
-syntax match ErrorMsg /.\%>281v/
+syntax match ErrorMsg /\%>281v./
