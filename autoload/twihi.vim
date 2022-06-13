@@ -106,8 +106,9 @@ function! twihi#preview(force) abort
 
   let tweet_body = s:make_tweet_body(tweet)
   call setbufline(bufnr, 1, tweet_body)
-  exe "vertical resize" b:twihi_preview_window_width
-  redraw!
+  if winwidth(0) !=# b:twihi_preview_window_width
+    exe "vertical resize" b:twihi_preview_window_width
+  endif
 endfunction
 
 function! s:make_tweet_body(tweet) abort
