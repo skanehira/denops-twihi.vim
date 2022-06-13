@@ -114,7 +114,7 @@ export const actionOpenTimeline = async (
   await vars.b.set(denops, "twihi_timeline_type", timelineType);
 
   await denops.cmd(
-    "setlocal buftype=nofile nomodified modifiable ft=twihi-timeline nowrap",
+    "setlocal buftype=nofile nomodified modifiable nonumber ft=twihi-timeline nowrap",
   );
 
   const timelines = await getTimeline(timelineType, opts);

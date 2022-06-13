@@ -99,7 +99,7 @@ function! twihi#preview(force) abort
   if bufwinid(bufnr) ==# -1
     let curwin = win_getid()
     keepjumps silent exe "botright vnew" t:twihi_preview_bufname
-    setlocal buftype=nofile ft=twihi-preview
+    setlocal buftype=nofile ft=twihi-preview nonumber
     nnoremap <buffer> <silent> q :bw!<CR>
     keepjumps call win_gotoid(curwin)
   endif
