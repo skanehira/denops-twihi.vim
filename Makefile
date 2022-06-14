@@ -25,6 +25,17 @@ test-local: down-mock up-mock
 		DENOPS_NAME=@denops-core-test \
 		deno test -A --unstable
 
+.PHONY: test-themis-nvim
+test-themis-nvim:
+	@TEST_ENDPOINT=http://localhost:8080 \
+		THEMIS_VIM=$$(which nvim) \
+		themis --runtimepath $$GHQ_ROOT/github.com/vim-denops/denops.vim
+
+.PHONY: test-themis-vim
+test-themis-vim:
+	@TEST_ENDPOINT=http://localhost:8080 \
+		themis --runtimepath $$GHQ_ROOT/github.com/vim-denops/denops.vim
+
 .PHONY: test
 test: up-mock
 	@TEST_ENDPOINT=http://localhost:8080 deno test -A --unstable
