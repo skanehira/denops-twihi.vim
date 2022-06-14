@@ -7,7 +7,7 @@ let s:S = s:V.import("Data.String")
 
 " NOTE: When run test in denops, the plugin name will be "@denops-core-test"
 " So, when call denops#request(), the plugin name must be "@denops-core-test"
-let s:denops_name = has_key(environ(), "TEST_ENDPOINT") ? "@denops-core-test" : "twihi"
+let s:denops_name = get(environ(), "DENOPS_NAME", "twihi")
 
 let s:icon = {
       \   "white_heart": "\u2661",
@@ -41,32 +41,18 @@ endfunction
 
 function! twihi#tweet(...) abort
   new twihi://tweet
-  if a:0 ==# 1
-    if a:1 ==# "--clipboard"
-      let b:twihi_media_clipboard = v:true
-    else
-      let b:twihi_media = a:1
-    endif
-  endif
 endfunction
 
-function! twihi#reply(...) abort
+function! twihi#reply() abort
   let tweet = b:twihi_timelines[line(".")-1]
   new twihi://reply
   let b:twihi_reply_tweet = tweet
   call setline(1, ["@" .. tweet.user.screen_name, ""])
   call feedkeys("A ")
   setlocal nomodified
-  if a:0 ==# 1
-    if a:1 ==# "--clipboard"
-      let b:twihi_media_clipboard = v:true
-    else
-      let b:twihi_media = a:1
-    endif
-  endif
 endfunction
 
-function! twihi#retweet_comment(...) abort
+function! twihi#retweet_comment() abort
   let tweet = b:twihi_timelines[line(".")-1]
   new twihi://retweet
 
@@ -74,15 +60,7 @@ function! twihi#retweet_comment(...) abort
   let url = printf("https://twitter.com/%s/status/%s", tweet.user.screen_name, tweet.id_str)
   call setline(1, ["", url])
   call feedkeys("A")
-
   setlocal nomodified
-  if a:0 ==# 1
-    if a:1 ==# "--clipboard"
-      let b:twihi_media_clipboard = v:true
-    else
-      let b:twihi_media = a:1
-    endif
-  endif
 endfunction
 
 function! twihi#preview(force) abort
@@ -182,24 +160,76 @@ function! twihi#yank() abort
   echom "yank: " .. url
 endfunction
 
+function! twihi#media_add(...) abort
+  let medias = get(b:, "twihi_medias", [])
+  let c = len(medias)
+  if a:0 + c ># 4
+    call twihi#internal#helper#_error("can't upload media more than 4")
+    return
+  endif
+  let medias += a:000
+  let b:twihi_medias = medias
+endfunction
+
+function! twihi#media_add_from_clipboard() abort
+  let medias = get(b:, "twihi_medias", [])
+  if 1 + len(medias) ># 4
+    call twihi#internal#helper#_error("can't upload media more than 4")
+    return
+  endif
+  call twihi#internal#helper#_info("adding...")
+  let fname = denops#request(s:denops_name, "mediaAddFromClipboard", [])
+  redraw | echom ''
+  call add(medias, fname)
+  let b:twihi_medias = medias
+endfunction
+
+function! twihi#media_clear() abort
+  if has_key(b:, "twihi_medias")
+    let b:twihi_medias = []
+  endif
+endfunction
+
+function! twihi#media_remove(...) abort
+  if has_key(b:, "twihi_medias")
+    for v in a:000
+      let idx = matchstrpos(b:twihi_medias, "^" .. v .. "$")[1]
+      if idx ==# -1
+        continue
+      endif
+      call remove(b:twihi_medias, idx)
+    endfor
+  endif
+  echo ''
+endfunction
+
+function! twihi#media_complete(x, l, p) abort
+  let medias = get(b:, "twihi_medias", [])
+  if a:x ==# ""
+    return medias
+  endif
+  let result = filter(copy(medias), { _, v -> v =~# a:x })
+  return result
+endfunction
+
 let s:action_list = {
       \ "yank": function("twihi#yank"),
       \ "open": function("twihi#open"),
       \ "retweet": function("twihi#retweet"),
       \ "like": function("twihi#like"),
       \ "reply": function("twihi#reply"),
-      \ "reply:media": function("twihi#reply"),
-      \ "reply:media:clipboard": function("twihi#reply"),
       \ "retweet:comment": function("twihi#retweet_comment"),
-      \ "retweet:comment:media": function("twihi#retweet_comment"),
-      \ "retweet:comment:media:clipboard": function("twihi#retweet_comment"),
+      \ "media:add": function("twihi#media_add"),
+      \ "media:add:clipboard": function("twihi#media_add_from_clipboard"),
+      \ "media:remove": function("twihi#media_remove"),
+      \ "media:clear": function("twihi#media_clear"),
       \ }
 
 function! twihi#action_complete(x, l, p) abort
-  if a:l ==# ""
+  if a:x ==# ""
     return keys(s:action_list)
   endif
-  let result = filter(keys(s:action_list), { _, v ->  v =~# "^" .. a:l })
+  let result = filter(keys(s:action_list), { _, v ->  v =~# "^" .. a:x })
   return result
 endfunction
 
@@ -209,7 +239,7 @@ function! twihi#choose_action() abort
     echom "cancel"
     return
   endif
-  echom '' | redraw!
+  echom ''
   call twihi#do_action(action)
 endfunction
 
@@ -217,13 +247,12 @@ function! twihi#do_action(action) abort
   if a:action ==# ""
     return
   endif
+
   let args = []
-  if a:action =~# "clipboard$"
-    call add(args, "--clipboard")
-  elseif a:action =~# "media$"
-    let file = input("media: ", "", "file")
+
+  if a:action ==# "media:add" || a:action ==# "media:remove"
+    let file = input("file: ", "", "customlist,twihi#media_complete")
     if file ==# ""
-      echom "cancel"
       return
     endif
     call add(args, file)

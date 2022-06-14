@@ -8,6 +8,7 @@ import {
   vars,
 } from "./deps.ts";
 import {
+  actionAddMediaFromClipboard,
   actionOpenTimeline,
   actionReply,
   actionRetweetWithComment,
@@ -99,7 +100,7 @@ test({
       media_id: "3a117ca7799fffa26f62d9a13a9144a1",
     };
     const mediaFile = path.join(testdataDir, "test.png");
-    vars.b.set(denops, "twihi_media", mediaFile);
+    vars.b.set(denops, "twihi_medias", [mediaFile]);
     const resp = await actionTweet(denops, want.text);
     const actual = {
       text: resp.text,
@@ -124,7 +125,7 @@ test({
     const file = await Deno.open(mediaFile);
     await clipboard.write(file);
     file.close();
-    vars.b.set(denops, "twihi_media_clipboard", true);
+    vars.b.set(denops, "twihi_medias", [await actionAddMediaFromClipboard()]);
     const resp = await actionTweet(denops, want.text);
     const actual = {
       text: resp.text,
@@ -171,16 +172,13 @@ test({
 
 const testReply = async (
   denops: Denops,
-  useClipboard: boolean,
+  hasMedia: boolean,
   expect: Record<string, string>,
 ): Promise<void> => {
   await main(denops);
   await denops.cmd(`set rtp^=${pluginRoot}`);
   await actionOpenTimeline(denops, "home");
-  await denops.call(
-    "twihi#do_action",
-    useClipboard ? "reply:media:clipboard" : "reply",
-  );
+  await denops.call("twihi#do_action", "reply");
   await denops.call("setline", 2, ["this is test"]);
   const tweet = await vars.b.get(
     denops,
@@ -196,7 +194,7 @@ const testReply = async (
     text: resp.text,
     id: resp.in_reply_to_status_id_str,
   } as Record<string, string>;
-  if (useClipboard) {
+  if (hasMedia) {
     actual["media_id"] = resp.entities.media[0].id_str;
   }
   assertEquals(actual, expect);
@@ -227,23 +225,22 @@ test({
     const file = await Deno.open(mediaFile);
     await clipboard.write(file);
     file.close();
-
+    await vars.b.set(denops, "twihi_medias", [
+      await actionAddMediaFromClipboard(),
+    ]);
     await testReply(denops, true, expect);
   },
 });
 
 const testRetweetComment = async (
   denops: Denops,
-  useClipboard: boolean,
+  hasMedia: boolean,
   expect: Record<string, string>,
 ): Promise<void> => {
   await main(denops);
   await denops.cmd(`set rtp^=${pluginRoot}`);
   await actionOpenTimeline(denops, "home");
-  await denops.call(
-    "twihi#do_action",
-    useClipboard ? "retweet:comment:media:clipboard" : "retweet:comment",
-  );
+  await denops.call("twihi#do_action", "retweet:comment");
   await denops.call("setline", 2, ["this is retweet test"]);
   const lines = await denops.call("getline", 1, "$") as string[];
   const text = lines.join("\n");
@@ -252,7 +249,7 @@ const testRetweetComment = async (
   const actual = {
     text: resp.text,
   } as Record<string, string>;
-  if (useClipboard) {
+  if (hasMedia) {
     actual["media_id"] = resp.entities.media[0].id_str;
   }
   assertEquals(actual, expect);
@@ -278,6 +275,9 @@ test({
     const file = await Deno.open(mediaFile);
     await clipboard.write(file);
     file.close();
+    await vars.b.set(denops, "twihi_medias", [
+      await actionAddMediaFromClipboard(),
+    ]);
     await testRetweetComment(denops, true, expect);
   },
 });

@@ -85,16 +85,47 @@ COMMANDS					*twihi-commands*
 :TwihiSearch {word}				*:TwihiMentions*
   Search some tweets with {word}
 
-:TwihiTweet {file}				*:TwihiTweet*
+:TwihiTweet					*:TwihiTweet*
   Open tweet buffer
-  If you want to tweet with some image, please input {file}
-  {file} must be media file(like *.png) or '--clipboard'
-  '--clipboard' will use image data from clipboard.
-
-  NOTE: When you want use clipboard on Linux, pelase install xclip
 
 :TwihiEditConfig				*:TwihiEditConfig*
   Open config.
+
+:TwihiMediaAdd {file}...			*:TwihiMediaAdd*
+  Add media file.
+  If you want to tweet with some image, please input {file}
+  {file} must be media file(like *.png) and you can upload 4 files
+
+  NOTE: This command only avalaible in bellow buffer
+    |twihi-buffer-tweet|
+    |twihi-buffer-reply|
+    |twihi-buffer-retweet|
+
+
+:TwihiMediaAddFromClipboard			*:TwihiMediaAddFromClipboard*
+  Add media from clipboard.
+
+  NOTE: When you want use clipboard on Linux, pelase install xclip
+  NOTE: This command only avalaible in bellow buffer
+    |twihi-buffer-tweet|
+    |twihi-buffer-reply|
+    |twihi-buffer-retweet|
+
+:TwihiMediaRemove {file}...			*:TwihiMediaRemove*
+  Remove added media files.
+
+  NOTE: This command only avalaible in bellow buffer
+    |twihi-buffer-tweet|
+    |twihi-buffer-reply|
+    |twihi-buffer-retweet|
+
+:TwihiMediaClear				*:TwihiMediaClear*
+  Clear all added media files.
+
+  NOTE: This command only avalaible in bellow buffer
+    |twihi-buffer-tweet|
+    |twihi-buffer-reply|
+    |twihi-buffer-retweet|
 
 ------------------------------------------------------------------------------
 LAYOUT						*twihi-timeline-layout*
@@ -150,8 +181,6 @@ twihi://reply						*twihi-buffer-reply*
 
   NOTE: This buffer only avalaible from bellow keymaps
     * <Plug>(twihi:reply)
-    * <Plug>(twihi:reply:media)
-    * <Plug>(twihi:reply:media:clipboard)
 
 twihi://rewteet						*twihi-buffer-rewteet*
   Retweet the tweet
@@ -160,8 +189,6 @@ twihi://rewteet						*twihi-buffer-rewteet*
 
   NOTE: This buffer only avalaible from bellow keymaps
     * <Plug>(twihi:retweet:comment)
-    * <Plug>(twihi:retweet:comment:media)
-    * <Plug>(twihi:retweet:comment:media:clipboard)
 
 ------------------------------------------------------------------------------
 KEY-MAPPINGS					*twihi-key-mappings*
@@ -204,24 +231,45 @@ Bellow settings is sample.
   *<Plug>(twihi:reply)*
     Reply the tweet
 
-  *<Plug>(twihi:reply:media)*
-    Reply the tweet with image file
-
-  *<Plug>(twihi:reply:media:clipboard)*
-    Reply with image(from clipboard)
-
   *<Plug>(twihi:retweet)*
     Retweet the tweet
 
   *<Plug>(twihi:retweet:comment)*
     Retweet the tweet with comment
 
-  *<Plug>(twihi:retweet:comment:media)*
-    Retweet the tweet with comment and image file
+KEY-MAPPINGS-TWEET				*twihi-key-mappings-tweet*
+You can do some actions in the bellow buffers.
 
-  *<Plug>(twihi:retweet:comment:media:clipboard)*
-    Retweet the tweet with comment and image(from clipboard)
+    |twihi-buffer-tweet|
+    |twihi-buffer-reply|
+    |twihi-buffer-retweet|
 
+Bellow settings is sample.
+>
+  function! s:twihi_media_keymap() abort
+    nmap <buffer> <silent> <C-g>a <Plug>(twihi:media:add:clipboard)
+    nmap <buffer> <silent> <C-g>d <Plug>(twihi:media:remove)
+  endfunction
+
+  augroup twihi_keymap
+    au!
+    au FileType twihi-tweet call <SID>twihi_media_keymap()
+    au FileType twihi-reply call <SID>twihi_media_keymap()
+    au FileType twihi-retweet call <SID>twihi_media_keymap()
+  augroup END
+<
+
+  *<Plug>(twihi:media:add)*
+    Add media file
+
+  *<Plug>(twihi:media:add:clipboard)*
+    Add media from clipboard
+
+  *<Plug>(twihi:media:remove)*
+    Remove media file
+
+  *<Plug>(twihi:media:clear)*
+    Clear all added media file
 
 ------------------------------------------------------------------------------
 FUNCTIONS					*twihi-functions*
