@@ -8,7 +8,7 @@ Unofficial Twitter Vim/Neovim plugin.
 - xclip(Linux only)
 
 ## Usage
-After edit configiguration (`:h twihi-usage`), you can run some commands.
+After edit configuration (`:h twihi-usage`), you can run some commands.
 Please refer help to see more details.
 
 ```vim
