@@ -47,7 +47,7 @@ https://github.com/skanehira/denops-twihi.vim
 
 ==============================================================================
 USAGE						*twihi-usage*
-At first, you have to get bellow keys from https://developer.twihi.com
+At first, you have to get bellow keys from https://developer.twitter.com
 
   * API Key and Secret
   * Access Token and Secret
