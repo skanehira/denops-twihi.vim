@@ -1,5 +1,6 @@
 import { autocmd, Denops } from "./deps.ts";
 import {
+  actionAddMediaFromClipboard,
   actionLike,
   actionOpen,
   actionOpenTimeline,
@@ -134,6 +135,10 @@ export async function main(denops: Denops): Promise<void> {
 
     async retweetWithComment(text: unknown): Promise<void> {
       await actionRetweetWithComment(denops, text as string);
+    },
+
+    async mediaAddFromClipboard(): Promise<string> {
+      return await actionAddMediaFromClipboard();
     },
   };
 }

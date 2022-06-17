@@ -18,19 +18,11 @@ nnoremap <buffer> <silent> <Plug>(twihi:tweet:open)
 nnoremap <buffer> <silent> <Plug>(twihi:tweet:yank)
       \ <Cmd>call twihi#yank()<CR>
 
+nnoremap <buffer> <silent> <Plug>(twihi:reply)
+      \ <Cmd>call twihi#do_action("reply")<CR>
+
 nnoremap <buffer> <silent> <Plug>(twihi:retweet)
       \ <Cmd>call twihi#do_action("retweet")<CR>
 
-nnoremap <buffer> <silent> <Plug>(twihi:reply)
-      \ <Cmd>call twihi#do_action("reply")<CR>
-nnoremap <buffer> <silent> <Plug>(twihi:reply:media)
-      \ <Cmd>call twihi#do_action("reply:media")<CR>
-nnoremap <buffer> <silent> <Plug>(twihi:reply:media:clipboard)
-      \ <Cmd>call twihi#do_action("reply:media:clipboard")<CR>
-
 nnoremap <buffer> <silent> <Plug>(twihi:retweet:comment)
       \  <Cmd>call twihi#do_action("retweet:comment")<CR>
-nnoremap <buffer> <silent> <Plug>(twihi:retweet:comment:media)
-      \  <Cmd>call twihi#do_action("retweet:comment:media")<CR>
-nnoremap <buffer> <silent> <Plug>(twihi:retweet:comment:media:clipboard)
-      \ <Cmd>call twihi#do_action("retweet:comment:media:clipboard")<CR>

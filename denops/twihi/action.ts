@@ -170,24 +170,40 @@ export async function actionOpen(tweet: Timeline) {
   await open(url);
 }
 
+export const actionAddMediaFromClipboard = async (): Promise<string> => {
+  const tmp = await Deno.makeTempFile({
+    prefix: "twihi_",
+  });
+  const src = await clipboard.read();
+  const dest = await Deno.open(tmp, {
+    write: true,
+  });
+  try {
+    await streams.copy(src, dest);
+  } finally {
+    dest.close();
+  }
+  return tmp;
+};
+
 export const actionUploadMedia = async (
   denops: Denops,
-): Promise<Media | undefined> => {
-  let data: Uint8Array;
-
-  const file = await vars.b.get(denops, "twihi_media", "");
-  if (file) {
-    data = await Deno.readFile(file);
-  } else if (await vars.b.get(denops, "twihi_media_clipboard")) {
-    data = await streams.readAll(await clipboard.read());
-  } else {
-    // do nothing
-    return;
+): Promise<Media[]> => {
+  const medias = await vars.b.get(denops, "twihi_medias", []);
+  if (!medias.length) {
+    return [];
   }
 
   console.log("media uploading...");
-  const media = await uploadMedia(data);
-  return media;
+  const contents = await Promise.all(medias.map((fname) => {
+    return Deno.readFile(fname);
+  }));
+
+  const mediaIDs = await Promise.all(contents.map((data) => {
+    return uploadMedia(data);
+  }));
+
+  return mediaIDs;
 };
 
 export const actionTweet = async (
@@ -201,9 +217,9 @@ export const actionTweet = async (
   const opts: StatusesUpdateOptions = {
     status: text,
   };
-  const media = await actionUploadMedia(denops);
-  if (media) {
-    opts.media_ids = media.media_id_string;
+  const medias = await actionUploadMedia(denops);
+  if (medias.length) {
+    opts.media_ids = medias.map((media) => media.media_id_string).join(",");
   }
   console.log("tweeting...");
   const resp = await statusesUpdate(opts);
@@ -242,9 +258,9 @@ export const actionReply = async (
     status: text,
     in_reply_to_status_id: tweet.id_str,
   };
-  const media = await actionUploadMedia(denops);
-  if (media) {
-    opts.media_ids = media.media_id_string;
+  const medias = await actionUploadMedia(denops);
+  if (medias.length) {
+    opts.media_ids = medias.map((media) => media.media_id_string).join(",");
   }
   console.log("tweeting...");
   const resp = await statusesUpdate(opts);
