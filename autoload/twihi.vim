@@ -157,14 +157,14 @@ function! twihi#yank() abort
   let tweet = b:twihi_timelines[line(".")-1]
   let url = printf("https://twitter.com/%s/status/%s", tweet.user.screen_name, tweet.id_str)
   call setreg(v:register, url)
-  echom "yank: " .. url
+  call twihi#internal#logger#_info("yank: " .. url)
 endfunction
 
 function! twihi#media_add(...) abort
   let medias = get(b:, "twihi_medias", [])
   let c = len(medias)
   if a:0 + c ># 4
-    call twihi#internal#helper#_error("can't upload media more than 4")
+    call twihi#internal#logger#_error("can't upload media more than 4")
     return
   endif
   let medias += a:000
@@ -174,10 +174,10 @@ endfunction
 function! twihi#media_add_from_clipboard() abort
   let medias = get(b:, "twihi_medias", [])
   if 1 + len(medias) ># 4
-    call twihi#internal#helper#_error("can't upload media more than 4")
+    call twihi#internal#logger#_error("can't upload media more than 4")
     return
   endif
-  call twihi#internal#helper#_info("adding...")
+  call twihi#internal#logger#_info("adding...")
   let fname = denops#request(s:denops_name, "mediaAddFromClipboard", [])
   redraw | echom ''
   call add(medias, fname)
@@ -200,7 +200,7 @@ function! twihi#media_remove(...) abort
       call remove(b:twihi_medias, idx)
     endfor
   endif
-  echo ''
+  redraw | echo ''
 endfunction
 
 function! twihi#media_complete(x, l, p) abort
@@ -236,10 +236,9 @@ endfunction
 function! twihi#choose_action() abort
   let action = input("action: ", "", "customlist,twihi#action_complete")
   if action ==# ""
-    echom "cancel"
+    call twihi#internal#logger#_warn("cancel")
     return
   endif
-  echom ''
   call twihi#do_action(action)
 endfunction
 

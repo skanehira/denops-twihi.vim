@@ -17,22 +17,6 @@ function! twihi#internal#helper#_silent_call(fn, ...) abort
   silent call call(a:fn, a:000)
 endfunction
 
-function! twihi#internal#helper#_info(msg) abort
-  echom 'twihi: ' .. a:msg
-endfunction
-
-function! twihi#internal#helper#_warn(msg) abort
-  echohl WarningMsg
-  echom 'twihi: ' .. a:msg
-  echohl None
-endfunction
-
-function! twihi#internal#helper#_error(msg) abort
-  echohl ErrorMsg
-  echom 'twihi: ' .. a:msg
-  echohl None
-endfunction
-
 function! twihi#internal#helper#_define_media_commands() abort
   " commands is only available in buffer
   command! -buffer -nargs=+ -complete=file TwihiMediaAdd call twihi#media_add(<f-args>)
