@@ -82,7 +82,7 @@ COMMANDS					*twihi-commands*
 :TwihiTimeline {userid}				*:TwihiTimeline*
   Open the user's timeline
 
-:TwihiSearch {word}				*:TwihiMentions*
+:TwihiSearch {word}				*:TwihiSearch*
   Search some tweets with {word}
 
 :TwihiTweet					*:TwihiTweet*
