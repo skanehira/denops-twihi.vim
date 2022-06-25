@@ -22,6 +22,7 @@ function! twihi#internal#helper#_define_media_commands() abort
   command! -buffer -nargs=+ -complete=file TwihiMediaAdd call twihi#media_add(<f-args>)
   command! -buffer TwihiMediaAddFromClipboard call twihi#media_add_from_clipboard()
   command! -buffer -nargs=+ -complete=customlist,twihi#media_complete TwihiMediaRemove call twihi#media_remove(<f-args>)
+  command! -buffer -nargs=+ -complete=customlist,twihi#media_complete TwihiMediaOpen call twihi#media_open(<f-args>)
   command! -buffer TwihiMediaClear call twihi#media_clear()
 
   nnoremap <buffer> <silent> <Plug>(twihi:media:add)
@@ -32,4 +33,6 @@ function! twihi#internal#helper#_define_media_commands() abort
         \  <Cmd>call twihi#do_action("media:remove")<CR>
   nnoremap <buffer> <silent> <Plug>(twihi:media:clear)
         \  <Cmd>call twihi#do_action("media:clear")<CR>
+  nnoremap <buffer> <silent> <Plug>(twihi:media:open)
+        \  <Cmd>call twihi#do_action("media:open")<CR>
 endfunction

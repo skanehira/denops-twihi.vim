@@ -101,7 +101,6 @@ COMMANDS					*twihi-commands*
     |twihi-buffer-reply|
     |twihi-buffer-retweet|
 
-
 :TwihiMediaAddFromClipboard			*:TwihiMediaAddFromClipboard*
   Add media from clipboard.
 
@@ -121,6 +120,14 @@ COMMANDS					*twihi-commands*
 
 :TwihiMediaClear				*:TwihiMediaClear*
   Clear all added media files.
+
+  NOTE: This command only avalaible in bellow buffer
+    |twihi-buffer-tweet|
+    |twihi-buffer-reply|
+    |twihi-buffer-retweet|
+
+:TwihiMediaOpen					*:TwihiMediaOpen*
+  Open media file
 
   NOTE: This command only avalaible in bellow buffer
     |twihi-buffer-tweet|
@@ -270,6 +277,9 @@ Bellow settings is sample.
 
   *<Plug>(twihi:media:clear)*
     Clear all added media file
+
+  *<Plug>(twihi:media:open)*
+    Open media file
 
 ------------------------------------------------------------------------------
 FUNCTIONS					*twihi-functions*

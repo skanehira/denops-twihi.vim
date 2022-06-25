@@ -170,9 +170,14 @@ export async function actionOpen(tweet: Timeline) {
   await open(url);
 }
 
+export const actionOpenMedia = async (file: string): Promise<void> => {
+  await open(file);
+};
+
 export const actionAddMediaFromClipboard = async (): Promise<string> => {
   const tmp = await Deno.makeTempFile({
     prefix: "twihi_",
+    suffix: ".png",
   });
   const src = await clipboard.read();
   const dest = await Deno.open(tmp, {

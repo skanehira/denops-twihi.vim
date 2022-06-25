@@ -3,6 +3,7 @@ import {
   actionAddMediaFromClipboard,
   actionLike,
   actionOpen,
+  actionOpenMedia,
   actionOpenTimeline,
   actionReply,
   actionRetweet,
@@ -93,6 +94,10 @@ export async function main(denops: Denops): Promise<void> {
 
     async open(arg: unknown): Promise<void> {
       await actionOpen(arg as Timeline);
+    },
+
+    async openMedia(arg: unknown): Promise<void> {
+      await actionOpenMedia(arg as string);
     },
 
     async tweet(arg: unknown): Promise<void> {

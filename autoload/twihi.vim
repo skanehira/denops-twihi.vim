@@ -203,6 +203,10 @@ function! twihi#media_remove(...) abort
   redraw | echo ''
 endfunction
 
+function! twihi#media_open(file) abort
+ call denops#request(s:denops_name, "openMedia", [a:file]) 
+endfunction
+
 function! twihi#media_complete(x, l, p) abort
   let medias = get(b:, "twihi_medias", [])
   if a:x ==# ""
@@ -223,6 +227,7 @@ let s:action_list = {
       \ "media:add:clipboard": function("twihi#media_add_from_clipboard"),
       \ "media:remove": function("twihi#media_remove"),
       \ "media:clear": function("twihi#media_clear"),
+      \ "media:open": function("twihi#media_open"),
       \ }
 
 function! twihi#action_complete(x, l, p) abort
@@ -249,7 +254,7 @@ function! twihi#do_action(action) abort
 
   let args = []
 
-  if a:action ==# "media:add" || a:action ==# "media:remove"
+  if a:action ==# "media:add" || a:action ==# "media:remove" || a:action ==# "media:open"
     let file = input("file: ", "", "customlist,twihi#media_complete")
     if file ==# ""
       return
