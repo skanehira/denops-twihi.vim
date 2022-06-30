@@ -2,6 +2,8 @@
 " Author: skanehira
 " License: MIT
 
+setlocal nonumber
+
 augroup twihi_retweet
   au!
   au BufWriteCmd <buffer> call denops#notify("twihi", "retweetWithComment",

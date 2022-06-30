@@ -2,6 +2,8 @@
 " Author: skanehira
 " License: MIT
 
+setlocal nonumber
+
 augroup twihi_reply
   au!
   au BufWriteCmd <buffer> call denops#notify("twihi", "reply",

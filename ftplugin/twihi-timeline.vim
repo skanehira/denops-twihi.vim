@@ -2,6 +2,8 @@
 " Author: skanehira
 " License: MIT
 
+setlocal nonumber
+
 nnoremap <buffer> <silent> q :bw<CR>
 
 nnoremap <buffer> <silent> <Plug>(twihi:action)
