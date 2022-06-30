@@ -6,8 +6,9 @@ import { base64 } from "./deps.ts";
 
 export let twihiAPI: TwitterAPI;
 export const endpoint = {
-  api: Deno.env.get("TEST_ENDPOINT") ?? "https://api.twitter.com/1.1",
-  upload: Deno.env.get("TEST_ENDPOINT") ?? "https://upload.twitter.com/1.1",
+  api: Deno.env.get("TWIHI_TEST_ENDPOINT") ?? "https://api.twitter.com/1.1",
+  upload: Deno.env.get("TWIHI_TEST_ENDPOINT") ??
+    "https://upload.twitter.com/1.1",
 };
 
 export const loadConfig = async (): Promise<void> => {
