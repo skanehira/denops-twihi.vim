@@ -39,41 +39,9 @@ test({
     const actual = await denops.call("getline", 1, "$") as string[];
     const expectFile = path.join(
       testdataDir,
-      "want_homeline_overview.text",
+      "want_homeline.text",
     );
     await assertEqualTextFile(actual.join("\n"), expectFile);
-
-    const preview = await denops.call(
-      "getbufline",
-      "twihi://home/preview",
-      1,
-      "$",
-    ) as string[];
-
-    const expectPreview = path.join(
-      testdataDir,
-      "want_homeline_preview.text",
-    );
-
-    await assertEqualTextFile(preview.join("\n"), expectPreview);
-
-    // NOTE: assert preview changing only in Neovim
-    // because Vim's feedkeys doesn't working correctly trough denops
-    if (denops.meta.host == "nvim") {
-      await denops.call("feedkeys", "j");
-      const newPreview = await denops.call(
-        "getbufline",
-        "twihi://home/preview",
-        1,
-        "$",
-      ) as string[];
-
-      const expectNewPreivew = path.join(
-        testdataDir,
-        "want_homeline_new_preivew.text",
-      );
-      await assertEqualTextFile(newPreview.join("\n"), expectNewPreivew);
-    }
   },
 });
 
@@ -159,11 +127,15 @@ test({
     await actionOpenTimeline(denops, "home");
     await denops.call("twihi#do_action", "like");
     await denops.call("twihi#do_action", "retweet");
+    const tweet = await denops.call("twihi#get_tweet") as {
+      position: { start: number; end: number };
+    };
+    const start = tweet.position.start as number;
+    const end = tweet.position.end as number;
     const actual = await denops.call(
-      "getbufline",
-      "twihi://home/preview",
-      1,
-      "$",
+      "getline",
+      start,
+      end,
     ) as string[];
     const file = path.join(testdataDir, "want_like_and_retweet.text");
     await assertEqualTextFile(actual.join("\n"), file);
@@ -279,5 +251,21 @@ test({
       await actionAddMediaFromClipboard(),
     ]);
     await testRetweetComment(denops, true, expect);
+  },
+});
+
+test({
+  mode: "all",
+  name: "test select next/prev tweet",
+  fn: async (denops: Denops): Promise<void> => {
+    await main(denops);
+    await denops.cmd(`set rtp^=${pluginRoot}`);
+    await actionOpenTimeline(denops, "home");
+    await denops.call("twihi#tweet_next");
+    let tweet = await denops.call("twihi#get_tweet") as Timeline;
+    assertEquals(tweet.id_str, "1533592543426117632");
+    await denops.call("twihi#tweet_prev");
+    tweet = await denops.call("twihi#get_tweet") as Timeline;
+    assertEquals(tweet.id_str, "1533592806630912000");
   },
 });
