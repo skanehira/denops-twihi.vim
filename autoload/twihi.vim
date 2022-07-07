@@ -43,8 +43,20 @@ function! twihi#tweet(...) abort
   new twihi://tweet
 endfunction
 
+function! twihi#get_tweet() abort
+  let curline = line(".")
+  let tweet = filter(copy(b:twihi_timelines),  { _, tweet -> tweet.position.start <= curline && curline <= tweet.position.end })
+  if len(tweet) == 0
+    return {}
+  endif
+  return tweet[0]
+endfunction
+
 function! twihi#reply() abort
-  let tweet = b:twihi_timelines[line(".")-1]
+  let tweet = twihi#get_tweet()
+  if empty(tweet)
+    return
+  endif
   new twihi://reply
   let b:twihi_reply_tweet = tweet
   call setline(1, ["@" .. tweet.user.screen_name, ""])
@@ -53,7 +65,10 @@ function! twihi#reply() abort
 endfunction
 
 function! twihi#retweet_comment() abort
-  let tweet = b:twihi_timelines[line(".")-1]
+  let tweet = twihi#get_tweet()
+  if empty(tweet)
+    return
+  endif
   new twihi://retweet
 
   " when retweet with comment, tweet body must includes original tweet url.
@@ -63,45 +78,45 @@ function! twihi#retweet_comment() abort
   setlocal nomodified
 endfunction
 
-function! twihi#preview(force) abort
-  let line = line(".")
-  if b:twihi_cursor.line ==# line && !a:force
-    return
-  endif
-  let b:twihi_cursor.line = line
-  let tweet = b:twihi_timelines[line-1]
-  let bufnr = bufadd(t:twihi_preview_bufname)
-  call bufload(bufnr)
-  silent call deletebufline(bufnr, 1, "$")
+function! twihi#draw_tweet() abort
+  setlocal modifiable
+  let start = 1
+  let idx = 0
+  for tweet in b:twihi_timelines
+    let body = s:make_tweet_body(tweet)
+    let end = start + len(body)
+    let tweet.position = {
+          \ 'idx': idx,
+          \ 'start': start,
+          \ 'end': end-1,
+          \ }
+    call setline(start, body)
+    let start = end
+    let idx += 1
+  endfor
+  setlocal nomodifiable
+endfunction
 
-  if bufwinid(bufnr) ==# -1
-    let curwin = win_getid()
-    keepjumps silent exe "botright vnew" t:twihi_preview_bufname
-    setlocal buftype=nofile ft=twihi-preview nonumber
-    nnoremap <buffer> <silent> q :bw!<CR>
-    keepjumps call win_gotoid(curwin)
-  endif
-
-  let tweet_body = s:make_tweet_body(tweet)
-  call setbufline(bufnr, 1, tweet_body)
-  if winwidth(0) !=# b:twihi_preview_window_width
-    exe "vertical resize" b:twihi_preview_window_width
-  endif
+function! s:redraw_tweet(tweet) abort
+  setlocal modifiable
+  call setline(a:tweet.position.start, s:make_tweet_body(a:tweet))
+  setlocal nomodifiable
 endfunction
 
 function! s:make_tweet_body(tweet) abort
-  let width = winwidth(bufwinnr(t:twihi_preview_bufname)) - 5
+  let width = winwidth(0)
+  if width > 80
+    let width = 80
+  endif
   let rows = s:S.split_by_displaywidth(a:tweet.text, width, -1, 1)
   let rows = map(rows, "trim(v:val)")
 
   if has_key(a:tweet, "quoted_status")
     let text = s:make_tweet_body(a:tweet.quoted_status)
-    let quoted_rows = map(text, { _, v -> " │ " .. v })
+    call remove(text, -1)
+    let quoted_rows = map(text, { _, v -> " │ " .. v }) + [""]
     let rows = rows + [""] + quoted_rows
   endif
-
-  let bar_count = max(map(copy(rows), { _, v -> strdisplaywidth(v) }))
-  let border = repeat("─", bar_count)
 
   let tweet = a:tweet
   if has_key(a:tweet, "retweeted_status")
@@ -118,43 +133,62 @@ function! s:make_tweet_body(tweet) abort
   let source = matchstr(tweet.source, '<a.*>\zs.*\ze<')
   let metadata = tweet.created_at_str .. "・" .. source
   let tweet_body = [
-        \ a:tweet.user.name,
-        \ "@" .. a:tweet.user.screen_name,
-        \ border,
+        \ a:tweet.user.name .. " | @" .. a:tweet.user.screen_name .. " " .. metadata,
         \ "",
         \ ]
   let tweet_body = tweet_body + rows
-  let tweet_body = tweet_body + ["", border,
-        \ metadata,
-        \ repeat("─", strdisplaywidth(metadata)),
-        \ join(icons, " ")]
+  let tweet_body = tweet_body + [
+        \ "",
+        \ join(icons, " "),
+        \ repeat("─", winwidth(0)),
+        \ ]
   return tweet_body
 endfunction
 
-" When timeline buffer be closed, close preview buffer
-function! twihi#close_preview() abort
-  if has_key(t:, "twihi_preview_bufname") && bufexists(t:twihi_preview_bufname)
-    exe "bw!" t:twihi_preview_bufname
-  endif
-endfunction
-
 function! twihi#open() abort
-  let tweet = b:twihi_timelines[line(".")-1]
+  let tweet = twihi#get_tweet()
+  if empty(tweet)
+    return
+  endif
   call denops#request(s:denops_name, "open", [tweet])
 endfunction
 
 function! twihi#retweet() abort
-  let tweet = b:twihi_timelines[line(".")-1]
+  let tweet = twihi#get_tweet()
+  if empty(tweet)
+    return
+  endif
   call denops#request(s:denops_name, "retweet", [tweet])
+  if has_key(tweet, 'retweeted_status')
+    let tweet.retweeted_status.retweeted = v:true
+  else
+    let tweet.retweeted = v:true
+  endif
+  let tweet.retweet_count += 1
+  call s:redraw_tweet(tweet)
 endfunction
 
 function! twihi#like() abort
-  let tweet = b:twihi_timelines[line(".")-1]
+  let tweet = twihi#get_tweet()
+  if empty(tweet)
+    return
+  endif
   call denops#request(s:denops_name, "like", [tweet])
+
+  if has_key(tweet, 'retweeted_status')
+    let tweet.retweeted_status.favorited = v:true
+  else
+    let tweet.favorited = v:true
+  endif
+  let tweet.favorite_count += 1
+  call s:redraw_tweet(tweet)
 endfunction
 
 function! twihi#yank() abort
-  let tweet = b:twihi_timelines[line(".")-1]
+  let tweet = twihi#get_tweet()
+  if empty(tweet)
+    return
+  endif
   let url = printf("https://twitter.com/%s/status/%s", tweet.user.screen_name, tweet.id_str)
   call setreg(v:register, url)
   call twihi#internal#logger#_info("yank: " .. url)
@@ -262,4 +296,32 @@ function! twihi#do_action(action) abort
     call add(args, file)
   endif
   call call(s:action_list[a:action], args)
+endfunction
+
+function! twihi#tweet_prev() abort
+  let cur = twihi#get_tweet()
+  if empty(cur)
+    return
+  endif
+  let idx = cur.position.idx-1
+  if 0 > idx
+    return
+  endif
+
+  let prev = b:twihi_timelines[idx]
+  call cursor([prev.position.start, 0])
+endfunction
+
+function! twihi#tweet_next() abort
+  let cur = twihi#get_tweet()
+  if empty(cur)
+    return
+  endif
+  let idx = cur.position.idx+1
+  if len(b:twihi_timelines) <= idx
+    return
+  endif
+
+  let next = b:twihi_timelines[idx]
+  call cursor([next.position.start, 0])
 endfunction

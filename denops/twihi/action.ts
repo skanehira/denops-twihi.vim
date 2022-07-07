@@ -10,7 +10,6 @@ import {
   userTimeline,
 } from "./twihi.ts";
 import {
-  autocmd,
   clipboard,
   datetime,
   Denops,
@@ -25,31 +24,6 @@ import { expandQuotedStatus } from "./_util/timeline.ts";
 type TimelineType = "home" | "user" | "mentions" | "search";
 
 const dateTimeFormat = "yyyy/MM/dd HH:mm:ss";
-
-export function tweets2lines(
-  objs: Record<string, string>[],
-): [number, string[]] {
-  const rows = objs.map((obj) => {
-    return Object.values(obj);
-  });
-
-  // rotate for get each col's length
-  // https://qiita.com/kznrluk/items/790f1b154d1b6d4de398
-  const len = rows[0].map((_, c) => rows.map((r) => r[c])).map(
-    (cols) => {
-      return Math.max(...cols.map((col) => stringWidth(col)));
-    },
-  );
-
-  // padding each col
-  const lines = rows.map((row) =>
-    row.map((col, i) => {
-      col += " ".repeat(len[i] - stringWidth(col));
-      return col;
-    }).join(" ")
-  );
-  return [Math.max(...lines.map((line) => stringWidth(line))), lines];
-}
 
 export type GetTimelineOpts = {
   screenName?: string;
@@ -111,56 +85,12 @@ export const actionOpenTimeline = async (
   timelineType: TimelineType,
   opts?: GetTimelineOpts,
 ): Promise<void> => {
-  await vars.b.set(denops, "twihi_timeline_type", timelineType);
-
-  await denops.cmd(
-    "setlocal buftype=nofile nomodified modifiable nonumber ft=twihi-timeline nowrap",
-  );
-
   const timelines = await getTimeline(timelineType, opts);
   await vars.b.set(denops, "twihi_timelines", timelines);
-
-  const tweets = timelines.map((timeline, i, timelines) => {
-    const isQuoted = (i > 0) &&
-      timelines[i - 1].quoted_status_id_str === timeline.id_str;
-    const name = [...timeline.user.name];
-    const nameText = `[${
-      name.length > 10 ? name.slice(0, 8).join("") + "…" : name.join("")
-    }]`;
-    return {
-      name: isQuoted ? " └ " + nameText : nameText,
-      screen_name: `@${timeline.user.screen_name}`,
-      created_at_str: timeline.created_at_str,
-    };
-  });
-
-  const [winWidth, rows] = tweets2lines(tweets);
-  await vars.b.set(denops, "twihi_preview_window_width", winWidth.toString());
-  await vars.b.set(denops, "twihi_cursor", { line: -1 });
-  await vars.t.set(
-    denops,
-    "twihi_preview_bufname",
-    `twihi://${timelineType}/preview`,
+  await denops.cmd(
+    "setlocal buftype=nofile nonumber ft=twihi-timeline",
   );
-
-  await denops.batch(
-    [
-      "twihi#internal#helper#_silent_call",
-      "deletebufline",
-      await denops.call("bufnr"),
-      1,
-      "$",
-    ],
-    ["setline", 1, rows],
-  );
-  await denops.cmd("setlocal nomodifiable");
-  await denops.call("twihi#preview", true);
-
-  await autocmd.group(denops, `twihi_timeline_${timelineType}`, (helper) => {
-    helper.remove("*");
-    helper.define("CursorMoved", "<buffer>", "call twihi#preview(v:false)");
-    helper.define("BufDelete", "<buffer>", "call twihi#close_preview()");
-  });
+  await denops.call("twihi#draw_tweet");
 };
 
 export async function actionOpen(tweet: Timeline) {
@@ -232,22 +162,11 @@ export const actionTweet = async (
   return resp;
 };
 
-export const actionLike = async (denops: Denops, id: string): Promise<void> => {
+export const actionLike = async (
+  _denops: Denops,
+  id: string,
+): Promise<void> => {
   await likeTweet(id);
-  const num = await denops.call("line", ".") as number;
-  const timelines = await vars.b.get(
-    denops,
-    "twihi_timelines",
-    [],
-  ) as Timeline[];
-  const timeline = timelines[num - 1];
-  if (timeline.retweeted_status) {
-    timeline.retweeted_status.favorited = true;
-  } else {
-    timeline.favorited = true;
-  }
-  await vars.b.set(denops, "twihi_timelines", timelines);
-  await denops.call("twihi#preview", true);
 };
 
 export const actionReply = async (
@@ -279,20 +198,6 @@ export const actionRetweet = async (
 ): Promise<void> => {
   console.log("retweeting...");
   await retweet(id);
-  const num = await denops.call("line", ".") as number;
-  const timelines = await vars.b.get(
-    denops,
-    "twihi_timelines",
-    [],
-  ) as Timeline[];
-  const timeline = timelines[num - 1];
-  if (timeline.retweeted_status) {
-    timeline.retweeted_status.retweeted = true;
-  } else {
-    timeline.retweeted = true;
-  }
-  await vars.b.set(denops, "twihi_timelines", timelines);
-  await denops.call("twihi#preview", true);
   await denops.cmd("echo ''");
 };
 

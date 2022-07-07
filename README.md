@@ -1,7 +1,7 @@
 # denops-twihi.vim
 Unofficial Twitter Vim/Neovim plugin.
 
-![](https://i.gyazo.com/8edb0482b70d4732f17a6ae474e22b6d.png)
+![](https://i.gyazo.com/64dfeaae07b0d3193fc6798fa6af5f70.png)
 
 ## Requirements
 - [denops.vim](https://github.com/vim-denops/denops.vim)

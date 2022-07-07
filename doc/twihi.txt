@@ -47,13 +47,13 @@ https://github.com/skanehira/denops-twihi.vim
 
 ==============================================================================
 USAGE						*twihi-usage*
-At first, you have to get bellow keys from https://developer.twitter.com
+At first, you have to get below keys from https://developer.twitter.com
 
   * API Key and Secret
   * Access Token and Secret
 
 After get keys and secrets,
-Please edit config as bellow using |:TwihiEditConfig|
+Please edit config as below using |:TwihiEditConfig|
 After |:write|, the config will be auto reload.
 >
   {
@@ -96,7 +96,7 @@ COMMANDS					*twihi-commands*
   If you want to tweet with some image, please input {file}
   {file} must be media file(like *.png) and you can upload 4 files
 
-  NOTE: This command only avalaible in bellow buffer
+  NOTE: This command only avalaible in below buffer
     |twihi-buffer-tweet|
     |twihi-buffer-reply|
     |twihi-buffer-retweet|
@@ -105,7 +105,7 @@ COMMANDS					*twihi-commands*
   Add media from clipboard.
 
   NOTE: When you want use clipboard on Linux, pelase install xclip
-  NOTE: This command only avalaible in bellow buffer
+  NOTE: This command only avalaible in below buffer
     |twihi-buffer-tweet|
     |twihi-buffer-reply|
     |twihi-buffer-retweet|
@@ -113,7 +113,7 @@ COMMANDS					*twihi-commands*
 :TwihiMediaRemove {file}...			*:TwihiMediaRemove*
   Remove added media files.
 
-  NOTE: This command only avalaible in bellow buffer
+  NOTE: This command only avalaible in below buffer
     |twihi-buffer-tweet|
     |twihi-buffer-reply|
     |twihi-buffer-retweet|
@@ -121,7 +121,7 @@ COMMANDS					*twihi-commands*
 :TwihiMediaClear				*:TwihiMediaClear*
   Clear all added media files.
 
-  NOTE: This command only avalaible in bellow buffer
+  NOTE: This command only avalaible in below buffer
     |twihi-buffer-tweet|
     |twihi-buffer-reply|
     |twihi-buffer-retweet|
@@ -129,34 +129,27 @@ COMMANDS					*twihi-commands*
 :TwihiMediaOpen					*:TwihiMediaOpen*
   Open media file
 
-  NOTE: This command only avalaible in bellow buffer
+  NOTE: This command only avalaible in below buffer
     |twihi-buffer-tweet|
     |twihi-buffer-reply|
     |twihi-buffer-retweet|
 
 ------------------------------------------------------------------------------
 LAYOUT						*twihi-timeline-layout*
-  The timeline layout has tow windows
-  Left window is overview of tweet, right window will display
-  detail of tweet
 
+Timeline buffer contains multiple tweets that like below.
 >
-  Left window (overview of tweet)             | Right window (details of tweet)
-  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ | ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  [ゴリラ] @gorilla0513 2022/06/04 20:46:05   | ゴリラ              ─────────────────┐
-  ...                                         | @gorilla0513        ────────┐   user screen name
-     │         │           │                  | ─────────────────   ┐    user id
-     │         │           └ created date     |                     │
-     │         └ user id                      | This is gorilla.    ├ tweet text
-     └ user screen name                       | I like a banana.    │
-                                              |                     │
-                                              | ─────────────────   ┘
-                                              | 2022/06/04 20:46:05 Twitter for iPhone
-                                              | ──────────────────────────────────────
-                                              | ♺ 1 ♡ 10                   │
-                                              |  │    │                    └ client
-                                              |  │    └ like count
-                                              |  └ retweet count
+  ─────────────────────────────────────────────────────────────
+  ゴリラ | @gorilla0513 2022/06/04 20:46:05・Twitter for iPhone ┐
+                      ┐                                         │
+  This is gorilla.    ├ tweet body                              │ 
+  I like a banana.    │                                         │
+                      ┘                                         ├ tweet which the
+  ♺ 1 ♡ 10                                                      │ action applies
+   │    │                                                       │
+   │    └ like count                                            │
+   └ retweet count                                              │
+  ────────────────────────────────────────────────────────────  ┘
 >
 
 ------------------------------------------------------------------------------
@@ -186,7 +179,7 @@ twihi://reply						*twihi-buffer-reply*
   The buffer contents will be post when you type |:write|
   If reply is successed, the buffer will be deleted
 
-  NOTE: This buffer only avalaible from bellow keymaps
+  NOTE: This buffer only avalaible from below keymaps
     * <Plug>(twihi:reply)
 
 twihi://rewteet						*twihi-buffer-rewteet*
@@ -194,20 +187,20 @@ twihi://rewteet						*twihi-buffer-rewteet*
   The buffer contents will be post when you type |:write|
   If retweet is successed, the buffer will be deleted
 
-  NOTE: This buffer only avalaible from bellow keymaps
+  NOTE: This buffer only avalaible from below keymaps
     * <Plug>(twihi:retweet:comment)
 
 ------------------------------------------------------------------------------
 KEY-MAPPINGS					*twihi-key-mappings*
 
 KEY-MAPPINGS-TIMELINE				*twihi-key-mappings-timeline*
-You can do some actions in the bellow buffers.
+You can do some actions in the below buffers.
 
   |twihi-buffer-timeline|
   |twihi-buffer-home|
   |twihi-buffer-mentions|
 
-Bellow settings is sample.
+below settings is sample.
 >
   function! s:twihi_keymap() abort
     nmap <buffer> <silent> <C-g>y <Plug>(twihi:tweet:yank)
@@ -215,6 +208,8 @@ Bellow settings is sample.
     nmap <buffer> <silent> <C-o> <Plug>(twihi:tweet:open)
     nmap <buffer> <silent> <C-p> <Plug>(twihi:reply)
     nmap <buffer> <silent> <C-r> <Plug>(twihi:retweet:comment)
+    nmap <buffer> <silent> <C-j> <Plug>(twihi:tweet:next)
+    nmap <buffer> <silent> <C-k> <Plug>(twihi:tweet:prev)
   endfunction
 
   augroup twihi_keymap
@@ -244,14 +239,20 @@ Bellow settings is sample.
   *<Plug>(twihi:retweet:comment)*
     Retweet the tweet with comment
 
+  *<Plug>(twihi:tweet:next)*
+    Jump to next tweet
+
+  *<Plug>(twihi:tweet:prev)*
+    Jump to previous tweet
+
 KEY-MAPPINGS-TWEET				*twihi-key-mappings-tweet*
-You can do some actions in the bellow buffers.
+You can do some actions in the below buffers.
 
     |twihi-buffer-tweet|
     |twihi-buffer-reply|
     |twihi-buffer-retweet|
 
-Bellow settings is sample.
+below settings is sample.
 >
   function! s:twihi_media_keymap() abort
     nmap <buffer> <silent> <C-g>a <Plug>(twihi:media:add:clipboard)

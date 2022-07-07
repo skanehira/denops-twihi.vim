@@ -2,8 +2,6 @@
 " Author: skanehira
 " License: MIT
 
-setlocal nonumber
-
 nnoremap <buffer> <silent> q :bw<CR>
 
 nnoremap <buffer> <silent> <Plug>(twihi:action)
@@ -27,4 +25,10 @@ nnoremap <buffer> <silent> <Plug>(twihi:retweet)
       \ <Cmd>call twihi#do_action("retweet")<CR>
 
 nnoremap <buffer> <silent> <Plug>(twihi:retweet:comment)
-      \  <Cmd>call twihi#do_action("retweet:comment")<CR>
+      \ <Cmd>call twihi#do_action("retweet:comment")<CR>
+
+nnoremap <buffer> <silent> <Plug>(twihi:tweet:next)
+      \ <Cmd>call twihi#tweet_next()<CR>
+
+nnoremap <buffer> <silent> <Plug>(twihi:tweet:prev)
+      \ <Cmd>call twihi#tweet_prev()<CR>
