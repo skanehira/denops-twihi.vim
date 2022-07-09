@@ -78,7 +78,7 @@ function! twihi#retweet_comment() abort
   setlocal nomodified
 endfunction
 
-function! twihi#draw_tweet() abort
+function! twihi#draw_timeline() abort
   setlocal modifiable
   let start = 1
   let idx = 0
@@ -104,18 +104,17 @@ function! s:redraw_tweet(tweet) abort
 endfunction
 
 function! s:make_tweet_body(tweet) abort
-  let width = winwidth(0)
-  if width > 80
-    let width = 80
-  endif
-  let rows = s:S.split_by_displaywidth(a:tweet.text, width, -1, 1)
-  let rows = map(rows, "trim(v:val)")
+  let width = winwidth(0) + getwininfo(win_getid())[0].textoff
+  let rows = split(a:tweet.text, "\n")
 
   if has_key(a:tweet, "quoted_status")
     let text = s:make_tweet_body(a:tweet.quoted_status)
+    " remove bottom border
     call remove(text, -1)
-    let quoted_rows = map(text, { _, v -> " │ " .. v }) + [""]
-    let rows = rows + [""] + quoted_rows
+    " make border for original tweet
+    let border = '  ' .. repeat("─", width-2)
+    let quoted_rows = map(text, { _, v -> "  " .. v }) + [""]
+    let rows = rows + ["", border] + quoted_rows + [border]
   endif
 
   let tweet = a:tweet
@@ -140,7 +139,7 @@ function! s:make_tweet_body(tweet) abort
   let tweet_body = tweet_body + [
         \ "",
         \ join(icons, " "),
-        \ repeat("─", winwidth(0)),
+        \ repeat("─", width),
         \ ]
   return tweet_body
 endfunction

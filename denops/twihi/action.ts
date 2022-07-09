@@ -88,9 +88,9 @@ export const actionOpenTimeline = async (
   const timelines = await getTimeline(timelineType, opts);
   await vars.b.set(denops, "twihi_timelines", timelines);
   await denops.cmd(
-    "setlocal buftype=nofile nonumber ft=twihi-timeline",
+    "setlocal buftype=nofile nonumber ft=twihi-timeline breakindent",
   );
-  await denops.call("twihi#draw_tweet");
+  await denops.call("twihi#draw_timeline");
 };
 
 export async function actionOpen(tweet: Timeline) {
