@@ -2,9 +2,6 @@
 " Author: skanehira
 " License: MIT
 
-let s:V = vital#twihi#new()
-let s:S = s:V.import("Data.String")
-
 " NOTE: When run test in denops, the plugin name will be "@denops-core-test"
 " So, when call denops#request(), the plugin name must be "@denops-core-test"
 let s:denops_name = get(environ(), "DENOPS_NAME", "twihi")
