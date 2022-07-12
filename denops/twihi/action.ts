@@ -20,6 +20,7 @@ import {
 } from "./deps.ts";
 import { Media, Timeline, Update } from "./type.d.ts";
 import { expandQuotedStatus } from "./_util/timeline.ts";
+import { fs, path, xdg } from "./deps.ts";
 
 type TimelineType = "home" | "user" | "mentions" | "search";
 
@@ -208,21 +209,35 @@ export const actionRetweetWithComment = async (
   return await actionTweet(denops, text);
 };
 
-let sinceMentionID = "";
+const sinceMentionIDFile = path.join(
+  xdg.config(),
+  "denops_twihi",
+  "sinceMentionID",
+);
+
+await fs.ensureFile(sinceMentionIDFile);
+
+const getSinceMentionID = async (): Promise<string> => {
+  return await Deno.readTextFile(sinceMentionIDFile);
+};
+const saveSinceMentionID = async (id: string): Promise<void> => {
+  await Deno.writeTextFile(sinceMentionIDFile, id);
+};
 
 export const actionNotifyMention = async (denops: Denops) => {
-  if (!sinceMentionID) {
+  const sinceID = await getSinceMentionID();
+  if (!sinceID) {
     const timelines = await mentionsTimeline({ count: "1" });
     if (!timelines.length) return;
-    sinceMentionID = timelines[0].id_str;
+    await saveSinceMentionID(timelines[0].id_str);
   } else {
     const timelines = await mentionsTimeline({
-      since_id: sinceMentionID,
+      since_id: sinceID,
       count: "1",
     });
     if (!timelines.length) return;
     const tweet = timelines[0];
-    sinceMentionID = tweet.id_str;
+    await saveSinceMentionID(tweet.id_str);
     const body = [`${tweet.user.name} | @${tweet.user.screen_name}`, ""].concat(
       tweet.text.split("\n"),
     );

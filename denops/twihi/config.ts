@@ -1,5 +1,4 @@
-import { fs, path, zod } from "./deps.ts";
-import xdg from "https://deno.land/x/xdg@v9.4.0/src/mod.deno.ts";
+import { fs, path, xdg, zod } from "./deps.ts";
 
 export const configFile = path.join(
   xdg.config(),
