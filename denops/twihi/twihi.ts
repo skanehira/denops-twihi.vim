@@ -114,6 +114,7 @@ export const retweet = async (id: string): Promise<void> => {
 
 export type MentionsOptions = {
   count?: string;
+  since_id?: string;
 };
 
 export const mentionsTimeline = async (

@@ -207,3 +207,29 @@ export const actionRetweetWithComment = async (
 ): Promise<Update> => {
   return await actionTweet(denops, text);
 };
+
+let sinceMentionID = "";
+
+export const actionNotifyMention = async (denops: Denops) => {
+  if (!sinceMentionID) {
+    const timelines = await mentionsTimeline({ count: "1" });
+    if (!timelines.length) return;
+    sinceMentionID = timelines[0].id_str;
+  } else {
+    const timelines = await mentionsTimeline({
+      since_id: sinceMentionID,
+      count: "1",
+    });
+    if (!timelines.length) return;
+    const tweet = timelines[0];
+    sinceMentionID = tweet.id_str;
+    const body = [`${tweet.user.name} | @${tweet.user.screen_name}`, ""].concat(
+      tweet.text.split("\n"),
+    );
+    body.push("");
+    await denops.call("twihi#internal#notify#start", body, {
+      "time": 10000,
+      "ft": "twihi-timeline",
+    });
+  }
+};

@@ -1,7 +1,8 @@
-import { autocmd, Denops } from "./deps.ts";
+import { autocmd, Denops, isNumber, vars } from "./deps.ts";
 import {
   actionAddMediaFromClipboard,
   actionLike,
+  actionNotifyMention,
   actionOpen,
   actionOpenMedia,
   actionOpenTimeline,
@@ -146,4 +147,18 @@ export async function main(denops: Denops): Promise<void> {
       return await actionAddMediaFromClipboard();
     },
   };
+
+  const key = "twihi_mention_check_interval";
+  const interval = await vars.g.get(denops, key, -1);
+  if (!isNumber(interval)) {
+    console.error(`value of ${key} is not number`);
+    return;
+  }
+  if (interval > 0) {
+    await actionNotifyMention(denops);
+
+    setInterval(async () => {
+      await actionNotifyMention(denops);
+    }, interval);
+  }
 }
