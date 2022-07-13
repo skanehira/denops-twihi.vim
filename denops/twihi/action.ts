@@ -241,7 +241,6 @@ export const actionNotifyMention = async (denops: Denops) => {
     const body = [`${tweet.user.name} | @${tweet.user.screen_name}`, ""].concat(
       tweet.text.split("\n"),
     );
-    body.push("");
     await denops.call("twihi#internal#notify#start", body, {
       "time": 10000,
       "ft": "twihi-timeline",
