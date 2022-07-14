@@ -155,10 +155,12 @@ export async function main(denops: Denops): Promise<void> {
     return;
   }
   if (interval > 0) {
-    await actionNotifyMention(denops);
-
     setInterval(async () => {
-      await actionNotifyMention(denops);
+      try {
+        await actionNotifyMention(denops);
+      } catch (_) {
+        // do nothing
+      }
     }, interval);
   }
 }
