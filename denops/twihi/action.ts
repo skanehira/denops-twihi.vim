@@ -13,6 +13,7 @@ import {
   clipboard,
   datetime,
   Denops,
+  isNumber,
   open,
   streams,
   stringWidth,
@@ -220,11 +221,12 @@ await fs.ensureFile(sinceMentionIDFile);
 const getSinceMentionID = async (): Promise<string> => {
   return await Deno.readTextFile(sinceMentionIDFile);
 };
+
 const saveSinceMentionID = async (id: string): Promise<void> => {
   await Deno.writeTextFile(sinceMentionIDFile, id);
 };
 
-export const actionNotifyMention = async (denops: Denops) => {
+const actionNotifyMention = async (denops: Denops) => {
   const sinceID = await getSinceMentionID();
   if (!sinceID) {
     const timelines = await mentionsTimeline({ count: "1" });
@@ -245,5 +247,23 @@ export const actionNotifyMention = async (denops: Denops) => {
       "time": 10000,
       "ft": "twihi-timeline",
     });
+  }
+};
+
+export const actionWatchingMention = async (denops: Denops) => {
+  const key = "twihi_mention_check_interval";
+  const interval = await vars.g.get(denops, key, -1);
+  if (!isNumber(interval)) {
+    console.error(`value of ${key} is not number`);
+    return;
+  }
+  if (interval > 0) {
+    setInterval(async () => {
+      try {
+        await actionNotifyMention(denops);
+      } catch (_) {
+        // do nothing
+      }
+    }, interval);
   }
 };

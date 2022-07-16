@@ -1,8 +1,7 @@
-import { autocmd, Denops, isNumber, vars } from "./deps.ts";
+import { autocmd, Denops } from "./deps.ts";
 import {
   actionAddMediaFromClipboard,
   actionLike,
-  actionNotifyMention,
   actionOpen,
   actionOpenMedia,
   actionOpenTimeline,
@@ -10,6 +9,7 @@ import {
   actionRetweet,
   actionRetweetWithComment,
   actionTweet,
+  actionWatchingMention,
 } from "./action.ts";
 import { configFile } from "./config.ts";
 import { loadConfig } from "./twihi.ts";
@@ -148,19 +148,6 @@ export async function main(denops: Denops): Promise<void> {
     },
   };
 
-  const key = "twihi_mention_check_interval";
-  const interval = await vars.g.get(denops, key, -1);
-  if (!isNumber(interval)) {
-    console.error(`value of ${key} is not number`);
-    return;
-  }
-  if (interval > 0) {
-    setInterval(async () => {
-      try {
-        await actionNotifyMention(denops);
-      } catch (_) {
-        // do nothing
-      }
-    }, interval);
-  }
+  // watching mentions
+  actionWatchingMention(denops);
 }
