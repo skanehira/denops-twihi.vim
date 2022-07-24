@@ -9,6 +9,7 @@ import {
   actionRetweet,
   actionRetweetWithComment,
   actionTweet,
+  actionWatchingMention,
 } from "./action.ts";
 import { configFile } from "./config.ts";
 import { loadConfig } from "./twihi.ts";
@@ -146,4 +147,7 @@ export async function main(denops: Denops): Promise<void> {
       return await actionAddMediaFromClipboard();
     },
   };
+
+  // watching mentions
+  actionWatchingMention(denops);
 }

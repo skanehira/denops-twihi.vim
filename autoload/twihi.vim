@@ -101,7 +101,11 @@ function! s:redraw_tweet(tweet) abort
 endfunction
 
 function! s:make_tweet_body(tweet) abort
-  let width = winwidth(0) + getwininfo(win_getid())[0].textoff
+  let wininfo = getwininfo(win_getid())[0]
+  let width = winwidth(0)
+  if has_key(wininfo, 'textoff')
+    let width += wininfo.textoff
+  endif
   let rows = split(a:tweet.text, "\n")
 
   if has_key(a:tweet, "quoted_status")

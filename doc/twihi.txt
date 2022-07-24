@@ -70,6 +70,16 @@ INTERFACE					*twihi-interface*
 ------------------------------------------------------------------------------
 VARIABLES					*twihi-variables*
 
+g:twihi_mention_check_interval
+  Sets the value of the interval to check for mentions.
+  The value is msec.
+  If there has new mention, it will displayed in poup/float window.
+
+  NOTE:
+    Twitter API has a call limit.
+    Please set a value for the interval you can afford
+    so that the upper limit is not exceeded.
+
 ------------------------------------------------------------------------------
 COMMANDS					*twihi-commands*
 
@@ -144,9 +154,9 @@ Timeline buffer contains multiple tweets that like below.
                       ┐                                         │
   This is gorilla.    ├ tweet body                              │ 
   I like a banana.    │                                         │
-                      ┘                                         ├ tweet which the
-  ♺ 1 ♡ 10                                                      │ action applies
-   │    │                                                       │
+                      ┘                                         ├ scoepe of tweet to
+  ♺ 1 ♡ 10                                                      │ which the action
+   │    │                                                       │ applies
    │    └ like count                                            │
    └ retweet count                                              │
   ────────────────────────────────────────────────────────────  ┘

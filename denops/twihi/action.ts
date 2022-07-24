@@ -13,6 +13,7 @@ import {
   clipboard,
   datetime,
   Denops,
+  isNumber,
   open,
   streams,
   stringWidth,
@@ -20,6 +21,7 @@ import {
 } from "./deps.ts";
 import { Media, Timeline, Update } from "./type.d.ts";
 import { expandQuotedStatus } from "./_util/timeline.ts";
+import { fs, path, xdg } from "./deps.ts";
 
 type TimelineType = "home" | "user" | "mentions" | "search";
 
@@ -206,4 +208,62 @@ export const actionRetweetWithComment = async (
   text: string,
 ): Promise<Update> => {
   return await actionTweet(denops, text);
+};
+
+const sinceMentionIDFile = path.join(
+  xdg.config(),
+  "denops_twihi",
+  "sinceMentionID",
+);
+
+await fs.ensureFile(sinceMentionIDFile);
+
+const getSinceMentionID = async (): Promise<string> => {
+  return await Deno.readTextFile(sinceMentionIDFile);
+};
+
+const saveSinceMentionID = async (id: string): Promise<void> => {
+  await Deno.writeTextFile(sinceMentionIDFile, id);
+};
+
+const actionNotifyMention = async (denops: Denops) => {
+  const sinceID = await getSinceMentionID();
+  if (!sinceID) {
+    const timelines = await mentionsTimeline({ count: "1" });
+    if (!timelines.length) return;
+    await saveSinceMentionID(timelines[0].id_str);
+  } else {
+    const timelines = await mentionsTimeline({
+      since_id: sinceID,
+      count: "1",
+    });
+    if (!timelines.length) return;
+    const tweet = timelines[0];
+    await saveSinceMentionID(tweet.id_str);
+    const body = [`${tweet.user.name} | @${tweet.user.screen_name}`, ""].concat(
+      tweet.text.split("\n"),
+    );
+    await denops.call("twihi#internal#notify#start", body, {
+      "time": 10000,
+      "ft": "twihi-timeline",
+    });
+  }
+};
+
+export const actionWatchingMention = async (denops: Denops) => {
+  const key = "twihi_mention_check_interval";
+  const interval = await vars.g.get(denops, key, -1);
+  if (!isNumber(interval)) {
+    console.error(`value of ${key} is not number`);
+    return;
+  }
+  if (interval > 0) {
+    setInterval(async () => {
+      try {
+        await actionNotifyMention(denops);
+      } catch (_) {
+        // do nothing
+      }
+    }, interval);
+  }
 };

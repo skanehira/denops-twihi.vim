@@ -18,3 +18,5 @@ export * as helper from "https://deno.land/x/denops_std@v3.3.1/helper/mod.ts";
 export * from "https://deno.land/x/denops_std@v3.3.1/test/mod.ts";
 export * as http from "https://deno.land/std@0.142.0/http/mod.ts";
 export * from "https://deno.land/std@0.142.0/async/delay.ts";
+export * from "https://deno.land/x/unknownutil@v2.0.0/mod.ts";
+export { default as xdg } from "https://deno.land/x/xdg@v9.4.0/src/mod.deno.ts";
