@@ -67,10 +67,7 @@ export const getTimeline = async (
   const expandedTimelines = expandQuotedStatus(timelines);
 
   for (const t of expandedTimelines) {
-    t.created_at_str = datetime.format(
-      new Date(t.created_at),
-      dateTimeFormat,
-    );
+    t.created_at_str = datetime.format(new Date(t.created_at), dateTimeFormat);
     if (t.retweeted_status) {
       t.retweeted_status.created_at_str = datetime.format(
         new Date(t.created_at),
@@ -123,22 +120,24 @@ export const actionAddMediaFromClipboard = async (): Promise<string> => {
   return tmp;
 };
 
-export const actionUploadMedia = async (
-  denops: Denops,
-): Promise<Media[]> => {
+export const actionUploadMedia = async (denops: Denops): Promise<Media[]> => {
   const medias = await vars.b.get(denops, "twihi_medias", []);
   if (!medias.length) {
     return [];
   }
 
   console.log("media uploading...");
-  const contents = await Promise.all(medias.map((fname) => {
-    return Deno.readFile(fname);
-  }));
+  const contents = await Promise.all(
+    medias.map((fname) => {
+      return Deno.readFile(fname);
+    }),
+  );
 
-  const mediaIDs = await Promise.all(contents.map((data) => {
-    return uploadMedia(data);
-  }));
+  const mediaIDs = await Promise.all(
+    contents.map((data) => {
+      return uploadMedia(data);
+    }),
+  );
 
   return mediaIDs;
 };

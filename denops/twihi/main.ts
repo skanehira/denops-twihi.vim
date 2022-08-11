@@ -76,7 +76,7 @@ export async function main(denops: Denops): Promise<void> {
     },
 
     async timeline(): Promise<void> {
-      const bufname = await denops.call("bufname") as string;
+      const bufname = (await denops.call("bufname")) as string;
       const screenName = bufname.replace("twihi://timeline/", "");
       console.log("loading...");
       await actionOpenTimeline(denops, "user", { screenName });
