@@ -70,15 +70,28 @@ INTERFACE					*twihi-interface*
 ------------------------------------------------------------------------------
 VARIABLES					*twihi-variables*
 
-g:twihi_mention_check_interval
-  Sets the value of the interval to check for mentions.
+*g:twihi_mention_check_interval*
+  Set the value of the interval to check for mentions
   The value is msec.
-  If there has new mention, it will displayed in poup/float window.
+  If there has new mention, it will displayed in |g:twihi_notify_ui|
 
   NOTE:
     Twitter API has a call limit.
     Please set a value for the interval you can afford
     so that the upper limit is not exceeded.
+
+*g:twihi_notify_ui*
+  Set the UI to notify mentions.
+  Current, below UI is supported.
+
+   "popup" (default)    Display message using popup/float window
+   "system"             Display message using system notification
+
+  When you use "system", you have to install one of the following.
+
+    macOS    osascript
+    Linux    notify-send
+    Windows  Snoretoast
 
 ------------------------------------------------------------------------------
 COMMANDS					*twihi-commands*
@@ -106,7 +119,7 @@ COMMANDS					*twihi-commands*
   If you want to tweet with some image, please input {file}
   {file} must be media file(like *.png) and you can upload 4 files
 
-  NOTE: This command only avalaible in below buffer
+  NOTE: This command only available in below buffer
     |twihi-buffer-tweet|
     |twihi-buffer-reply|
     |twihi-buffer-retweet|
@@ -115,7 +128,7 @@ COMMANDS					*twihi-commands*
   Add media from clipboard.
 
   NOTE: When you want use clipboard on Linux, pelase install xclip
-  NOTE: This command only avalaible in below buffer
+  NOTE: This command only available in below buffer
     |twihi-buffer-tweet|
     |twihi-buffer-reply|
     |twihi-buffer-retweet|
@@ -123,7 +136,7 @@ COMMANDS					*twihi-commands*
 :TwihiMediaRemove {file}...			*:TwihiMediaRemove*
   Remove added media files.
 
-  NOTE: This command only avalaible in below buffer
+  NOTE: This command only available in below buffer
     |twihi-buffer-tweet|
     |twihi-buffer-reply|
     |twihi-buffer-retweet|
@@ -131,7 +144,7 @@ COMMANDS					*twihi-commands*
 :TwihiMediaClear				*:TwihiMediaClear*
   Clear all added media files.
 
-  NOTE: This command only avalaible in below buffer
+  NOTE: This command only available in below buffer
     |twihi-buffer-tweet|
     |twihi-buffer-reply|
     |twihi-buffer-retweet|
@@ -139,7 +152,7 @@ COMMANDS					*twihi-commands*
 :TwihiMediaOpen					*:TwihiMediaOpen*
   Open media file
 
-  NOTE: This command only avalaible in below buffer
+  NOTE: This command only available in below buffer
     |twihi-buffer-tweet|
     |twihi-buffer-reply|
     |twihi-buffer-retweet|
@@ -189,7 +202,7 @@ twihi://reply						*twihi-buffer-reply*
   The buffer contents will be post when you type |:write|
   If reply is successed, the buffer will be deleted
 
-  NOTE: This buffer only avalaible from below keymaps
+  NOTE: This buffer only available from below keymaps
     * <Plug>(twihi:reply)
 
 twihi://rewteet						*twihi-buffer-rewteet*
@@ -197,7 +210,7 @@ twihi://rewteet						*twihi-buffer-rewteet*
   The buffer contents will be post when you type |:write|
   If retweet is successed, the buffer will be deleted
 
-  NOTE: This buffer only avalaible from below keymaps
+  NOTE: This buffer only available from below keymaps
     * <Plug>(twihi:retweet:comment)
 
 ------------------------------------------------------------------------------

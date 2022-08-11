@@ -14,6 +14,7 @@ import {
   datetime,
   Denops,
   isNumber,
+  notify,
   open,
   streams,
   stringWidth,
@@ -239,13 +240,24 @@ const actionNotifyMention = async (denops: Denops) => {
     if (!timelines.length) return;
     const tweet = timelines[0];
     await saveSinceMentionID(tweet.id_str);
-    const body = [`${tweet.user.name} | @${tweet.user.screen_name}`, ""].concat(
-      tweet.text.split("\n"),
-    );
-    await denops.call("twihi#internal#notify#start", body, {
-      "time": 10000,
-      "ft": "twihi-timeline",
-    });
+
+    const ui = await vars.g.get<string>(denops, "twihi_notify_ui", "popup");
+    if (ui === "popup") {
+      const body = [
+        `${tweet.user.name} | @${tweet.user.screen_name}`,
+        "",
+      ].concat(tweet.text.split("\n"));
+      await denops.call("twihi#internal#notify#start", body, {
+        time: 10000,
+        ft: "twihi-timeline",
+      });
+    } else if (ui === "system") {
+      const title = `${tweet.user.name} | @${tweet.user.screen_name}`;
+      await notify({
+        title: title,
+        message: tweet.text,
+      });
+    }
   }
 };
 

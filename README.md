@@ -8,7 +8,7 @@ Unofficial Twitter Vim/Neovim plugin.
 - xclip(Linux only)
 
 ## Usage
-After edit configuration (`:h twihi-usage`), you can run some commands.
+After edit configuration (`:h twihi-usage`), you can run some commands.  
 Please refer help to see more details.
 
 ```vim
@@ -26,6 +26,17 @@ Please refer help to see more details.
 
 " edit config
 :TwihiEditConfig
+```
+
+## Options
+Please refer help(`:h twihi-variables`) to see details.
+
+```vim
+" Sets the value of the interval to check for mentions.
+g:twihi_mention_check_interval
+
+" Set the UI to notify mentions.
+g:twihi_notify_ui
 ```
 
 ## Author
