@@ -13,16 +13,19 @@ import {
   clipboard,
   datetime,
   Denops,
+  fs,
   isNumber,
+  Notification,
   notify,
   open,
+  path,
   streams,
   stringWidth,
   vars,
+  xdg,
 } from "./deps.ts";
 import { Media, Timeline, Update } from "./type.d.ts";
 import { expandQuotedStatus } from "./_util/timeline.ts";
-import { fs, path, xdg } from "./deps.ts";
 
 type TimelineType = "home" | "user" | "mentions" | "search";
 
@@ -253,10 +256,19 @@ const actionNotifyMention = async (denops: Denops) => {
       });
     } else if (ui === "system") {
       const title = `${tweet.user.name} | @${tweet.user.screen_name}`;
-      await notify({
+      const opt: Notification = {
         title: title,
         message: tweet.text,
-      });
+      };
+      switch (Deno.build.os) {
+        case "darwin":
+          opt.sound = "Submarine";
+          break;
+        case "linux":
+          opt.sound = "device-added";
+          break;
+      }
+      await notify(opt);
     }
   }
 };
