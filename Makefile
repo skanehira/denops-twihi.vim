@@ -1,6 +1,6 @@
-.PHONY: init
-init:
-	@repo=$$(basename `git rev-parse --show-toplevel`) && repo=($${repo/-/ }) && repo=$${repo[1]/\.*/ } && mv denops/template denops/$${repo}
+DENOPS := $${DENOPS_PATH:-$$GHQ_ROOT/github.com/vim-denops/denops.vim}
+VIM := $${DENOPS_TEST_VIM:-$$(which vim)}
+NVIM := $${DENOPS_TEST_NVIM:-$$(which nvim)}
 
 .PHONY: coverage
 coverage: test-local
@@ -17,24 +17,22 @@ down-mock:
 
 .PHONY: test-local
 test-local: down-mock up-mock
-	@DENOPS_PATH=$$GHQ_ROOT/github.com/vim-denops/denops.vim \
-		DENOPS_TEST_NVIM=$$(which nvim) \
-		DENOPS_TEST_VIM=$$(which vim) \
+	@DENOPS_PATH=$(DENOPS) \
+		DENOPS_TEST_NVIM=$(NVIM) \
+		DENOPS_TEST_VIM=$(VIM) \
 		TWIHI_TEST_ENDPOINT=http://localhost:8080 \
 		TEST_LOCAL=true \
 		DENOPS_NAME=@denops-core-test \
 		deno test -A --unstable
 
-.PHONY: test-themis-nvim
-test-themis-nvim:
+.PHONY: test-themis
+test-themis:
+	@echo ==== test in Vim =====
 	@TWIHI_TEST_ENDPOINT=http://localhost:8080 \
-		THEMIS_VIM=$$(which nvim) \
-		themis --runtimepath $$GHQ_ROOT/github.com/vim-denops/denops.vim
-
-.PHONY: test-themis-vim
-test-themis-vim:
+		THEMIS_VIM=$(VIM) THEMIS_ARGS="-e -s -u DEFAULTS" themis --runtimepath $(DENOPS)
+	@echo ==== test in Neovim =====
 	@TWIHI_TEST_ENDPOINT=http://localhost:8080 \
-		themis --runtimepath $$GHQ_ROOT/github.com/vim-denops/denops.vim
+		THEMIS_VIM=$(NVIM) THEMIS_ARGS="-e -s -u NORC" themis --runtimepath $(DENOPS)
 
 .PHONY: test
 test: up-mock
