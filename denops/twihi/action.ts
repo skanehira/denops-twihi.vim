@@ -10,7 +10,7 @@ import {
   userTimeline,
 } from "./twihi.ts";
 import {
-  clipboard,
+  clippy,
   datetime,
   Denops,
   fs,
@@ -112,7 +112,7 @@ export const actionAddMediaFromClipboard = async (): Promise<string> => {
     prefix: "twihi_",
     suffix: ".png",
   });
-  const src = await clipboard.read();
+  const src = await clippy.read_image();
   const dest = await Deno.open(tmp, {
     write: true,
   });

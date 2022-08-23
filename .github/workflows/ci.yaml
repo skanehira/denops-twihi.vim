@@ -81,6 +81,9 @@ jobs:
             "accessTokenSecret": "dddddddddddddd"
           }
           EOF
+      - name: Update package
+        if: runner.os == 'Linux'
+        run: sudo apt update
       - name: Test
         run: |
           export TZ=Asia/Tokyo

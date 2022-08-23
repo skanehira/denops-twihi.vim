@@ -1,7 +1,7 @@
 import {
   assertEquals,
   assertNotEquals,
-  clipboard,
+  clippy,
   Denops,
   path,
   test,
@@ -87,11 +87,11 @@ test({
 
     const want = {
       text: "tweet with media",
-      media_id: "3a117ca7799fffa26f62d9a13a9144a1",
+      media_id: "5823ae40e36a68e33c195268b421f557",
     };
     const mediaFile = path.join(testdataDir, "test.png");
     const file = await Deno.open(mediaFile);
-    await clipboard.write(file);
+    await clippy.write_image(file);
     file.close();
     vars.b.set(denops, "twihi_medias", [await actionAddMediaFromClipboard()]);
     const resp = await actionTweet(denops, want.text);
@@ -190,12 +190,12 @@ test({
   fn: async (denops: Denops) => {
     const expect = {
       id: "1533592806630912000",
-      media_id: "3a117ca7799fffa26f62d9a13a9144a1",
+      media_id: "5823ae40e36a68e33c195268b421f557",
     };
 
     const mediaFile = path.join(testdataDir, "test.png");
     const file = await Deno.open(mediaFile);
-    await clipboard.write(file);
+    await clippy.write_image(file);
     file.close();
     await vars.b.set(denops, "twihi_medias", [
       await actionAddMediaFromClipboard(),
@@ -241,11 +241,11 @@ test({
   name: "test retweet with comment and media",
   fn: async (denops: Denops): Promise<void> => {
     const expect = {
-      media_id: "3a117ca7799fffa26f62d9a13a9144a1",
+      media_id: "5823ae40e36a68e33c195268b421f557",
     };
     const mediaFile = path.join(testdataDir, "test.png");
     const file = await Deno.open(mediaFile);
-    await clipboard.write(file);
+    await clippy.write_image(file);
     file.close();
     await vars.b.set(denops, "twihi_medias", [
       await actionAddMediaFromClipboard(),
