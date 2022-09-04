@@ -17,6 +17,7 @@ import {
 import { assertEqualTextFile } from "./_util/assert.ts";
 import { main } from "./main.ts";
 import { Timeline } from "./type.d.ts";
+import { loadConfig } from "./twihi.ts";
 
 const pluginRoot = path.dirname(
   path.dirname(path.dirname(path.fromFileUrl(import.meta.url))),
@@ -33,6 +34,7 @@ test({
   name: "open home timeline",
   fn: async (denops: Denops) => {
     await denops.cmd(`set rtp^=${pluginRoot}`);
+    await loadConfig();
 
     await actionOpenTimeline(denops, "home");
 
@@ -50,6 +52,7 @@ test({
   name: "post tweet",
   fn: async (denops: Denops) => {
     await denops.cmd(`set rtp^=${pluginRoot}`);
+    await loadConfig();
 
     const want = "hello world";
     const resp = await actionTweet(denops, want);
@@ -62,6 +65,7 @@ test({
   name: "post tweet with media",
   fn: async (denops: Denops) => {
     await denops.cmd(`set rtp^=${pluginRoot}`);
+    await loadConfig();
 
     const want = {
       text: "tweet with media",
@@ -84,6 +88,7 @@ test({
   name: "post tweet with media from clipboard",
   fn: async (denops: Denops) => {
     await denops.cmd(`set rtp^=${pluginRoot}`);
+    await loadConfig();
 
     const want = {
       text: "tweet with media",
@@ -108,6 +113,8 @@ test({
   name: "yank url",
   fn: async (denops: Denops) => {
     await denops.cmd(`set rtp^=${pluginRoot}`);
+    await loadConfig();
+
     await actionOpenTimeline(denops, "home");
     await denops.call("twihi#do_action", "yank");
     const url = await denops.call("getreg", await denops.eval("v:register"));
