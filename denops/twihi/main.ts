@@ -1,4 +1,4 @@
-import { autocmd, Denops } from "./deps.ts";
+import { autocmd, Denops, helper } from "./deps.ts";
 import {
   actionAddMediaFromClipboard,
   actionLike,
@@ -64,37 +64,37 @@ export async function main(denops: Denops): Promise<void> {
 
   denops.dispatcher = {
     async home(): Promise<void> {
-      console.log("loading...");
+      await helper.echo(denops, "loading...");
       await actionOpenTimeline(denops, "home");
-      await denops.cmd("echo '' | redraw!");
+      await helper.echo(denops, "");
     },
 
     async mentions(): Promise<void> {
-      console.log("loading...");
+      await helper.echo(denops, "loading...");
       await actionOpenTimeline(denops, "mentions");
-      await denops.cmd("echo '' | redraw!");
+      await helper.echo(denops, "");
     },
 
     async timeline(): Promise<void> {
       const bufname = (await denops.call("bufname")) as string;
       const screenName = bufname.replace("twihi://timeline/", "");
-      console.log("loading...");
+      await helper.echo(denops, "loading...");
       await actionOpenTimeline(denops, "user", { screenName });
-      await denops.cmd("echo '' | redraw!");
+      await helper.echo(denops, "");
     },
 
     async search(q: unknown): Promise<void> {
       try {
-        console.log("searching...");
+        await helper.echo(denops, "loading...");
         await actionOpenTimeline(denops, "search", { query: q as string });
-        await denops.cmd("echo '' | redraw!");
+        await helper.echo(denops, "");
       } catch (e) {
-        console.error(e.message);
+        await helper.echoerr(denops, e.message);
       }
     },
 
     async open(arg: unknown): Promise<void> {
-      await actionOpen(arg as Timeline);
+      await actionOpen(denops, arg as Timeline);
     },
 
     async openMedia(arg: unknown): Promise<void> {
@@ -106,7 +106,7 @@ export async function main(denops: Denops): Promise<void> {
         const text = (arg as string[]).join("\n");
         await actionTweet(denops, text);
       } catch (e) {
-        console.error(e.message);
+        await helper.echoerr(denops, e.message);
       }
     },
 
@@ -150,4 +150,10 @@ export async function main(denops: Denops): Promise<void> {
 
   // watching mentions
   actionWatchingMention(denops);
+
+  try {
+    await loadConfig();
+  } catch (_) {
+    await helper.echo(denops, "please edit config using :TwitterEditConfig");
+  }
 }

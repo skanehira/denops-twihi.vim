@@ -24,12 +24,6 @@ export const loadConfig = async (): Promise<void> => {
   );
 };
 
-try {
-  await loadConfig();
-} catch (_) {
-  console.log("please edit config using :TwitterEditConfig");
-}
-
 const apiCall = async <T>(
   method: "GET" | "POST",
   url: string,
