@@ -14,6 +14,7 @@ import {
   datetime,
   Denops,
   fs,
+  helper,
   isNumber,
   Notification,
   notify,
@@ -96,10 +97,10 @@ export const actionOpenTimeline = async (
   await denops.call("twihi#draw_timeline");
 };
 
-export async function actionOpen(tweet: Timeline) {
+export async function actionOpen(denops: Denops, tweet: Timeline) {
   const url =
     `https://twitter.com/${tweet.user.screen_name}/status/${tweet.id_str}`;
-  console.log("opening...", url);
+  await helper.echo(denops, `opening... ${url}`);
   await open(url);
 }
 
@@ -130,7 +131,7 @@ export const actionUploadMedia = async (denops: Denops): Promise<Media[]> => {
     return [];
   }
 
-  console.log("media uploading...");
+  await helper.echo(denops, "media uploading...");
   const contents = await Promise.all(
     medias.map((fname) => {
       return Deno.readFile(fname);
@@ -161,7 +162,7 @@ export const actionTweet = async (
   if (medias.length) {
     opts.media_ids = medias.map((media) => media.media_id_string).join(",");
   }
-  console.log("tweeting...");
+  await helper.echo(denops, "tweeting...");
   const resp = await statusesUpdate(opts);
   await denops.cmd("echo '' | bw!");
   return resp;
@@ -191,7 +192,7 @@ export const actionReply = async (
   if (medias.length) {
     opts.media_ids = medias.map((media) => media.media_id_string).join(",");
   }
-  console.log("tweeting...");
+  await helper.echo(denops, "tweeting...");
   const resp = await statusesUpdate(opts);
   await denops.cmd("echo '' | bw!");
   return resp;
@@ -201,7 +202,7 @@ export const actionRetweet = async (
   denops: Denops,
   id: string,
 ): Promise<void> => {
-  console.log("retweeting...");
+  await helper.echo(denops, "retweeting...");
   await retweet(id);
   await denops.cmd("echo ''");
 };
@@ -277,7 +278,7 @@ export const actionWatchingMention = async (denops: Denops) => {
   const key = "twihi_mention_check_interval";
   const interval = await vars.g.get(denops, key, -1);
   if (!isNumber(interval)) {
-    console.error(`value of ${key} is not number`);
+    await helper.echoerr(denops, `value of ${key} is not number`);
     return;
   }
   if (interval > 0) {
