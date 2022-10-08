@@ -132,14 +132,10 @@ export const actionUploadMedia = async (denops: Denops): Promise<Media[]> => {
   }
 
   await helper.echo(denops, "media uploading...");
-  const contents = await Promise.all(
-    medias.map((fname) => {
-      return Deno.readFile(fname);
-    }),
-  );
 
   const mediaIDs = await Promise.all(
-    contents.map((data) => {
+    medias.map(async (fname) => {
+      const data = await Deno.readFile(fname);
       return uploadMedia(data);
     }),
   );
