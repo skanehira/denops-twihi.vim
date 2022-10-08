@@ -24,11 +24,11 @@ function! twihi#timeline(type, ...) abort
   elseif a:type ==# "search"
     let bufname = "twihi://search"
   endif
-  let winList = win_findbuf(bufnr(bufname))
-  if empty(winList)
+  let win_list = win_findbuf(bufnr(bufname))
+  if empty(win_list)
     exe "tabnew" bufname
   else
-    keepjumps call win_gotoid(winList[0])
+    keepjumps call win_gotoid(win_list[0])
   endif
 
   if a:type ==# "search"
