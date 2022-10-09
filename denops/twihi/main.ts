@@ -79,7 +79,10 @@ export async function main(denops: Denops): Promise<void> {
       await helper.echo(denops, "loading...");
       const bufname = (await denops.call("bufname")) as string;
       if (new URL(bufname).search) {
-        const query = bufname.replace(String.raw`twihi://timeline?query=`, "");
+        const query = bufname.replace(
+          String.raw`twihi://timeline?query=`,
+          "",
+        );
         await actionOpenTimeline(denops, "search", { query });
       } else {
         const screenName = bufname.replace("twihi://timeline/", "");
