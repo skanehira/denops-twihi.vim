@@ -97,12 +97,15 @@ export const actionOpenTimeline = async (
   await denops.call("twihi#draw_timeline");
 };
 
-export async function actionOpen(denops: Denops, tweet: Timeline) {
+export const actionOpen = async (
+  denops: Denops,
+  tweet: Timeline,
+): Promise<void> => {
   const url =
     `https://twitter.com/${tweet.user.screen_name}/status/${tweet.id_str}`;
   await helper.echo(denops, `opening... ${url}`);
   await open(url);
-}
+};
 
 export const actionOpenMedia = async (file: string): Promise<void> => {
   await open(file);

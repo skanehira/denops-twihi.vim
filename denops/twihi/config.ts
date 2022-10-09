@@ -15,11 +15,11 @@ export const Config = zod.object({
   accessTokenSecret: zod.string(),
 });
 
-export async function readConfig(): Promise<zod.infer<typeof Config>> {
+export const readConfig = async (): Promise<zod.infer<typeof Config>> => {
   const body = await Deno.readTextFile(configFile);
   if (!body) {
     throw new Error(`${configFile} is empty`);
   }
   const config = Config.parse(JSON.parse(body));
   return config;
-}
+};
