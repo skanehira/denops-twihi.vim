@@ -186,6 +186,10 @@ twihi://timeline/{userid}				*twihi-buffer-timeline*
   Display userid's timeline
   This is same as |:TwihiTimeline| {userid}
 
+twihi://timeline?query={word}				*twihi-buffer-search*
+  Search timeline with {word}.
+  This is same as |:TwihiSearch| {word}
+
 twihi://mentions					*twihi-buffer-mentions*
   Display mentions
   This is same as |:TwihiMentions|

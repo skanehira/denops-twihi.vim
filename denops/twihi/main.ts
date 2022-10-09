@@ -38,9 +38,9 @@ export async function main(denops: Denops): Promise<void> {
     );
 
     helper.define(
-      "BufWriteCmd",
-      "twihi://search",
-      `call denops#notify("${denops.name}", "search", [])`,
+      "BufReadCmd",
+      "twihi://timeline\?query=*",
+      `call denops#notify("${denops.name}", "timeline", [])`,
     );
 
     helper.define(
@@ -76,21 +76,16 @@ export async function main(denops: Denops): Promise<void> {
     },
 
     async timeline(): Promise<void> {
-      const bufname = (await denops.call("bufname")) as string;
-      const screenName = bufname.replace("twihi://timeline/", "");
       await helper.echo(denops, "loading...");
-      await actionOpenTimeline(denops, "user", { screenName });
-      await helper.echo(denops, "");
-    },
-
-    async search(q: unknown): Promise<void> {
-      try {
-        await helper.echo(denops, "loading...");
-        await actionOpenTimeline(denops, "search", { query: q as string });
-        await helper.echo(denops, "");
-      } catch (e) {
-        await helper.echoerr(denops, e.message);
+      const bufname = (await denops.call("bufname")) as string;
+      const query = bufname.replace(String.raw`twihi://timeline?query=`, "");
+      if (query) {
+        await actionOpenTimeline(denops, "search", { query });
+      } else {
+        const screenName = bufname.replace("twihi://timeline/", "");
+        await actionOpenTimeline(denops, "user", { screenName });
       }
+      await helper.echo(denops, "");
     },
 
     async open(arg: unknown): Promise<void> {
