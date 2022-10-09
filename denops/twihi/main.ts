@@ -100,6 +100,10 @@ export async function main(denops: Denops): Promise<void> {
       try {
         const text = (arg as string[]).join("\n");
         await actionTweet(denops, text);
+        const bufname = await denops.call("bufname") as string;
+        if (bufname.startsWith("twihi://")) {
+          await denops.cmd("e");
+        }
       } catch (e) {
         await helper.echoerr(denops, e.message);
       }
