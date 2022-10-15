@@ -27,6 +27,7 @@ import {
 } from "./deps.ts";
 import { Media, Timeline, Update } from "./type.d.ts";
 import { expandQuotedStatus } from "./_util/timeline.ts";
+import { ensureFile } from "./_util/ensure.ts";
 
 type TimelineType = "home" | "user" | "mentions" | "search";
 
@@ -219,7 +220,7 @@ const sinceMentionIDFile = path.join(
   "sinceMentionID",
 );
 
-await fs.ensureFile(sinceMentionIDFile);
+await ensureFile(sinceMentionIDFile);
 
 const getSinceMentionID = async (): Promise<string> => {
   return await Deno.readTextFile(sinceMentionIDFile);

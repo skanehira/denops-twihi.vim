@@ -1,4 +1,5 @@
-import { fs, path, xdg, zod } from "./deps.ts";
+import { path, xdg, zod } from "./deps.ts";
+import { ensureFile } from "./_util/ensure.ts";
 
 export const configFile = path.join(
   xdg.config(),
@@ -6,7 +7,7 @@ export const configFile = path.join(
   "config.json",
 );
 
-await fs.ensureFile(configFile);
+await ensureFile(configFile);
 
 export const Config = zod.object({
   consumerAPIKey: zod.string(),
