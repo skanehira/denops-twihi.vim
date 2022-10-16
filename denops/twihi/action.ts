@@ -13,7 +13,6 @@ import {
   clipboard,
   datetime,
   Denops,
-  fs,
   helper,
   isNumber,
   Notification,
