@@ -32,7 +32,7 @@ test-themis:
 		THEMIS_VIM=$(VIM) THEMIS_ARGS="-e -s -u DEFAULTS" themis --runtimepath $(DENOPS)
 	@echo ==== test in Neovim =====
 	@TWIHI_TEST_ENDPOINT=http://localhost:8080 \
-		THEMIS_VIM=$(NVIM) THEMIS_ARGS="-e -s -u NORC" themis --runtimepath $(DENOPS)
+		THEMIS_VIM=$(NVIM) THEMIS_ARGS="-es -u NONE" themis --runtimepath $(DENOPS)
 
 .PHONY: test
 test: up-mock

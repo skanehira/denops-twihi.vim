@@ -12,7 +12,7 @@ export * as mapping from "https://deno.land/x/denops_std@v3.9.1/mapping/mod.ts";
 export { open } from "https://deno.land/x/open@v0.0.5/index.ts";
 export * as datetime from "https://deno.land/std@0.162.0/datetime/mod.ts";
 export * as base64 from "https://deno.land/std@0.162.0/encoding/base64.ts";
-export * as clipboard from "https://deno.land/x/clipboard_image@v0.0.1/mod.ts";
+export * as clipboard from "https://deno.land/x/clippy@v0.2.0/mod.ts";
 export * as streams from "https://deno.land/std@0.162.0/streams/mod.ts";
 export * as helper from "https://deno.land/x/denops_std@v3.9.1/helper/mod.ts";
 export * from "https://deno.land/x/denops_std@v3.9.1/test/mod.ts";
