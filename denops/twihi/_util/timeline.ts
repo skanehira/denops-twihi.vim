@@ -12,3 +12,12 @@ export const expandQuotedStatus = (
   }
   return newTimelines;
 };
+
+export const unescapeTweetBody = (text: string): string => {
+  text = text.replaceAll(/&lt;/g, "<");
+  text = text.replaceAll(/&gt;/g, ">");
+  text = text.replaceAll(/&quot;/g, '"');
+  text = text.replaceAll(/&#39;/g, "'");
+  text = text.replaceAll(/&amp;/g, "&");
+  return text;
+};
