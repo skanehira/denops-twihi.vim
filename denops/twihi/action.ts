@@ -11,6 +11,7 @@ import {
 } from "./twihi.ts";
 import {
   clipboard,
+  copy,
   datetime,
   Denops,
   helper,
@@ -19,13 +20,12 @@ import {
   notify,
   open,
   path,
-  copy,
   stringWidth,
   vars,
   xdg,
 } from "./deps.ts";
 import { Media, Timeline, Update } from "./type.d.ts";
-import { expandQuotedStatus } from "./_util/timeline.ts";
+import { expandQuotedStatus, unescapeTweetBody } from "./_util/timeline.ts";
 import { ensureFile } from "./_util/ensure.ts";
 
 type TimelineType = "home" | "user" | "mentions" | "search";
@@ -73,11 +73,13 @@ export const getTimeline = async (
 
   for (const t of expandedTimelines) {
     t.created_at_str = datetime.format(new Date(t.created_at), dateTimeFormat);
+    t.text = unescapeTweetBody(t.text);
     if (t.retweeted_status) {
       t.retweeted_status.created_at_str = datetime.format(
         new Date(t.created_at),
         dateTimeFormat,
       );
+      t.retweeted_status.text = unescapeTweetBody(t.retweeted_status.text);
     }
   }
 
