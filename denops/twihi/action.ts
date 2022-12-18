@@ -19,7 +19,7 @@ import {
   notify,
   open,
   path,
-  streams,
+  copy,
   stringWidth,
   vars,
   xdg,
@@ -121,7 +121,7 @@ export const actionAddMediaFromClipboard = async (): Promise<string> => {
     write: true,
   });
   try {
-    await streams.copy(src, dest);
+    await copy(src, dest);
   } finally {
     dest.close();
   }
