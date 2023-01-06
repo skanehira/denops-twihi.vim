@@ -87,8 +87,9 @@ jobs:
           export XDG_CONFIG_HOME=$HOME/.config
           make test
         env:
-          DENOPS_NAME: '@denops-core-test'
+          DENOPS_NAME: '@denops-test'
           DENOPS_TEST_VIM: ${{ steps.vim.outputs.executable_path }}
           DENOPS_TEST_NVIM: ${{ steps.nvim.outputs.executable_path }}
-          DENOPS_PATH: ${{ steps.denops.outputs.path }}
+          DENOPS_TEST_DENOPS_PATH: ${{ steps.denops.outputs.path }}
+          TWIHI_TEST_ENDPOINT: http://localhost:8080 
         timeout-minutes: 5

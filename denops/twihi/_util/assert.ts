@@ -1,4 +1,5 @@
-import { assertEquals, fs } from "../deps.ts";
+import { fs } from "../deps.ts";
+import { assertEquals } from "../deps_test.ts";
 
 export const textEncoder = new TextEncoder();
 export const textDecoder = new TextDecoder();
