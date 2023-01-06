@@ -1,12 +1,5 @@
-import {
-  assertEquals,
-  assertNotEquals,
-  clipboard,
-  Denops,
-  path,
-  test,
-  vars,
-} from "./deps.ts";
+import { clipboard, Denops, path, vars } from "./deps.ts";
+import { assertEquals, assertNotEquals, test } from "./deps_test.ts";
 import {
   actionAddMediaFromClipboard,
   actionOpenTimeline,
