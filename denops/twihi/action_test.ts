@@ -25,6 +25,7 @@ const testdataDir = path.join(
 test({
   mode: "all",
   name: "open home timeline",
+  pluginName: "twihi",
   fn: async (denops: Denops) => {
     await denops.cmd(`set rtp^=${pluginRoot}`);
     await loadConfig();
@@ -43,6 +44,7 @@ test({
 test({
   mode: "all",
   name: "post tweet",
+  pluginName: "twihi",
   fn: async (denops: Denops) => {
     await denops.cmd(`set rtp^=${pluginRoot}`);
     await loadConfig();
@@ -56,6 +58,7 @@ test({
 test({
   mode: "all",
   name: "post tweet with media",
+  pluginName: "twihi",
   fn: async (denops: Denops) => {
     await denops.cmd(`set rtp^=${pluginRoot}`);
     await loadConfig();
@@ -79,6 +82,7 @@ test({
   mode: "all",
   ignore: Deno.env.get("TEST_LOCAL") !== "true",
   name: "post tweet with media from clipboard",
+  pluginName: "twihi",
   fn: async (denops: Denops) => {
     await denops.cmd(`set rtp^=${pluginRoot}`);
     await loadConfig();
@@ -104,6 +108,7 @@ test({
 test({
   mode: "all",
   name: "yank url",
+  pluginName: "twihi",
   fn: async (denops: Denops) => {
     await denops.cmd(`set rtp^=${pluginRoot}`);
     await loadConfig();
@@ -121,6 +126,7 @@ test({
 test({
   mode: "all",
   name: "like and retweet the tweet",
+  pluginName: "twihi",
   fn: async (denops: Denops) => {
     await main(denops);
     await denops.cmd(`set rtp^=${pluginRoot}`);
@@ -175,6 +181,7 @@ const testReply = async (
 test({
   mode: "all",
   name: "test reply",
+  pluginName: "twihi",
   fn: async (denops: Denops) => {
     const expect = {
       id: "1533592806630912000",
@@ -187,6 +194,7 @@ test({
   ignore: Deno.env.get("TEST_LOCAL") !== "true",
   mode: "all",
   name: "test reply with media from clipboard",
+  pluginName: "twihi",
   fn: async (denops: Denops) => {
     const expect = {
       id: "1533592806630912000",
@@ -230,6 +238,7 @@ const testRetweetComment = async (
 test({
   mode: "all",
   name: "test retweet with comment",
+  pluginName: "twihi",
   fn: async (denops: Denops): Promise<void> => {
     await testRetweetComment(denops, false, {});
   },
@@ -239,6 +248,7 @@ test({
   ignore: Deno.env.get("TEST_LOCAL") !== "true",
   mode: "all",
   name: "test retweet with comment and media",
+  pluginName: "twihi",
   fn: async (denops: Denops): Promise<void> => {
     const expect = {
       media_id: "fe9e2e1bc9e8b90ed8e18099187434d9",
@@ -257,6 +267,7 @@ test({
 test({
   mode: "all",
   name: "test select next/prev tweet",
+  pluginName: "twihi",
   fn: async (denops: Denops): Promise<void> => {
     await main(denops);
     await denops.cmd(`set rtp^=${pluginRoot}`);

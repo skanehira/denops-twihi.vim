@@ -1,6 +1,6 @@
 DENOPS := $${DENOPS_TEST_DENOPS_PATH:-$$GHQ_ROOT/github.com/vim-denops/denops.vim}
-VIM := $${DENOPS_TEST_VIM:-$$(which vim)}
-NVIM := $${DENOPS_TEST_NVIM:-$$(which nvim)}
+VIM := $${DENOPS_TEST_VIM_EXECUTABLE:-$$(which vim)}
+NVIM := $${DENOPS_TEST_NVIM_EXECUTABLE:-$$(which nvim)}
 
 .PHONY: coverage
 coverage: test-local
@@ -18,11 +18,10 @@ down-mock:
 .PHONY: test-local
 test-local: down-mock up-mock
 	@DENOPS_TEST_DENOPS_PATH=$(DENOPS) \
-		DENOPS_TEST_NVIM=$(NVIM) \
-		DENOPS_TEST_VIM=$(VIM) \
+		DENOPS_TEST_NVIM_EXECUTABLE=$(NVIM) \
+		DENOPS_TEST_VIM_EXECUTABLE=$(VIM) \
 		TWIHI_TEST_ENDPOINT=http://localhost:8080 \
 		TEST_LOCAL=true \
-		DENOPS_NAME=@denops-test \
 		deno test -A --unstable
 
 .PHONY: test-themis
@@ -41,3 +40,4 @@ test: up-mock
 .PHONY: deps
 deps:
 	@deno run -A https://deno.land/x/udd@0.7.3/main.ts denops/twihi/deps.ts
+	@deno run -A https://deno.land/x/udd@0.7.3/main.ts denops/twihi/deps_test.ts
