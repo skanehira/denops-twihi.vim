@@ -2,10 +2,6 @@
 " Author: skanehira
 " License: MIT
 
-" NOTE: When run test in denops, the plugin name will be "@denops-core-test"
-" So, when call denops#request(), the plugin name must be "@denops-core-test"
-let s:denops_name = get(environ(), "DENOPS_NAME", "twihi")
-
 let s:icon = {
       \   "white_heart": "\u2661",
       \   "black_heart": "\u2665",
@@ -146,7 +142,7 @@ function! twihi#open() abort
   if empty(tweet)
     return
   endif
-  call denops#request(s:denops_name, "open", [tweet])
+  call denops#request('twihi', 'open', [tweet])
 endfunction
 
 function! twihi#retweet() abort
@@ -154,7 +150,7 @@ function! twihi#retweet() abort
   if empty(tweet)
     return
   endif
-  call denops#request(s:denops_name, "retweet", [tweet])
+  call denops#request('twihi', 'retweet', [tweet])
   if has_key(tweet, 'retweeted_status')
     let tweet.retweeted_status.retweeted = v:true
   else
@@ -169,7 +165,7 @@ function! twihi#like() abort
   if empty(tweet)
     return
   endif
-  call denops#request(s:denops_name, "like", [tweet])
+  call denops#request('twihi', "like", [tweet])
 
   if has_key(tweet, 'retweeted_status')
     let tweet.retweeted_status.favorited = v:true
@@ -208,7 +204,7 @@ function! twihi#media_add_from_clipboard() abort
     return
   endif
   call twihi#internal#logger#_info("adding...")
-  let fname = denops#request(s:denops_name, "mediaAddFromClipboard", [])
+  let fname = denops#request('twihi', "mediaAddFromClipboard", [])
   redraw | echom ''
   call add(medias, fname)
   let b:twihi_medias = medias
@@ -234,7 +230,7 @@ function! twihi#media_remove(...) abort
 endfunction
 
 function! twihi#media_open(file) abort
- call denops#request(s:denops_name, "openMedia", [a:file]) 
+ call denops#request('twihi', "openMedia", [a:file]) 
 endfunction
 
 function! twihi#media_complete(x, l, p) abort
