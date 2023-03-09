@@ -18,4 +18,4 @@ export * as http from "https://deno.land/std@0.178.0/http/mod.ts";
 export * from "https://deno.land/std@0.178.0/async/delay.ts";
 export * from "https://deno.land/x/unknownutil@v2.1.0/mod.ts";
 export { default as xdg } from "https://deno.land/x/xdg@v10.6.0/src/mod.deno.ts";
-export * from "https://deno.land/x/notifier@v0.4.0/mod.ts";
+export * from "https://deno.land/x/notifier@v0.5.0/mod.ts";
