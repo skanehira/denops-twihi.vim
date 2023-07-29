@@ -166,6 +166,10 @@ export const actionTweet = async (
   await helper.echo(denops, "tweeting...");
   const resp = await statusesUpdate(opts);
   await denops.cmd("echo '' | bw!");
+  const bufname = await denops.call("bufname") as string;
+  if (bufname.startsWith("twihi://")) {
+    await denops.cmd("e");
+  }
   return resp;
 };
 
